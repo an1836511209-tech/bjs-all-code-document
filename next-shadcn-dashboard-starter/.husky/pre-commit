@@ -1,0 +1,2 @@
+cd next-shadcn-dashboard-starter
+npx lint-staged

@@ -1,0 +1,75 @@
+.root {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Override the shared viewport's scroll-linked mask and native scrollbar utilities.
+   The sibling thumb must never be masked or hidden during automatic following. */
+.viewport.viewport {
+  scrollbar-width: none;
+  scrollbar-gutter: auto;
+  mask-image: none;
+  animation: none;
+  padding-inline-end: 12px;
+}
+
+.viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.content {
+  min-height: 100%;
+}
+
+.scrollbar {
+  width: 10px;
+  padding: 2px;
+  user-select: none;
+  /* No hover/scroll visibility toggles; only actual overflow controls visibility. */
+}
+
+.scrollbar:not([data-has-overflow-y]) {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.thumb {
+  width: 100%;
+  border-radius: 9999px;
+  background: var(--muted-foreground);
+  opacity: 0.35;
+  /* Interpolate line-by-line growth without animating the message layout. */
+  transition: height 120ms linear;
+}
+
+/* Following is a MessageScroller state, not a delayed scrollTop measurement.
+   Pin the lower edge while content growth and follow-scroll settle in separate
+   frames. Only the upper edge then moves as the proportional height changes. */
+.root:has(> .viewport[data-scrollable='start']) .scrollbar:not(:active) .thumb {
+  position: absolute;
+  inset-inline: 2px;
+  bottom: 2px;
+  width: auto;
+  transform: none !important;
+}
+
+/* Direct manipulation must use current geometry, without animation lag. */
+.scrollbar:active .thumb {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thumb {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .thumb {
+    background: CanvasText;
+    opacity: 1;
+  }
+}

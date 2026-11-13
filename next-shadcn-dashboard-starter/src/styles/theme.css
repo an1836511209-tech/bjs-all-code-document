@@ -1,0 +1,25 @@
+/* Import individual theme files */
+@import './themes/claude.css';
+@import './themes/discord.css';
+@import './themes/supabase.css';
+@import './themes/vercel.css';
+@import './themes/mono.css';
+@import './themes/notebook.css';
+@import './themes/light-green.css';
+@import './themes/zen.css';
+@import './themes/astro-vista.css';
+@import './themes/whatsapp.css';
+
+body {
+  @apply overscroll-none;
+}
+
+:root {
+  --header-height: calc(var(--spacing, 0.25rem) * 12 + 1px);
+}
+
+/* Font aliases resolve on html, alongside data-theme and the loaded Next font variables.
+   Inherit them intact; `initial` would erase these inherited custom properties. */
+[data-theme] body {
+  font-family: var(--font-sans);
+}

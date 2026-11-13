@@ -1,0 +1,12 @@
+/* Feature-scoped navigation states extend Button without changing shared primitives.
+   Consume sidebar roles intact, including hover in dark mode. */
+.action {
+  color: var(--sidebar-foreground);
+}
+
+.action:hover,
+.action[aria-current='page'],
+.action[aria-expanded='true'] {
+  background-color: var(--sidebar-accent);
+  color: var(--sidebar-accent-foreground);
+}
