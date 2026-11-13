@@ -1,0 +1,1778 @@
+{
+  "id": "365f6bb9-e66c-4eda-8e34-b8f7d8979981",
+  "name": "有纸小宗实物",
+  "business_type": "有纸小宗实物",
+  "extraction_rules": [
+    {
+      "id": "a0f1fd47-cc1a-46fb-9848-19ce30c9c28e",
+      "field_name": "PZWJLX",
+      "field_type": "text",
+      "reference_materials": [
+        "《内部决议或有权批准机构决策文件》"
+      ],
+      "extraction_logic": "字段名：PZWJLX；备注：批准文件类型\r\n\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nPZWJLX  《批准文件》\t文件标题\t-\t-\t理解材料内容，完成系统枚举值的匹配和选择，系统枚举值包括：文件、董事会决议、股东会议决议、批复、总经理办公会决议、其他\t理解并与枚举值匹配\r\n\r\ntips:\r\n- 该字段为枚举值（\"文件\",\"董事会决议\",\"股东会议决议\",\"批复\",\"总经理办公会决议\",\"其他\"）\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T11:03:26.742949",
+      "updated_at": "2025-12-17T13:52:09.515835",
+      "notes": null
+    },
+    {
+      "id": "6366c75f-aede-42af-aec5-8cec3f24ce07",
+      "field_name": "SPWH",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》",
+        "《内部决议或有权批准机构决策文件》"
+      ],
+      "extraction_logic": "字段名：SPWH；备注：批准文件名称\r\n\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nSPWH  《信息披露申请书》\t批准情况\t批准文件名称\t-\t提取材料内容录入至系统字段中\t字段值提取\r\nSPWH  《批准文件》\t文件标题\t-\t-\t提取材料内容录入至系统字段中\t字段值提取",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T11:13:20.055115",
+      "updated_at": "2025-12-17T13:53:07.498107",
+      "notes": null
+    },
+    {
+      "id": "28afa86b-9d05-4227-ba59-80adcc1c48a6",
+      "field_name": "SPDW",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》",
+        "《内部决议或有权批准机构决策文件》"
+      ],
+      "extraction_logic": "字段名：SPDW；备注：批准单位名称\r\n\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nSPDW  《信息披露申请书》\t批准情况\t批准单位名称\t-\t提取材料内容录入系统\t字段值提取\r\nSPDW  《批准文件》\t文件抬头或落款位置\t-\t-\t理解材料内容，提取批准单位名称录入系统\t理解并提取\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-17T13:51:59.873952",
+      "notes": null
+    },
+    {
+      "id": "dce12a18-1ce5-496f-ba7f-ca0bc6ef2543",
+      "field_name": "PZRQ",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》",
+        "《内部决议或有权批准机构决策文件》"
+      ],
+      "extraction_logic": "字段名：PZRQ；备注：批准日期\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nPZRQ\t《批准文件》\t-\t-\t-\t-\t-\r\n\r\ntips：提取格式为yyyy-mm-dd，数据示例：\"2025-01-01\"\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-19T11:35:37.140992",
+      "notes": null
+    },
+    {
+      "id": "f1a9a70e-133b-4ce3-9c7f-6b74fef26917",
+      "field_name": "PZWH",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》",
+        "《内部决议或有权批准机构决策文件》"
+      ],
+      "extraction_logic": "字段名：PZWH；备注：批准文号（批复文号）\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nPZWH\t《信息披露申请书》\t批准情况\t批准文号\t-\t提取材料内容录入系统\t字段值提取\r\nPZWH\t《批准文件》\t文件抬头或落款位置\t-\t-\t理解材料内容，提取批准文号录入系统\t理解并提取\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-19T19:31:35.509938",
+      "notes": null
+    },
+    {
+      "id": "10aa3ef6-81ab-4020-ba55-63a41aa217aa",
+      "field_name": "ZCSQJZ",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》",
+        "《内部决议或有权批准机构决策文件》"
+      ],
+      "extraction_logic": "字段名：ZCSQJZ；备注：资产审批原值（元）\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nZCSQJZ 《信息披露申请书》\t批准情况\t资产审批原值\t-\t提取材料内容录入系统\t字段值提取\r\nZCSQJZ 《批准文件》\t文件内容\t-\t-\t理解材料内容，提取文件内容中的资产审批原值录入系统\t理解并提取\r\n\r\ntips：\r\n- 注意金额需要进行单位转换，比如材料中是万元，你需要转换为元再进行结果输出。\r\n- 该字段为数值类型，结果无需带上金额单位，即使材料有多个相关数据也禁止使用逗号来分隔多个值输出，你只需要输出最符合的一个数值结果即可，提取值示例：\"10\"。\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-21T13:10:05.569948",
+      "notes": null
+    },
+    {
+      "id": "fc6fe939-d66a-4ff3-b18a-21b4542b284a",
+      "field_name": "ZCSPJZ",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》",
+        "《内部决议或有权批准机构决策文件》"
+      ],
+      "extraction_logic": "字段名：ZCSPJZ；备注：资产审批净（价）值（元）\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nZCSPJZ 《信息披露申请书》\t批准情况\t资产审批净值\t-\t提取材料内容录入系统\t字段值提取\r\nZCSPJZ 《批准文件》\t文件内容\t-\t-\t理解材料内容，提取文件内容中的资产审批净值录入系统\t理解并提取\r\n\r\ntips：\r\n- 注意金额需要进行单位转换，比如材料中是万元，你需要转换为元再进行结果输出。\r\n- 该字段为数值类型，无需带金额单位，即使材料有多个相关数据也禁止使用逗号来分隔多个值输出，你只需要输出最符合的一个数值结果即可，提取值示例：\"100\"",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-21T13:10:25.344876",
+      "notes": null
+    },
+    {
+      "id": "41fc59d3-2a2b-4402-969a-9b473be40853",
+      "field_name": "XMMC",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：XMMC；备注：项目名称\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nXMMC\t《信息披露申请书》\t资产简况\t项目名称\t-\t提取材料内容录入系统\t字段值提取\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-19T19:31:35.509938",
+      "notes": null
+    },
+    {
+      "id": "fbf1f3bd-ab0d-413c-8f43-2f5298c58ee8",
+      "field_name": "FBXMMC",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：FBXMMC；备注：发布项目名称\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nFBXMMC\t《信息披露申请书》\t资产简况\t项目名称\t-\t提取材料内容录入系统\t字段值提取\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-19T19:31:35.509938",
+      "notes": null
+    },
+    {
+      "id": "77d29249-973b-4636-b567-09f08f1d8b90",
+      "field_name": "BDSJCZYZ",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》",
+        "《内部决议或有权批准机构决策文件》",
+        "《评估报告或其他定价文件》"
+      ],
+      "extraction_logic": "字段名：BDSJCZYZ；备注：标的实际处置原值（元）\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nBDSJCZYZ\t《信息披露申请书》\t资产简况\t账面原值\t-\t提取材料内容录入系统\t字段值提取\r\nBDSJCZYZ\t《决策文件》\t文件内容\t-\t-\t理解材料内容，提取文件内容中的标的实际处置原值或账面原值或同义字段值录入系统\t理解并提取\r\nBDSJCZYZ\t《评估报告》\t文件内容\t-\t-\t理解材料内容，提取文件内容中的标的实际处置原值或账面原值或同义字段值录入系统\t理解并提取\r\n\r\ntips：\r\n- 注意金额需要进行单位转换，比如材料中是万元，你需要转换为元再进行结果输出。\r\n- 该字段为数值类型，结果无需带上金额单位，即使材料有多个相关数据也禁止使用逗号来分隔多个值输出，你只需要输出最符合的一个数值结果即可，提取值示例：\"100\"",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-21T13:11:08.025579",
+      "notes": null
+    },
+    {
+      "id": "afd3b2c0-49e5-46b4-9c73-88350c7442e6",
+      "field_name": "ZMJZ",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》",
+        "《评估报告或其他定价文件》",
+        "《内部决议或有权批准机构决策文件》"
+      ],
+      "extraction_logic": "字段名：ZMJZ；备注：账面净值（元）\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nZMJZ\t《信息披露申请书》\t资产简况\t账面净值\t-\t提取材料内容录入系统\t字段值提取\r\nZMJZ\t《决策文件》\t文件内容\t-\t-\t理解材料内容，提取文件内容中的标的账面净值或同义字段值录入系统\t理解并提取\r\nZMJZ\t《评估报告》\t文件内容\t-\t-\t理解材料内容，提取文件内容中的标的账面净值或账面原值或同义字段值录入系统\t理解并提取\r\n\r\ntips：\r\n- 注意金额需要进行单位转换，比如材料中是万元，你需要转换为元再进行结果输出。\r\n- 该字段为数值类型，结果无需带上金额单位，即使材料有多个相关数据也禁止使用逗号来分隔多个值输出，你只需要输出最符合的一个数值结果即可，提取值示例：\"1000\"",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-22T17:14:07.524347",
+      "notes": null
+    },
+    {
+      "id": "1b8791d2-7f49-4f0e-ad15-b043aa311a41",
+      "field_name": "CZSL",
+      "field_type": "text",
+      "reference_materials": [
+        "《内部决议或有权批准机构决策文件》",
+        "《资产清单》"
+      ],
+      "extraction_logic": "字段名：CZSL；备注：处置数量\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nCZSL\t《决策文件》\t文件内容\t-\t-\t理解材料内容，提取文件内容中资产处置数量，录入系统\t理解并提取\r\nCZSL\t《资产清单》\t文件内容\t-\t-\t理解材料内容，提取清单中资产数量，录入系统\r\n若处置数量单位为“项”，则统计资产清单行数录入系统；若处置数量单位为空或其他情况，则统计资产清单中资产总数（每一行的资产数量加和后的总计值）,当资产清单里面的计算量过大（超过100）时，允许直接输出空字符串\"\"（因为大模型不擅长进行大数据量统计计算，因此跳过该复杂行为） 录入系统\t理解并提取\r\n\r\ntips：该字段为数值类型，提取值示例：\"100\"",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2026-01-22T08:35:37.928069",
+      "notes": null
+    },
+    {
+      "id": "c75a77a1-372c-4925-9b2b-dec24735a22e",
+      "field_name": "CZSLDW",
+      "field_type": "text",
+      "reference_materials": [
+        "《内部决议或有权批准机构决策文件》",
+        "《资产清单》"
+      ],
+      "extraction_logic": "字段名：CZSLDW；备注：处置数量单位\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nCZSLDW\t《批准文件》\t文件内容\t-\t-\t理解材料内容，提取文件内容中资产数量单位，录入系统，若材料中均未体现，则该字段提取值默认为“项”\t理解并提取\r\nCZSLDW\t《资产清单》\t文件内容\t-\t-\t理解材料内容，提取清单中资产数量单位，录入系统，若材料中均未体现，则该字段提取值默认为“项”\t理解并提取\r\n\r\n## 限制：\r\n1、当提取到多个单位时，默认用逗号隔开，禁止提取为数组的形式。允许示例：”块,项“\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2026-06-08T01:54:49.473757",
+      "notes": null
+    },
+    {
+      "id": "95e13bad-3b92-4af5-be4f-2a0fbf08dff6",
+      "field_name": "FKTS",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：FKTS；备注：项目付款天数（工作日）\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nFKTS\t《信息披露申请书》\t与转让相关的其他条件\t-\t-\t理解材料内容，提取项目付款天数的工作日信息，录入系统\t理解并提取\r\n\r\ntips：该字段为数值类型，提取示例：\"6\"",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-24T02:37:36.990456",
+      "notes": null
+    },
+    {
+      "id": "4cd0d988-85ce-40c2-abb9-136a1437f05e",
+      "field_name": "WSGSYZZXLX",
+      "field_type": "text",
+      "reference_materials": [
+        "《中央行政事业单位国有资产处置委托书》"
+      ],
+      "extraction_logic": "字段名：WSGSYZZXLX；备注：网上公示预展、咨询联系方式\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nWSGSYZZXLX\t《中央行政事业单位国有资产处置委托书》\t-\t网上公示预展、咨询联系\t-\t根据字段值进录入系统\t字段值提取\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-19T19:31:35.509938",
+      "notes": null
+    },
+    {
+      "id": "36903dc7-b753-4275-8750-c4fff842a4aa",
+      "field_name": "SRFSFRGSH",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：SRFSFRGSH；备注：意向受让方是否人工审核\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nSRFSFRGSH\t《信息披露申请书》\t资产简况\t展示安排\t-\t若展示安排字段中选中了“强制踏勘”选项或该字段下仅填写了关于强制踏勘的要求，则系统中“意向受让方是否人工审核”应为“是”；否则该选项为空字符串\"\"\t理解并提取\r\n\r\ntips：该字段为枚举值（\"是\",\"否\",\"\"），请按枚举值进行选择提取。提取示例：\"是\"",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-12T10:03:48.996952",
+      "notes": null
+    },
+    {
+      "id": "1aba26ea-fbe1-4bb2-a76b-5eab1f8a4d4f",
+      "field_name": "SRFRGSHYY",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：SRFRGSHYY；备注：受让方人工审核原因\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nSRFRGSHYY\t《信息披露申请书》\t资产简况\t展示安排\t-\t若展示安排字段中选中了“强制踏勘”选项或该字段下仅填写了关于强制踏勘的要求，则系统中“受让方人工审核原因”应为“踏勘安排”；否则该字段提取值为\"其他\"，若无法判断则为空字符\"\"\t理解并提取\r\n\r\ntips：该字段为枚举值(\"踏勘安排\",\"其他\",\"\")，请从枚举值中选择提取。提取示例：\"踏勘安排\"",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-12T10:05:25.388900",
+      "notes": null
+    },
+    {
+      "id": "b8a28ed0-73ab-43cf-aa98-1cfd2ad6c3aa",
+      "field_name": "TKLXR",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》",
+        "《踏勘承诺函》"
+      ],
+      "extraction_logic": "字段名：TKLXR；备注：踏勘联系人姓名(外网披露)\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nTKLXR\t《信息披露申请书》\t资产简况\t展示安排\t联系人姓名\t提取材料内容，录入系统\t字段值提取\r\nTKLXR\t《踏勘管理办法》\t文件内容\t-\t-\t理解材料内容，提取踏勘联系人姓名信息录入系统\t理解并提取\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-19T19:31:35.509938",
+      "notes": null
+    },
+    {
+      "id": "04f2bda8-d922-4440-a9c8-f198b51d3064",
+      "field_name": "TKLXDH",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》",
+        "《踏勘承诺函》"
+      ],
+      "extraction_logic": "字段名：TKLXDH；备注：踏勘联系人电话(外网披露)\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nTKLXDH\t《信息披露申请书》\t资产简况\t展示安排\t联系人电话\t提取材料内容，录入系统\t字段值提取\r\nTKLXDH\t《踏勘管理办法》\t文件内容\t-\t-\t理解材料内容，提取踏勘联系人电话信息录入系统\t理解并提取\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-19T19:31:35.509938",
+      "notes": null
+    },
+    {
+      "id": "e9af9784-684a-4fb1-9e09-f5c5cdc28fff",
+      "field_name": "XZPGDW",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》",
+        "《评估报告或其他定价文件》"
+      ],
+      "extraction_logic": "字段名：XZPGDW；备注：评估机构名称\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nXZPGDW  《信息披露申请书》\t交易条件\t转让底价确定依据\t评估机构名称\t理解材料内容，判断：《信息披露申请书》下该字段中是否选中了“评估机构出具的评估文件”选项或该字段下仅描述了评估信息\r\n若满足以上要求，则提取评估机构名称内容填入系统字段\r\n若不满足以上要求，则无需填写系统字段(字段提取结果为空字符\"\"即可)\t理解并提取\r\nXZPGDW  《评估报告》\t文件内容\t-\t-\t理解材料内容，提取评估机构名称，录入系统\t理解并提取\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-17T14:03:05.967871",
+      "notes": null
+    },
+    {
+      "id": "dc252836-c8ed-40e3-b2c5-4c19cb192e0e",
+      "field_name": "PGZ",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》",
+        "《评估报告或其他定价文件》"
+      ],
+      "extraction_logic": "字段名：PGZ；备注：评估值（元）\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nPGZ\t《信息披露申请书》\t交易条件\t转让底价确定依据\t转让标的对应评估值\t理解材料内容，判断：《信息披露申请书》下该字段中是否选中了“评估机构出具的评估文件”选项或该字段下仅描述了评估信息\r\n若满足以上要求，则提取转让标的对应评估值填入系统字段\r\n若不满足以上要求，则无需填写系统字段(字段提取结果为空字符\"\"即可)\t理解并提取\r\nPGZ\t《评估报告》\t文件内容\t-\t-\t理解材料内容，提取对应标的的评估值，录入系统\t理解并提取\r\n\r\ntips：\r\n- 注意金额需要进行单位转换，比如材料中是万元，你需要转换为元再进行结果输出。\r\n- 该字段为数值类型，结果无需带上金额单位，提取值示例：\"100\"。\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-21T13:12:20.101454",
+      "notes": null
+    },
+    {
+      "id": "e74e0823-ad31-4cb4-812d-47fa549cb972",
+      "field_name": "PGBGSBH",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》",
+        "《评估报告或其他定价文件》"
+      ],
+      "extraction_logic": "字段名：PGBGSBH；备注：评估报告书编号\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nPGBGSBH\t《信息披露申请书》\t交易条件\t转让底价确定依据\t评估报告编号\t理解材料内容，判断：《信息披露申请书》下该字段中是否选中了“评估机构出具的评估文件”选项或该字段下仅描述了评估信息\n若满足以上要求，则提取评估报告编号填入系统字段\n若不满足以上要求，则无需填写系统字段(字段提取结果为空字符\"\"即可)\t理解并提取\r\nPGBGSBH\t《评估报告》\t文件内容\t-\t-\t理解材料内容，提取评估报告编号信息，录入系统\t理解并提取\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-19T19:31:35.509938",
+      "notes": null
+    },
+    {
+      "id": "0f9cacc9-9b6e-4599-89da-43988577f08d",
+      "field_name": "PGJZR",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》",
+        "《评估报告或其他定价文件》"
+      ],
+      "extraction_logic": "字段名：PGJZR；备注：评估基准日\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nPGJZR\t《信息披露申请书》\t交易条件\t转让底价确定依据\t评估基准日\t理解材料内容，判断：《信息披露申请书》下该字段中是否选中了“评估机构出具的评估文件”选项或该字段下仅描述了评估信息\r\n若满足以上要求，则提取评估基准日填入系统字段\r\n若不满足以上要求，则无需填写系统字段(字段提取结果为空字符\"\"即可)\t理解并提取\r\nPGJZR\t《评估报告》\t文件内容\t-\t-\t理解材料内容，提取评估基准日，录入系统\t理解并提取\r\n\r\ntips：该字段提取格式为yyyy-MM-dd HH:mm:ss，提取示例：\"2025-01-01 12:00:00\"\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-24T02:47:32.463723",
+      "notes": null
+    },
+    {
+      "id": "ef0ba1df-6602-4f6c-881d-65afa3bff55d",
+      "field_name": "ZCJSDZ",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：ZCJSDZ；备注：资产接收地址\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nZCJSDZ\t《信息披露申请书》\t资产简况\t资产描述\t-\t理解材料内容，从中提取资产交接地址信息，录入系统\t理解并提取\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-19T19:31:35.509938",
+      "notes": null
+    },
+    {
+      "id": "297d679b-6676-40b2-864b-11f70ed46e39",
+      "field_name": "ZCZYDZ",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：ZCZYDZ；备注：资产占有地址\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nZCZYDZ\t《信息披露申请书》\t资产简况\t资产描述\t-\t理解材料内容，从中提取资产当前所在地址信息，录入系统\t理解并提取\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-19T19:31:35.509938",
+      "notes": null
+    },
+    {
+      "id": "b594f958-d8e4-4a27-ba4e-d8408ff7bea2",
+      "field_name": "ZCZYFMC",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：ZCZYFMC；备注：资产占有方名称\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nZCZYFMC\t《信息披露申请书》\t资产简况\t资产描述\t-\t理解材料内容，从中提取资产当前占有方名称，录入系统\t理解并提取\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-19T19:31:35.509938",
+      "notes": null
+    },
+    {
+      "id": "3d3dc450-2749-4b6a-89e8-1a26e5609cfe",
+      "field_name": "ZCMS",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：ZCMS；备注：资产描述\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nZCMS\t《信息披露申请书》\t资产简况\t资产描述\t-\t提取材料内容，录入系统\t字段值提取\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-19T19:31:35.509938",
+      "notes": null
+    },
+    {
+      "id": "6efb83d4-e8eb-4af5-9a0f-173f44e8345c",
+      "field_name": "SRFXGTJ",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：SRFXGTJ；备注：与转让相关的其他条件\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nSRFXGTJ  《信息披露申请书》\t与转让相关的其他条件\t-\t-\t提取材料内容，录入系统\t字段值提取\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-17T14:04:37.079158",
+      "notes": null
+    },
+    {
+      "id": "7987c0c0-1132-4195-9fdb-8f29d63ecbbf",
+      "field_name": "QTPLNR",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：QTPLNR；备注：其他披露事项\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nQTPLNR\t《信息披露申请书》\t其他披露\t-\t-\t提取材料内容，录入系统\t字段值提取\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-19T19:31:35.509938",
+      "notes": null
+    },
+    {
+      "id": "b68002e0-4978-407f-96dd-d2a1ee203f57",
+      "field_name": "SFSJCC",
+      "field_type": "text",
+      "reference_materials": [
+        "《中央行政事业单位国有资产处置委托书》"
+      ],
+      "extraction_logic": "字段名：SFSJCC；备注：是否涉及拆除\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nSFSJCC\t《中央行政事业单位国有资产处置委托书》\t-\t文件内容\t-\t理解文件内容，判断是否描述需拆除相关内容，如有，则选择为是；若未提及拆除相关内容，则选择为否\t理解并提取\r\n\r\ntips：该字段为枚举值（\"是\",\"否\"），请按枚举值进行提取。提取示例：\"是\"",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-12T10:08:12.117157",
+      "notes": null
+    },
+    {
+      "id": "403a97c1-dae3-49c1-a9f5-a54eeca648c0",
+      "field_name": "ZCCCF",
+      "field_type": "text",
+      "reference_materials": [
+        "《中央行政事业单位国有资产处置委托书》"
+      ],
+      "extraction_logic": "字段名：ZCCCF；备注：资产拆除方\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nZCCCF\t《中央行政事业单位国有资产处置委托书》\t-\t文件内容\t-\t理解文件内容，判断文件中所描述或所选择的资产拆除方，并与系统枚举值进行匹配，枚举值包括：受让方负责拆除、委托方负责拆除\t理解并与枚举值匹配\r\n\r\ntips:\r\n- 该字段为枚举值（\"受让方负责拆除\",\"委托方负责拆除\"），请按枚举值进行提取。提取示例：\"受让方负责拆除\"\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-12T10:09:51.274392",
+      "notes": null
+    },
+    {
+      "id": "ce2caa29-8924-4c75-9a23-b1406722fc08",
+      "field_name": "WCZCQCYSJ",
+      "field_type": "text",
+      "reference_materials": [
+        "《中央行政事业单位国有资产处置委托书》"
+      ],
+      "extraction_logic": "字段名：WCZCQCYSJ；备注：完成资产清拆运时间（工作日）\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nWCZCQCYSJ\t《中央行政事业单位国有资产处置委托书》\t-\t委托方要求成交后竞买人清运时间\t-\t根据字段值进录入系统\t字段值提取\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-19T19:31:35.509938",
+      "notes": null
+    },
+    {
+      "id": "1686c6e7-46d7-4b0f-8fff-052703ee1a8a",
+      "field_name": "SFYZ",
+      "field_type": "text",
+      "reference_materials": [
+        "《行政事业单位国有资产确认单》",
+        "《项目进度记录表》"
+      ],
+      "extraction_logic": "字段名：SFYZ；备注：是否预展\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nSFYZ\t《项目进度记录表》\t-\t是否预展\t-\t根据字段值录入系统选项\t理解并与枚举值匹配\r\nSFYZ\t《行政事业单位国有资产确认单》\t-\t备注\t-\t理解材料字段内容，判断是否需要预展，并录入选项\t理解并与枚举值匹配\r\n\r\ntips：该字段为枚举值类型（\"是\",\"否\"），请从枚举值中选择提取。提取示例：\"是\"\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-12T09:28:51.995245",
+      "notes": null
+    },
+    {
+      "id": "331156c5-765c-4a11-a9c2-6d0dc8fbf25e",
+      "field_name": "SFQY",
+      "field_type": "text",
+      "reference_materials": [
+        "《项目进度记录表》"
+      ],
+      "extraction_logic": "字段名：SFQY；备注：是否清运\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nSFQY\t《项目进度记录表》\t-\t是否清运\t-\t根据字段值录入系统选项\t理解并与枚举值匹配\r\n\r\ntips：该字段为枚举值（\"是\",\"否\"），请按枚举值进行提取。提取示例：\"是\"\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-12T10:10:48.357040",
+      "notes": null
+    },
+    {
+      "id": "c67cf26d-a4f6-4a0f-8cda-8cf0d742f6bd",
+      "field_name": "BZJ_JNFS",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：BZJ_JNFS；备注：保证金收取方式\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nBZJ_JNFS\t《信息披露申请书》\t交易条件\t保证金设置\t-\t理解材料内容，判断选中的保证金收取方式：\n若选中保证金套餐/保证金钱包或同义选项，或该字段内容仅体现了保证金套餐/保证金钱包或同义内容，则字段提取值为“保证金套餐/保证金钱包”\n若选中“单项目保证金规则”，或该字段内容仅体现了“单项目保证金规则”内容，则字段提取值为“单项目保证金”\t理解并与枚举值匹配\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-19T19:31:35.509938",
+      "notes": null
+    },
+    {
+      "id": "bd5ecb34-a0db-419b-8667-55941bea7f2f",
+      "field_name": "ZRDJQDYJ",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：ZRDJQDYJ；备注：转让底价确定依据\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nZRDJQDYJ\t《信息披露申请书》\t交易条件\t转让底价确定依据\t-\t理解材料内容，判断该字段体现的转让底价确定依据：\n若选择了评估机构出具的评估文件或该字段内容仅体现了评估机构出具的评估文件内容，则该字段提取值为“评估”\n若选择了市场询价或该字段内容仅体现了市场询价内容，则该字段提取值为“市场询价”\t理解并与枚举值匹配\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-19T19:31:35.509938",
+      "notes": null
+    },
+    {
+      "id": "917ddc6f-01e1-492a-828a-39fdd535ecab",
+      "field_name": "ZRDJSCXJFS",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》",
+        "《内部决议或有权批准机构决策文件》"
+      ],
+      "extraction_logic": "字段名：ZRDJSCXJFS；备注：转让底价市场询价方式\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nZRDJSCXJFS\t《信息披露申请书》\t交易条件\t转让底价确定依据\t-\t理解材料内容，若选择了市场询价或该字段内容仅体现了市场询价内容，则进一步判断所选择的市场询价方式：\r\n若选择转让方自行询价或仅体现了转让方自行询价结果，则字段提取值为“自行询价”\r\n若选择经批准单位确认的询价或仅体现了经批准单位确认的询价，则字段提取值为“经批准单位确认”\t理解并与枚举值匹配\r\nZRDJSCXJFS\t《决策文件》\t文件内容\t-\t-\t若决策文件内容中提及了关于转让底价市场询价方式，则在理解文件内容基础上判断字段提取值为”自行询价“或“经批准单位确认”\t理解并与枚举值匹配\r\n\r\ntips：该字段为枚举值（\"自行询价\",\"经批准单位确认\"），请按枚举值进行提取。提取示例：\"经批准单位确认\"\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-12T10:13:08.154918",
+      "notes": null
+    },
+    {
+      "id": "3e7e2f98-4a4a-46db-a6ae-865acff32f8a",
+      "field_name": "BM_BZJ_JE",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：BM_BZJ_JE；备注：保证金金额（元）\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nBM_BZJ_JE\t《信息披露申请书》\t交易条件\t保证金设置\t-\t理解材料内容，从中内容所体现的保证金金额，录入系统\t理解并提取\r\n\r\ntips：\r\n- 注意金额需要进行单位转换，比如材料中是万元，你需要转换为元再进行结果输出。\r\n- 该字段为数值类型，结果无需带上金额单位，提取值示例：\"100\"。\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-21T13:36:23.318016",
+      "notes": null
+    },
+    {
+      "id": "c3704ab7-4d95-4415-b48d-d95a7ca0eec3",
+      "field_name": "BZJJNJZSJ",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：BZJJNJZSJ；备注：保证金交纳截止时间\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nBZJJNJZSJ\t《信息披露申请书》\t其他披露或与转让相关的其他条件\t-\t-\t理解材料内容，从中提取保证金交纳截止时间的信息，录入系统\t理解并提取\r\n\r\ntips：该字段格式为hh:ss，提取值示例：\"17:00\"\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-24T08:58:04.944420",
+      "notes": null
+    },
+    {
+      "id": "75b92716-2ed4-4436-ac62-48dd2247c828",
+      "field_name": "ZYBJQ",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：ZYBJQ；备注：自由报价（信息披露）期\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nZYBJQ\t《信息披露申请书》\t交易情况\t自由报价期\t-\t理解材料内容，提取自由报价期工作日天数，录入系统字段\t理解并提取\r\n\r\ntips：该字段为数值类型，提取值示例：\"10\"",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-20T08:58:42.739509",
+      "notes": null
+    },
+    {
+      "id": "3029c13d-3761-4a09-b2e9-32cda772841a",
+      "field_name": "XSBJKSSJ",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：XSBJKSSJ；备注：限时报价开始时间\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nXSBJKSSJ\t《信息披露申请书》\t交易情况\t限时报价开始时间\t-\t理解材料内容，提取限时报价时间，录入系统字段\t理解并提取\r\n\r\ntips：该字段提取格式为hh:mm:ss，示例：\"12:00:00\"",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-21T13:41:53.500038",
+      "notes": null
+    },
+    {
+      "id": "f2d79ea0-7095-4a6b-a6ad-5043d199c55c",
+      "field_name": "YSBJSC",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：YSBJSC；备注：限时报价时长（秒）\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nYSBJSC\t《信息披露申请书》\t交易情况\t限时报价周期\t-\t理解材料内容，提取限时报价周期，录入系统字段\t理解并提取\r\n\r\ntips：字段类型为数值类型，提取示例：\"120\"",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-11-24T02:43:23.426175",
+      "notes": null
+    },
+    {
+      "id": "09ed881c-28d8-4a33-9bf6-4458973f56d2",
+      "field_name": "JJFD",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：JJFD；备注：加价幅度（元）\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nJJFD\t《信息披露申请书》\t交易条件\t加价幅度\t-\t提取加价幅度，录入系统字段\t字段值提取\r\n\r\ntips：\r\n- 注意金额需要进行单位转换，比如材料中是万元，你需要转换为元再进行结果输出。\r\n- 该字段为数值类型，结果无需带金额单位，提取值示例：\"100\"。\r\n- 假如材料填写了\"无\"、空值、\"……\"，提取结果就为空字符串\"\"即可。",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-21T13:40:35.742943",
+      "notes": null
+    },
+    {
+      "id": "740f2cb5-3016-4e3b-9fe2-377826209389",
+      "field_name": "ZRDJ",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：ZRDJ；备注：转让底价（元）\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nZRDJ\t《信息披露申请书》\t交易条件\t转让底价\t-\t理解材料内容，提取转让底价录入系统字段\t理解并提取\r\n\r\ntips：\r\n- 注意金额需要进行单位转换，比如材料中是万元，你需要转换为元再进行结果输出。\r\n- 该字段为数值类型，结果无需带上金额单位，提取值示例：\"100\"。",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-21T13:36:34.459626",
+      "notes": null
+    },
+    {
+      "id": "ac85f18a-771a-4135-823a-31328b6100e2",
+      "field_name": "QPJ",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：QPJ；备注：起始价/转让底价（元）\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nQPJ\t《信息披露申请书》\t交易条件\t转让底价\t-\t理解材料内容，提取转让底价录入系统字段\t理解并提取\r\n\r\ntips：\r\n- 注意金额需要进行单位转换，比如材料中是万元，你需要转换为元再进行结果输出。\r\n- 该字段为数值类型，结果无需带上金额单位，提取值示例：\"100\"。",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-21T13:36:44.000390",
+      "notes": null
+    },
+    {
+      "id": "ddb02737-b80b-4c27-a264-3e48134bd413",
+      "field_name": "JGDWHZ",
+      "field_type": "text",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "字段名：JGDWHZ；备注：价格单位后缀\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nJGDWHZ\t《信息披露申请书》\t交易条件\t转让底价\t-\t根据交易底价中的单位，与系统字段枚举值进行匹配，枚举值包括：无，吨，千克，克，立方米，升，毫升，米，千米，平方米\t理解并提取\r\n\r\ntips:\r\n- 该字段为枚举值，详见录入逻辑，请选择合适的枚举值进行输出。\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T19:31:35.509938",
+      "updated_at": "2025-12-27T12:42:46.975503",
+      "notes": null
+    },
+    {
+      "id": "cc2d45a1-3d95-44d3-8922-6b0186b67b3b",
+      "field_name": "WTZCLB",
+      "field_type": "text",
+      "reference_materials": [
+        "《中央行政事业单位国有资产处置委托书》",
+        "《内部决议或有权批准机构决策文件》"
+      ],
+      "extraction_logic": "字段名：WTZCLB；备注：委托资产列表\r\n## 提取逻辑：\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nZCMC\t《中央行政事业单位国有资产处置委托书》\t-\t资产清单\t资产名称\t根据字段值进录入系统\t字段值提取\r\nYZ\t《中央行政事业单位国有资产处置委托书》\t-\t资产清单\t原值\t根据字段值进录入系统\t字段值提取\r\nSL\t《中央行政事业单位国有资产处置委托书》\t-\t资产清单\t数量\t根据字段值进录入系统\t字段值提取\r\nJLDW\t《中央行政事业单位国有资产处置委托书》\t-\t资产清单\t计量单位\t根据字段值进录入系统\t字段值提取\r\nZCMC\t《决策文件》\t-\t资产清单\t资产名称\t根据字段值进录入系统\t字段值提取\r\nYZ\t《决策文件》\t-\t资产清单\t原值\t根据字段值进录入系统\t字段值提取\r\nSL\t《决策文件》\t-\t资产清单\t数量\t根据字段值进录入系统\t字段值提取\r\nJLDW\t《决策文件》\t-\t资产清单\t计量单位\t根据字段值进录入系统\t字段值提取\r\n\r\n\r\n结果按照JSON数组对象返回，例如： \r\n[\r\n  {\r\n    \"field_name\": \"WTZCLB\",\r\n    \"extracted_value\":  [\r\n      {\r\n        \"ZCMC\": \"资产名称\",\r\n        \"YZ\": 10,\r\n        \"SL\": 10,\r\n        \"JLDW\": \"计量单位\"\r\n      }\r\n    ],\r\n    \"confidence\": 0,\r\n    \"anchor_ids\": []\r\n  }\r\n]\r\ntips：如无相关数据则extracted_value为\"\"即可，无相关数据时输出示例：{\"extracted_value\": \"\"}",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T11:52:20.446721",
+      "updated_at": "2025-12-29T09:58:52.901710",
+      "notes": null
+    },
+    {
+      "id": "5d4bda2d-ed12-40ee-9e91-40a4f52feba6",
+      "field_name": "JSZCLB",
+      "field_type": "text",
+      "reference_materials": [
+        "《行政事业单位国有资产接收确认书》"
+      ],
+      "extraction_logic": "字段名：JSZCLB；备注：接收资产列表\r\n## 提取逻辑：\r\n1. 列表明细字段为：GDZCBM（固定资产编码）、ZCLB（资产类别）、ZCMC（资产名称）、GGXH（规格型号）、JLDW（计量单位）、SL（数量）、GZRQ（购置日期）、ZMYZ（账面原值）、ZMJZ（账面净值）、BZ（备注）\r\n英文字段名\t录入参考材料\t录入参考材料类目\t录入参考材料一级字段\t录入参考材料二级字段\t录入逻辑\t信息提取方式\r\nGDZCBM\t《行政事业单位国有资产接收确认书》\t-\t固定资产编码\t-\t根据字段值录入系统\t字段值提取\r\nZCLB\t《行政事业单位国有资产接收确认书》\t-\t资产类别\t-\t根据字段值录入系统\t字段值提取\r\nZCMC\t《行政事业单位国有资产接收确认书》\t-\t资产名称\t-\t根据字段值录入系统\t字段值提取\r\nGGXH\t《行政事业单位国有资产接收确认书》\t-\t规格型号\t-\t根据字段值录入系统\t字段值提取\r\nJLDW\t《行政事业单位国有资产接收确认书》\t-\t计量单位\t-\t根据字段值录入系统\t字段值提取\r\nSL\t《行政事业单位国有资产接收确认书》\t-\t数量\t-\t根据字段值录入系统\t字段值提取\r\nGZRQ\t《行政事业单位国有资产接收确认书》\t-\t购置日期\t-\t根据字段值录入系统\t字段值提取(yyyy-mm-dd格式)\r\nZMYZ\t《行政事业单位国有资产接收确认书》\t-\t账面原值\t-\t根据字段值录入系统\t字段值提取\r\nZMJZ\t《行政事业单位国有资产接收确认书》\t-\t账面净值\t-\t根据字段值录入系统\t字段值提取\r\nBZ\t《行政事业单位国有资产接收确认书》\t-\t备注\t-\t根据字段值录入系统\t字段值提取\r\n\r\n\r\n结果按照JSON数组对象返回，例如： \r\n[\r\n  {\r\n    \"field_name\": \"JSZCLB\",\r\n    \"extracted_value\": [\r\n      {\r\n        \"GDZCBM\": \"固定资产编码\",\r\n        \"ZCLB\": \"资产类别\",\r\n        \"ZCMC\": \"资产名称\",\r\n        \"GGXH\": \"规格型号\",\r\n        \"JLDW\": \"计量单位\",\r\n        \"SL\": 10,\r\n        \"GZRQ\": \"购置日期(yyyy-mm-dd格式)\",\r\n        \"ZMYZ\": 10,\r\n        \"ZMJZ\": 10,\r\n        \"BZ\": \"备注\"\r\n      }\r\n    ],\r\n    \"confidence\": 0,\r\n    \"anchor_ids\": []\r\n  }\r\n]\r\n\r\ntips：\r\n- 如无相关数据则extracted_value为\"\"即可，无相关数据时输出示例：{\"extracted_value\": \"\"}\r\n- 如某个字段值原文档没有保持空即可，请勿捏造和推理内容，本次主要为提取工作，禁止篡改。\r\n\r\n",
+      "api_config": null,
+      "choices": null,
+      "enabled": true,
+      "created_at": "2025-11-19T11:56:41.132483",
+      "updated_at": "2025-12-29T09:59:42.089911",
+      "notes": null
+    }
+  ],
+  "audit_rules": [
+    {
+      "id": "7503e724-3a3c-4e5f-9d2a-33dca5744998",
+      "audit_type": "文件审核",
+      "field_name": "企业小宗实物资产转让信息披露申请书",
+      "mapping_type": null,
+      "source_field_name": null,
+      "include_user_input": true,
+      "audit_data_sources": [
+        {
+          "material_name": "《信息披露申请书》",
+          "field_name": "",
+          "description": ""
+        }
+      ],
+      "audit_content": "1.信息披露申请书封面需加盖转让方公章",
+      "auto_process_rules": "1.若无法做出判断，则审核结果为待确认\\r\\n2.若符合上述审核要求，则审核通过\\r\\n3.若不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": "info_disclosure_application",
+      "enabled": true,
+      "created_at": "2025-11-20T02:37:56.760518",
+      "updated_at": "2025-11-20T02:37:56.760518",
+      "notes": null
+    },
+    {
+      "id": "f6e0b045-2a0b-42f7-8bb8-bd155adaa331",
+      "audit_type": "文件审核",
+      "field_name": "资产评估报告书或其他定价文件",
+      "mapping_type": null,
+      "source_field_name": null,
+      "include_user_input": true,
+      "audit_data_sources": [
+        {
+          "material_name": "《评估报告或其他定价文件》",
+          "field_name": "",
+          "description": ""
+        },
+        {
+          "material_name": "《信息披露申请书》",
+          "field_name": "",
+          "description": ""
+        }
+      ],
+      "audit_content": "1.资产评估报告书应由评估机构出具，需机构盖章确认。\r\n2.资产评估结果使用有效期为自评估基准日起 1 年，项目首 次信息披露日期应在评估有效期内。\r\n3.资产评估报告委托方应为转让方",
+      "auto_process_rules": "1.若无法做出判断，则审核结果为待确认\\r\\n2.若符合上述审核要求，则审核通过\\r\\n3.若不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": "evaluation_report",
+      "enabled": true,
+      "created_at": "2025-11-20T03:00:31.187997",
+      "updated_at": "2025-12-22T20:20:16.768568",
+      "notes": null
+    },
+    {
+      "id": "ca025d88-d04f-424a-9ed8-3573eda25db6",
+      "audit_type": "文件审核",
+      "field_name": "内部决议或有权批准机构决策文件或单位委托函",
+      "mapping_type": null,
+      "source_field_name": null,
+      "include_user_input": true,
+      "audit_data_sources": [
+        {
+          "material_name": "《内部决议或有权批准机构决策文件》",
+          "field_name": "",
+          "description": ""
+        }
+      ],
+      "audit_content": "1.内部决议或上级批复文件中应当由转让方按照内部管理制度进行决策，形成书面决议;且决议中不应包含指定意向受让方的内容。内部决议 类型包括但不限于转让方党委会、办公会决议等。具体内容包含批准实物资产转让行为、标的物名称、转让价格、其他权属情况 等内容。\r\n2.转让方应提供有权批准单位的批复或委托函。\r\n3.内部决策文件应当由转让方按照相关制度进行决策，形成 书面决议;且决议中不应包含指定意向受让方的内容。\r\n4.内部决策文件类型包括但不限于转让方总经理办公会决 议、董事会决议、股东会决议等。标的品类与系统字段一致",
+      "auto_process_rules": "1.若无法做出判断，则审核结果为待确认\\r\\n2.若符合上述审核要求，则审核通过\\r\\n3.若不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": "internal_decision",
+      "enabled": true,
+      "created_at": "2025-11-20T03:15:27.728269",
+      "updated_at": "2025-12-30T07:39:25.324432",
+      "notes": null
+    },
+    {
+      "id": "3a30566c-4eb8-4d4c-aa41-825cfc14c9ea",
+      "audit_type": "文件审核",
+      "field_name": "处置清单/明细表",
+      "mapping_type": null,
+      "source_field_name": null,
+      "include_user_input": true,
+      "audit_data_sources": [
+        {
+          "material_name": "《行政事业单位国有资产处置申请表》",
+          "field_name": "",
+          "description": ""
+        },
+        {
+          "material_name": "《内部决议或有权批准机构决策文件》",
+          "field_name": "",
+          "description": ""
+        },
+        {
+          "material_name": "《评估报告或其他定价文件》",
+          "field_name": "",
+          "description": ""
+        },
+        {
+          "material_name": "《资产清单》",
+          "field_name": "",
+          "description": ""
+        },
+        {
+          "material_name": "《中央行政事业单位国有资产处置委托书》",
+          "field_name": "",
+          "description": ""
+        }
+      ],
+      "audit_content": "1. 转让方提供资产处置清单/明细表，清单内容应详细明确， 标的物名称、数量、金额等应与评估报告、批复文件、内部决议 文件所记载信息相一致。\r\n2. 转让方提供资产处置清单，清单内容应详细明确，标的物名 称、数量、金额等应与评估报告、批复文件、内部决策文件所记载信息相一致。",
+      "auto_process_rules": "1.若无法做出判断，则审核结果为待确认\\r\\n2.若符合上述审核要求，则审核通过\\r\\n3.若不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": "asset_list",
+      "enabled": true,
+      "created_at": "2025-11-20T03:17:13.473952",
+      "updated_at": "2025-12-30T07:40:34.342918",
+      "notes": null
+    },
+    {
+      "id": "4c66437e-c55d-4588-ba89-1b7f594b4e9a",
+      "audit_type": "字段审核",
+      "field_name": "PZWJLX",
+      "mapping_type": "auto",
+      "source_field_name": "PZWJLX",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《批准文件》\t批复文件抬头\t理解批复文件抬头并与系统枚举值进行匹配，系统枚举值包括：文件、董事会决议、股东会决议、批复、总经理办公会决议、其他",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T03:39:46.431883",
+      "updated_at": "2025-11-20T03:39:46.431883",
+      "notes": null
+    },
+    {
+      "id": "7f14cec6-10ae-4057-aa24-c3d0a77fa4db",
+      "audit_type": "字段审核",
+      "field_name": "SPWH",
+      "mapping_type": "manual",
+      "source_field_name": null,
+      "include_user_input": true,
+      "audit_data_sources": [
+        {
+          "material_name": "《内部决议或有权批准机构决策文件》",
+          "field_name": "SPWH",
+          "description": ""
+        }
+      ],
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T03:41:07.803153",
+      "updated_at": "2025-11-20T03:41:28.128914",
+      "notes": null
+    },
+    {
+      "id": "8b73f1c2-440a-4e7b-9b91-fd1c043a7bd0",
+      "audit_type": "字段审核",
+      "field_name": "SPDW",
+      "mapping_type": "manual",
+      "source_field_name": null,
+      "include_user_input": true,
+      "audit_data_sources": [
+        {
+          "material_name": "《内部决议或有权批准机构决策文件》",
+          "field_name": "SPDW",
+          "description": ""
+        }
+      ],
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T03:44:14.963256",
+      "updated_at": "2025-11-20T03:44:30.592189",
+      "notes": null
+    },
+    {
+      "id": "8b73f1c2-440a-4e7b-9b91-fd1c043a7bd1",
+      "audit_type": "字段审核",
+      "field_name": "PZWH",
+      "mapping_type": "manual",
+      "source_field_name": null,
+      "include_user_input": true,
+      "audit_data_sources": [
+        {
+          "material_name": "《内部决议或有权批准机构决策文件》",
+          "field_name": "PZWH",
+          "description": ""
+        }
+      ],
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T03:44:14.963256",
+      "updated_at": "2025-11-20T03:44:30.592189",
+      "notes": null
+    },
+    {
+      "id": "f98f5af4-ab58-49aa-9f14-854472c0b0d5",
+      "audit_type": "字段审核",
+      "field_name": "ZCSPYZ",
+      "mapping_type": "auto",
+      "source_field_name": "ZCSPYZ",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T03:47:54.836402",
+      "updated_at": "2025-11-20T03:47:54.836402",
+      "notes": null
+    },
+    {
+      "id": "f98f5af4-ab58-49aa-9f14-854472c0b0d5",
+      "audit_type": "字段审核",
+      "field_name": "ZCSPYZ",
+      "mapping_type": "auto",
+      "source_field_name": "ZCSPYZ",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T03:47:54.836402",
+      "updated_at": "2025-11-20T03:47:54.836402",
+      "notes": null
+    },
+    {
+      "id": "f98f5af4-ab58-49aa-9f14-854472c0b0d5",
+      "audit_type": "字段审核",
+      "field_name": "PZRQ",
+      "mapping_type": "auto",
+      "source_field_name": "PZRQ",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T03:47:54.836402",
+      "updated_at": "2025-11-20T03:47:54.836402",
+      "notes": null
+    },
+    {
+      "id": "f98f5af4-ab58-49aa-9f14-854472c0b0d5",
+      "audit_type": "字段审核",
+      "field_name": "XMMC",
+      "mapping_type": "auto",
+      "source_field_name": "XMMC",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T03:47:54.836402",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "f98f5af4-ab58-49aa-9f14-854472c0b0d5",
+      "audit_type": "字段审核",
+      "field_name": "FBXMMC",
+      "mapping_type": "auto",
+      "source_field_name": "FBXMMC",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T03:47:54.836402",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "b1942e38-edc4-487d-832a-723178739243",
+      "audit_type": "字段审核",
+      "field_name": "BDSJCZYZ",
+      "mapping_type": "auto",
+      "source_field_name": "BDSJCZYZ",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n\"1.《信息披露申请书》\r\n2.《决策文件》\r\n3.《资产清单》\r\n4.《评估报告》\"\t\"1.《信息披露申请书》-交易条件-账面原值\r\n2.《决策文件》或《资产清单》或《评估报告》-文件内容\"\t\"1.判断系统字段值与《信息披露申请书》中对应字段值是否相等\r\n2.判断系统字段值是否小于等于《决策文件》或《资产清单》或《评估报告》中对应数值（因为可能存在审批100，本次挂80的情况）\"",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T05:47:06.687568",
+      "updated_at": "2025-11-20T05:47:06.687568",
+      "notes": null
+    },
+    {
+      "id": "b1942e38-edc4-487d-832a-723178739244",
+      "audit_type": "字段审核",
+      "field_name": "ZMJZ",
+      "mapping_type": "auto",
+      "source_field_name": "ZMJZ",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n\"1.《信息披露申请书》\r\n2.《决策文件》\r\n3.《资产清单》\r\n4.《评估报告》\"\t\"1.《信息披露申请书》-交易条件-账面净（价）值\r\n2.《决策文件》或《资产清单》或《评估报告》-文件内容\"\t\"1.判断系统字段值与《信息披露申请书》中对应字段值是否相等\r\n2.判断系统字段值是否小于等于《决策文件》或《资产清单》或《评估报告》中对应数值（因为可能存在审批100，本次挂80的情况）\"",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T05:47:06.687568",
+      "updated_at": "2025-11-20T05:47:06.687568",
+      "notes": null
+    },
+    {
+      "id": "91233459-4aac-49a9-ae69-b3e09cfbabca",
+      "audit_type": "字段审核",
+      "field_name": "CZSL",
+      "mapping_type": "auto",
+      "source_field_name": "CZSL",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《决策文件》《资产清单》\t文件内容\t\"1.判断《资产清单》中体现的资产数量或《决策文件》中体现的资产处置数量与系统字段值是否一致\r\n2.若处置数量单位为“项”，则对比资产清单条目数量（即行数）；若处置数量单位为空，则对比资产清单中标的总数，即每一项标的数量的加和总计值\"",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T05:48:53.580254",
+      "updated_at": "2025-11-20T05:48:53.580254",
+      "notes": null
+    },
+    {
+      "id": "ff6afee6-a832-4a7c-8921-179944c68cac",
+      "audit_type": "字段审核",
+      "field_name": "CZSLDW",
+      "mapping_type": "auto",
+      "source_field_name": "CZSLDW",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《批准文件》《资产清单》\t文件内容\t\"判断《资产清单》中体现的资产数量单位或《情况说明》《决策文件》文件中体现的资产处置数量单位与系统字段值是否一致\r\n\"",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T05:49:50.429185",
+      "updated_at": "2025-11-20T05:49:50.429185",
+      "notes": null
+    },
+    {
+      "id": "db8964f0-ce8d-4710-ac74-0127bae6b1ce",
+      "audit_type": "字段审核",
+      "field_name": "FKTS",
+      "mapping_type": "auto",
+      "source_field_name": "FKTS",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《信息披露申请书》\t与转让相关的其他条件\t从《信息披露申请书》中读取以上字段内容，理解并提取关于价款及交易服务费交费时间限制的工作日天数并与系统字段值进行比对\ntips：注意要兼容ocr的识别错误，比如：识别的代码缺少回车分隔符之类的场景，如果提取的代码其实与客户输入大致一致，则即使ocr识别错误，也认为正确",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T05:50:26.470564",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "f45f476b-a13c-4bfc-a05c-0288b8e1cdb5",
+      "audit_type": "字段审核",
+      "field_name": "WSGSYZZXLX",
+      "mapping_type": "auto",
+      "source_field_name": "WSGSYZZXLX",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T05:52:09.448104",
+      "updated_at": "2025-11-20T05:52:09.448104",
+      "notes": null
+    },
+    {
+      "id": "2fbfe7d7-23de-4266-bbcd-f19dbdd2c819",
+      "audit_type": "字段审核",
+      "field_name": "SRFSFRGSH",
+      "mapping_type": "auto",
+      "source_field_name": "SRFSFRGSH",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《信息披露申请书》\t资产简况-展示安排\t\"判断《信息披露申请书》中是否选中了“强制踏勘”选项或仅填写了关于强制踏勘的要求，并与系统字段进行对比。\r\n若《信息披露申请书》中选中了“强制踏勘”选项或该字段下仅填写了关于强制踏勘的要求，则系统中“意向受让方是否人工审核”应为“是”且“受让方人工审核原因”应为“踏勘安排”\"",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T05:52:53.929099",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "2fbfe7d7-23de-4266-bbcd-f19dbdd2c819",
+      "audit_type": "字段审核",
+      "field_name": "SRFRGSHYY",
+      "mapping_type": "auto",
+      "source_field_name": "SRFRGSHYY",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《信息披露申请书》\t资产简况-展示安排\t\"判断《信息披露申请书》中是否选中了“强制踏勘”选项或仅填写了关于强制踏勘的要求，并与系统字段进行对比。\r\n若《信息披露申请书》中选中了“强制踏勘”选项或该字段下仅填写了关于强制踏勘的要求，则系统中“意向受让方是否人工审核”应为“是”且“受让方人工审核原因”应为“踏勘安排”\"",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T05:52:53.929099",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "b5e1eaf1-4298-44f7-9ac4-1a6287b5dfcf",
+      "audit_type": "字段审核",
+      "field_name": "TKLXR",
+      "mapping_type": "auto",
+      "source_field_name": "TKLXR",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n\"《信息披露申请书》\r\n《踏勘管理办法》\"\t资产简况-展示安排\t\"1.从《信息披露申请书》-资产简况-展示安排-联系人姓名字段中提取踏勘联系人姓名并与系统字段进行对比\r\n2.基于语义理解从《踏勘管理办法》-文件内容，从中提取踏勘联系人姓名并与系统字段进行对比\"\r\n\t",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T05:53:55.742564",
+      "updated_at": "2025-12-18T12:15:32.641794",
+      "notes": null
+    },
+    {
+      "id": "b5e1eaf1-4298-44f7-9ac4-1a6287b5dfcf",
+      "audit_type": "字段审核",
+      "field_name": "TKLXDH",
+      "mapping_type": "auto",
+      "source_field_name": "TKLXDH",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n\"《信息披露申请书》\r\n《踏勘管理办法》\"\t资产简况-展示安排\t\"1.从《信息披露申请书》-资产简况-展示安排-联系人电话字段中提取踏勘联系人电话并与系统字段进行对比\r\n2.基于语义理解从《踏勘管理办法》-文件内容，从中提取踏勘联系人姓名并与系统字段进行对比\"\r\n\t",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T05:53:55.742564",
+      "updated_at": "2025-11-20T05:53:55.742564",
+      "notes": null
+    },
+    {
+      "id": "d4deb523-dccc-408e-bf28-755654960842",
+      "audit_type": "字段审核",
+      "field_name": "XZPGDW",
+      "mapping_type": "manual",
+      "source_field_name": null,
+      "include_user_input": true,
+      "audit_data_sources": [
+        {
+          "material_name": "《评估报告或其他定价文件》",
+          "field_name": "XZPGDW",
+          "description": ""
+        }
+      ],
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T06:01:47.354183",
+      "updated_at": "2025-11-20T06:01:47.354183",
+      "notes": null
+    },
+    {
+      "id": "d4deb523-dccc-408e-bf28-755654960841",
+      "audit_type": "字段审核",
+      "field_name": "PGZ",
+      "mapping_type": "manual",
+      "source_field_name": null,
+      "include_user_input": true,
+      "audit_data_sources": [
+        {
+          "material_name": "《评估报告或其他定价文件》",
+          "field_name": "PGZ",
+          "description": ""
+        }
+      ],
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T06:01:47.354183",
+      "updated_at": "2025-11-20T06:01:47.354183",
+      "notes": null
+    },
+    {
+      "id": "d4deb523-dccc-408e-bf28-755654960843",
+      "audit_type": "字段审核",
+      "field_name": "PGBGSBH",
+      "mapping_type": "manual",
+      "source_field_name": null,
+      "include_user_input": true,
+      "audit_data_sources": [
+        {
+          "material_name": "《评估报告或其他定价文件》",
+          "field_name": "PGBGSBH",
+          "description": ""
+        }
+      ],
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T06:01:47.354183",
+      "updated_at": "2025-11-20T06:01:47.354183",
+      "notes": null
+    },
+    {
+      "id": "d4deb523-dccc-408e-bf28-755654960844",
+      "audit_type": "字段审核",
+      "field_name": "PGJZR",
+      "mapping_type": "manual",
+      "source_field_name": null,
+      "include_user_input": true,
+      "audit_data_sources": [
+        {
+          "material_name": "《评估报告或其他定价文件》",
+          "field_name": "PGJZR",
+          "description": ""
+        }
+      ],
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T06:01:47.354183",
+      "updated_at": "2025-11-20T06:01:47.354183",
+      "notes": null
+    },
+    {
+      "id": "a7b92baa-2152-4df0-827e-010c7bf14a6c",
+      "audit_type": "字段审核",
+      "field_name": "ZCJSDZ",
+      "mapping_type": "auto",
+      "source_field_name": "ZCJSDZ",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:16:42.363873",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "a7b92baa-2152-4df0-827e-010c7bf14a7c",
+      "audit_type": "字段审核",
+      "field_name": "ZCZYDZ",
+      "mapping_type": "auto",
+      "source_field_name": "ZCZYDZ",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:16:42.363873",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "a7b92baa-2152-4df0-827e-010c7bf14a7c",
+      "audit_type": "字段审核",
+      "field_name": "ZCZYFMC",
+      "mapping_type": "auto",
+      "source_field_name": "ZCZYFMC",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:16:42.363873",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "a7b92baa-2152-4df0-827e-010c7bf14a8c",
+      "audit_type": "字段审核",
+      "field_name": "ZCMS",
+      "mapping_type": "auto",
+      "source_field_name": "ZCMS",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:16:42.363873",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "58ba9353-9ecc-4424-aa41-ec9bf897f777",
+      "audit_type": "字段审核",
+      "field_name": "SRFXGTJ",
+      "mapping_type": "auto",
+      "source_field_name": "SRFXGTJ",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《信息披露申请书》\t与转让相关的其他条件\t\"1.将《信息披露申请书》中与转让相关的其他条件内容与系统字段值进行严格比对\r\n2.校验：\r\n（1）若该项目为单项目保证金类型，则需要体现保证金交纳时间的要求\r\n（2）若在“意向受让方资质”部分体现了危险废物名称及编号，则应与《资产清单》中危险废物名称及编号对应，通常项目名称中带有“电池”“油”“催化剂”的项目为危险废物项目，应满足以上要求\"",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:18:23.195470",
+      "updated_at": "2025-12-27T12:32:24.068813",
+      "notes": null
+    },
+    {
+      "id": "af506344-f394-4454-9dc2-fc7753692004",
+      "audit_type": "字段审核",
+      "field_name": "QTPLNR",
+      "mapping_type": "auto",
+      "source_field_name": "QTPLNR",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《信息披露申请书》\t其他披露\t\"1.将《信息披露申请书》中其他披露内容与系统字段值进行严格比对\r\n2.校验：\r\n（1）若该项目需进行踏勘（即“受让方人工审核原因”为“踏勘安排”），则该字段内容中应体现踏勘相关说明\r\n（2）若与转让相关的条件中存在“意向受让方资质”相关描述，则在该字段中野营体现提交资质相关的描述\"\r\n",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:19:06.221092",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "fea81ca3-4733-4743-bcd2-b2add1d839da",
+      "audit_type": "字段审核",
+      "field_name": "SFSJCC",
+      "mapping_type": "auto",
+      "source_field_name": "SFSJCC",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《中央行政事业单位国有资产处置委托书》\t文件内容\t理解文件内容，根据是否提及拆除事项与系统字段做比对\r\n",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:20:10.633661",
+      "updated_at": "2025-11-20T07:20:10.633661",
+      "notes": null
+    },
+    {
+      "id": "84a3b9e5-91f1-4ba5-b987-4c712df95eb3",
+      "audit_type": "字段审核",
+      "field_name": "ZCCCF",
+      "mapping_type": "auto",
+      "source_field_name": "ZCCCF",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《中央行政事业单位国有资产处置委托书》\t文件内容\t理解文件内容，根据文件内容中所描述或选择的资产拆除方与系统字段值进行比对",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:20:40.673081",
+      "updated_at": "2025-11-20T07:20:40.673081",
+      "notes": null
+    },
+    {
+      "id": "c149bd5f-505c-4fbe-b5b7-dc6b1f48cff5",
+      "audit_type": "字段审核",
+      "field_name": "WCZCQCYSJ",
+      "mapping_type": "auto",
+      "source_field_name": "WCZCQCYSJ",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《中央行政事业单位国有资产处置委托书》\t委托方要求成交后竞买人清运时间\t根据系统字段值与材料字段值进行比对",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:21:20.045867",
+      "updated_at": "2025-11-20T07:21:20.045867",
+      "notes": null
+    },
+    {
+      "id": "a1443774-9786-4ef3-8517-db2751143d9f",
+      "audit_type": "字段审核",
+      "field_name": "SFYZ",
+      "mapping_type": "auto",
+      "source_field_name": "SFYZ",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n\"1.《项目进度记录表》\r\n2.《行政事业单位国有资产确认单》\"\t\"1.《项目进度记录表》-是否预展\r\n2.《行政事业单位国有资产确认单》-备注\"\t根据材料字段内容，与系统字段选项进行比对",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:30:02.897444",
+      "updated_at": "2025-11-20T07:30:02.897444",
+      "notes": null
+    },
+    {
+      "id": "75eeb6ac-6116-42fc-bc6b-a4a400ea42c5",
+      "audit_type": "字段审核",
+      "field_name": "SFQY",
+      "mapping_type": "auto",
+      "source_field_name": "SFQY",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:30:31.853305",
+      "updated_at": "2025-11-20T07:30:31.853305",
+      "notes": null
+    },
+    {
+      "id": "7a6425b9-bde1-4f1f-912f-3f9cc7dd14af",
+      "audit_type": "字段审核",
+      "field_name": "BZJ_JNFS",
+      "mapping_type": "auto",
+      "source_field_name": "BZJ_JNFS",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《信息披露申请书》\t交易条件-保证金设置\t\"理解《信息披露申请书》-交易条件-保证金设置中内容所体现的选择的保证金方式——即单项目保证金或综合资产钱包保证金\r\n若《信息披露申请书》中体现单项目保证金，则系统字段应为“单项目保证金“\r\n若《信息披露申请书》中体现综合资产钱包保证金，则系统字段应为“保证金套餐/保证金钱包”\r\n与系统字段值进行比对\"\r\n",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:31:20.742608",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "469bed9a-7053-4b4c-a1ef-929b7ae67a03",
+      "audit_type": "字段审核",
+      "field_name": "ZRDJQDYJ",
+      "mapping_type": "auto",
+      "source_field_name": "ZRDJQDYJ",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《信息披露申请书》\t交易条件-转让底价确定依据\t\"理解《信息披露申请书》-交易条件-转让底价确定依据中所选择的方式——即评估机构出具的评估文件或市场询价\r\n若《信息披露申请书》中体现选中评估机构出具的评估文件，则系统字段应为“评估”\r\n若《信息披露申请书》中体现选中市场询价，则系统字段应为“市场询价”\"",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:32:04.884246",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "56c2769f-2ca1-405c-9da4-053139a2f8c5",
+      "audit_type": "字段审核",
+      "field_name": "ZRDJSCXJFS",
+      "mapping_type": "manual",
+      "source_field_name": null,
+      "include_user_input": true,
+      "audit_data_sources": [
+        {
+          "material_name": "《信息披露申请书》",
+          "field_name": "ZRDJSCXJFS",
+          "description": ""
+        },
+        {
+          "material_name": "《内部决议或有权批准机构决策文件》",
+          "field_name": "ZRDJSCXJFS",
+          "description": ""
+        }
+      ],
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n\"《信息披露申请书》\r\n《决策文件》\"\t\"《信息披露申请书》-交易条件-转让底价确定依据\r\n《决策文件》《询价说明文件》-文件内容\"\t\"1.理解《信息披露申请书》-交易条件-转让底价确定依据中市场询价所选择的方式——即转让方自行询价结果或经批准单位确认的询价结果\r\n1）若《信息披露申请书》中体现选中转让方自行询价结果，则系统字段应为“自行询价”，附件中应有体现自行询价的说明文件\r\n2）若《信息披露申请书》中体现选中经批准单位确认的询价结果，则系统字段应为“经批准单位确认”，附件中应有体现批准单位确认的说明文件\r\n2.理解《决策文件》文件内容，并与系统枚举值进行比对，确认含义是否一致\"",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:33:12.234376",
+      "updated_at": "2025-11-20T07:33:12.234376",
+      "notes": null
+    },
+    {
+      "id": "35eaa3d0-4daf-40b2-a672-ee817a7aa7ce",
+      "audit_type": "字段审核",
+      "field_name": "BM_BZJ_JE",
+      "mapping_type": "auto",
+      "source_field_name": "BM_BZJ_JE",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《信息披露申请书》\t交易条件-保证金设置\t\"1.理解《信息披露申请书》-交易条件-保证金设置中内容所体现的保证金金额，与系统字段值进行比对\r\n2.校验：\r\n（1）底价不足5万元的，保证金按1.5万\r\n（2）若底价大于等于5万的，保证金不超过30%\"",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:33:52.083996",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "1ac9f4d8-6857-4825-8d5d-dadb7e47c81e",
+      "audit_type": "字段审核",
+      "field_name": "BZJJNJZSJ",
+      "mapping_type": "auto",
+      "source_field_name": "BZJJNJZSJ",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《信息披露申请书》\t其他披露或与转让相关的其他条件\t理解《信息披露申请书》-其他披露的内容并提取保证金交纳截止时间，与系统字段进行对比",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:34:27.076311",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "49964eb2-2e22-4fb8-b6bb-6bf0692aa0be",
+      "audit_type": "字段审核",
+      "field_name": "ZYBJQ",
+      "mapping_type": "auto",
+      "source_field_name": "ZYBJQ",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《信息披露申请书》\t交易情况-自由报价期\t\"1.理解《信息披露申请书》-交易情况-自由报价期内容，并与系统字段值进行对比\r\n2.校验\r\n（1）小于100万元，不低于5日；\r\n（2）大于等于100万，不低于10工作日；\r\n（3）大于等于1000万，不低于20工作日\"",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:35:08.367394",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "e1981eaf-b860-4e7f-8b7a-0470d0fa77ab",
+      "audit_type": "字段审核",
+      "field_name": "XSBJKSSJ",
+      "mapping_type": "auto",
+      "source_field_name": "XSBJKSSJ",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:48:21.288115",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "e1981eaf-b860-4e7f-8b7a-0470d0fa78ab",
+      "audit_type": "字段审核",
+      "field_name": "YSBJSC",
+      "mapping_type": "auto",
+      "source_field_name": "YSBJSC",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《信息披露申请书》\t交易情况-限时报价周期\t理解《信息披露申请书》-交易情况-限时报价周期内容，并与系统字段值进行对比\r\n\r\n",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:48:21.288115",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "a18eb989-b68d-414e-b47f-323c6cb7294b",
+      "audit_type": "字段审核",
+      "field_name": "JJFD",
+      "mapping_type": "auto",
+      "source_field_name": "JJFD",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "审核参考材料\t审核参考材料字段名称\t审核内容\r\n《信息披露申请书》\t交易条件-加价幅度\t\"1.从《信息披露申请书》-交易情况-加价幅度中提取字段值，并与系统字段值进行比对\r\n2.校验加价幅度不超过转让底价的3%\"",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:50:25.687054",
+      "updated_at": "2026-01-06T11:09:39.218340",
+      "notes": null
+    },
+    {
+      "id": "7fb963c2-a5bc-4222-ae48-963b06844ddf",
+      "audit_type": "字段审核",
+      "field_name": "ZRDJ",
+      "mapping_type": "auto",
+      "source_field_name": "ZRDJ",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:57:59.735418",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    },
+    {
+      "id": "7fb963c2-a5bc-4222-ae48-963b06845ddf",
+      "audit_type": "字段审核",
+      "field_name": "QPJ",
+      "mapping_type": "manual",
+      "source_field_name": "QPJ",
+      "include_user_input": true,
+      "audit_data_sources": [
+        {
+          "material_name": "《信息披露申请书》",
+          "field_name": "QPJ",
+          "description": ""
+        },
+        {
+          "material_name": "《评估报告或其他定价文件》",
+          "field_name": "",
+          "description": ""
+        },
+        {
+          "material_name": "《评估备案表/核准文件》",
+          "field_name": "",
+          "description": ""
+        },
+        {
+          "material_name": "《内部决议或有权批准机构决策文件》",
+          "field_name": "",
+          "description": ""
+        }
+      ],
+      "audit_content": "1. 对比材料中的起始价/转让底价（元）值是否与系统值一致。\r\n2. 起始价/转让底价（元）需要大于或等于对应值评估文件、备案表(清单)中的\"账面含税评估净值\"\r\n3. 起始价/转让底价（元）需要大于或等于对应值内部决议或有权批准机构决策文件中的\"评估值\"。",
+      "auto_process_rules": "1.若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认\r\n2.若可正常提取对应全部字段值，且符合上述审核要求，则审核通过\r\n3.若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过",
+      "use_simple_comparison": false,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:57:59.735418",
+      "updated_at": "2026-01-06T11:12:40.812894",
+      "notes": null
+    },
+    {
+      "id": "7fb963c2-a5bc-4222-ae48-963b06846ddf",
+      "audit_type": "字段审核",
+      "field_name": "JGDWHZ",
+      "mapping_type": "auto",
+      "source_field_name": "JGDWHZ",
+      "include_user_input": true,
+      "audit_data_sources": null,
+      "audit_content": "……",
+      "auto_process_rules": "……",
+      "use_simple_comparison": true,
+      "auto_pass_when_missing": false,
+      "primary_file_type": null,
+      "enabled": true,
+      "created_at": "2025-11-20T07:57:59.735418",
+      "updated_at": "2025-12-21T02:39:35.532200",
+      "notes": null
+    }
+  ],
+  "description": null,
+  "version": "1.0.0",
+  "enabled": true,
+  "created_at": "2025-11-19T10:54:37.279239",
+  "updated_at": "2026-06-08T01:54:49.473757"
+}

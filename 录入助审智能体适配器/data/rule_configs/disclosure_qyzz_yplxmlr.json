@@ -1,0 +1,955 @@
+{
+  "id": "disclosure_qyzz_yplxmlr",
+  "name": "企业增资-预披露辅助录入",
+  "business_type": "企业增资-预披露",
+  "description": "来源：二期字段对应关系.xlsx、北交互联安融汇达运维系统接口文档 v5.3.26",
+  "extraction_rules": [
+    {
+      "id": "QYZZ_YPLXMLR:DZGJCZQYSQSJCZQ",
+      "field_name": "DZGJCZQYSQSJCZQ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "DZGJCZQYSQSJCZQ",
+          "label": "是否失去实际控制权",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【项目基本情况】提取【是否失去实际控制权】。理解内容并与系统字典值匹配\n优先定位申请书栏目：二、增资项目基本情况 / 是否导致国家出资企业及其子企业失去标的企业实际控制权。",
+          "options": {
+            "0": "否",
+            "1": "是"
+          }
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:XMMC",
+      "field_name": "XMMC",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "XMMC",
+          "label": "项目名称",
+          "platform_type": "C400",
+          "logic": "仅在申请书的【项目基本情况】提取【项目名称】。提取内容并录入\n优先定位申请书栏目：封面 / 项目名称。",
+          "cover_label": "项目名称"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:NXZFS",
+      "field_name": "NXZFS",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "NXZFS",
+          "label": "拟新增资金方式",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【项目基本情况】提取【拟新增资金方式】。理解内容并系统字典值进行匹配。若原文为固定金额，则该字段选择“固定值”类型；若原文为范围类型描述，比如“XX至XX”“不少于XX”“不超过”“择优确定”，则该字段选择“区间值”类型\n优先定位申请书栏目：二、增资项目基本情况 / 拟募集资金金额\n（万元）。",
+          "options": {
+            "1": "固定值",
+            "2": "区间"
+          }
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:ZJZE",
+      "field_name": "ZJZE",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "ZJZE",
+          "label": "拟募集资金金额（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【项目基本情况】提取【拟募集资金金额（万元）】。理解内容并提取金额信息录入该字段\n优先定位申请书栏目：二、增资项目基本情况 / 拟募集资金金额\n（万元）。\n前置条件：“拟新增资金方式”选“固定值”。条件不满足或无法确认时返回空。\n中台适用条件：拟新增资金方式==1（固定值）时必填\n拟募集资金金额（万元）必须大于等于0。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:ZJZEMIN",
+      "field_name": "ZJZEMIN",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "ZJZEMIN",
+          "label": "拟募集资金金额最小值（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【项目基本情况】提取【拟募集资金金额最小值（万元）】。理解内容并提取区间值下限信息录入该字段\n优先定位申请书栏目：二、增资项目基本情况 / 拟募集资金金额\n（万元）。\n前置条件：“拟新增资金方式”选“区间”。条件不满足或无法确认时返回空。\n中台适用条件：拟新增资金方式==2（区间）时必填\n拟募集资金金额最小值（万元）必须大于等于0。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:ZJZEMAX",
+      "field_name": "ZJZEMAX",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "ZJZEMAX",
+          "label": "拟募集资金金额最大值（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【项目基本情况】提取【拟募集资金金额最大值（万元）】。理解内容并提取区间值上限信息录入该字段\n优先定位申请书栏目：二、增资项目基本情况 / 拟募集资金金额\n（万元）。\n中台适用条件：拟新增资金方式==2（区间）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:TZFSLFS",
+      "field_name": "TZFSLFS",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "TZFSLFS",
+          "label": "拟新增投资方数量方式",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【项目基本情况】提取【拟新增投资方数量方式】。理解内容并系统字典值进行匹配。若原文为固定金额，则该字段选择“固定值”类型；若原文为范围类型描述，比如“XX至XX”“不少于XX”“不超过”“择优确定”，则该字段选择“区间值”类型\n优先定位申请书栏目：二、增资项目基本情况 / 拟征集\n投资方数量。",
+          "options": {
+            "1": "固定值",
+            "2": "区间"
+          }
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:TZFSL",
+      "field_name": "TZFSL",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "TZFSL",
+          "label": "拟新增投资方数量",
+          "platform_type": "N3",
+          "logic": "仅在申请书的【项目基本情况】提取【拟新增投资方数量】。理解并录入\n优先定位申请书栏目：二、增资项目基本情况 / 拟征集\n投资方数量。\n前置条件：“拟新增投资方数量方式”选“固定值”。条件不满足或无法确认时返回空。\n中台适用条件：拟新增投资方数量方式==1（固定值）时必填\n拟新增投资方数量必须大于等于0。没有证据时返回空。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:TZFSLMAX",
+      "field_name": "TZFSLMAX",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "TZFSLMAX",
+          "label": "拟新增投资方数量最大值",
+          "platform_type": "N9",
+          "logic": "仅在申请书的【项目基本情况】提取【拟新增投资方数量最大值】。理解内容并提取区间值上限信息录入该字段\n优先定位申请书栏目：二、增资项目基本情况 / 拟征集\n投资方数量。\n中台适用条件：拟新增投资方数量方式==2（区间）时必填\n拟新增投资方数量最大值必须大于拟新增投资方数量最小值。没有证据时返回空。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:MC",
+      "field_name": "MC",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "MC",
+          "label": "融资方客户名称",
+          "platform_type": "C150",
+          "logic": "仅在申请书的【项目基本情况】提取【融资方客户名称】。提取内容并录入\n优先定位申请书栏目：封面/三、融资方基本情况 / 融资方（盖章）：/基本情况 / 名称。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:ZZJGM",
+      "field_name": "ZZJGM",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "ZZJGM",
+          "label": "统一社会信用代码/组织机构码",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【项目基本情况】提取【统一社会信用代码/组织机构码】。提取内容并录入\n优先定位申请书栏目：三、融资方基本情况 / 基本情况 / 统一社会信用代码\n或组织机构代码。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:SZDQS",
+      "field_name": "SZDQS",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "SZDQS",
+          "label": "省",
+          "platform_type": "C12",
+          "logic": "仅在申请书的【项目基本情况】提取【省】。理解内容并提取省信息并与系统字典值匹配\n优先定位申请书栏目：三、融资方基本情况 / 基本情况 / 住所。",
+          "dictionary": "province"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:SZDQSQ",
+      "field_name": "SZDQSQ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "SZDQSQ",
+          "label": "市",
+          "platform_type": "C12",
+          "logic": "仅在申请书的【项目基本情况】提取【市】。理解内容并提取市信息并与系统字典值匹配\n优先定位申请书栏目：三、融资方基本情况 / 基本情况 / 住所。输出对应区划全称，并依据本主体住所，不能用其他主体或监管机构地址。",
+          "dictionary": "city"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:SZDQQX",
+      "field_name": "SZDQQX",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "SZDQQX",
+          "label": "区（县）",
+          "platform_type": "C12",
+          "logic": "仅在申请书的【项目基本情况】提取【区（县）】。理解内容并提取区县信息并与系统字典值匹配\n优先定位申请书栏目：三、融资方基本情况 / 基本情况 / 住所。输出对应区划全称，并依据本主体住所，不能用其他主体或监管机构地址。",
+          "dictionary": "district"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:XXDZ",
+      "field_name": "XXDZ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "XXDZ",
+          "label": "住所",
+          "platform_type": "C400",
+          "logic": "仅在申请书的【项目基本情况】提取【住所】。提取内容并录入\n优先定位申请书栏目：三、融资方基本情况 / 基本情况 / 住所。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:FDDBR",
+      "field_name": "FDDBR",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "FDDBR",
+          "label": "法定代表人",
+          "platform_type": "C200",
+          "logic": "仅在申请书的【项目基本情况】提取【法定代表人】。提取内容并录入\n优先定位申请书栏目：三、融资方基本情况 / 法定代表人 / 法定代表人。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:CLRQ",
+      "field_name": "CLRQ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "CLRQ",
+          "label": "成立日期",
+          "platform_type": "DATE",
+          "logic": "仅在申请书的【项目基本情况】提取【成立日期】。提取内容并录入\n优先定位申请书栏目：三、融资方基本情况 / 成立日期 / 成立日期。日期输出YYYY-MM-DD。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:RZFZCZB",
+      "field_name": "RZFZCZB",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "RZFZCZB",
+          "label": "注册资本(万元)",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【项目基本情况】提取【注册资本(万元)】。提取内容并录入\n优先定位申请书栏目：三、融资方基本情况 / 基本情况 / 注册资本\n（万元）。按万元给出数值。仅在原文单位明确时换算。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:SSZB",
+      "field_name": "SSZB",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "SSZB",
+          "label": "实收资本(万元)",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【项目基本情况】提取【实收资本(万元)】。提取内容并录入\n优先定位申请书栏目：三、融资方基本情况 / 基本情况 / 实收资本\n（万元）。按万元给出数值。仅在原文单位明确时换算。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:LX",
+      "field_name": "LX",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "LX",
+          "label": "企业类型",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【项目基本情况】提取【企业类型】。理解内容并与系统字典值匹配\n优先定位申请书栏目：三、融资方基本情况 / 基本情况 / 企业类型。",
+          "dictionary": "capital_enterprise"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:JJLX",
+      "field_name": "JJLX",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "JJLX",
+          "label": "经济类型",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【项目基本情况】提取【经济类型】。理解内容并与系统字典值匹配\n优先定位申请书栏目：三、融资方基本情况 / 基本情况 / 经济类型。",
+          "dictionary": "capital_economy"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:SSHYLX",
+      "field_name": "SSHYLX",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "SSHYLX",
+          "label": "所属行业类别",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【项目基本情况】提取【所属行业类别】。根据匹配到中台“所属行业”反向匹配“所属行业类型”\n优先定位申请书栏目：三、融资方基本情况。",
+          "dictionary": "industry_group"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:SSHY",
+      "field_name": "SSHY",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "SSHY",
+          "label": "所属行业",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【项目基本情况】提取【所属行业】。理解内容并与系统字典值匹配\n优先定位申请书栏目：三、融资方基本情况 / 基本情况 / 所属行业。",
+          "dictionary": "capital_industry"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:JYGM",
+      "field_name": "JYGM",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "JYGM",
+          "label": "经营规模",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【项目基本情况】提取【经营规模】。理解内容并与系统字典值匹配\n优先定位申请书栏目：三、融资方基本情况 / 基本情况 / 经营规模。",
+          "dictionary": "scale"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:XSB",
+      "field_name": "XSB",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "XSB",
+          "label": "“新三板”披露企业",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【项目基本情况】提取【“新三板”披露企业】。理解内容并与系统字典值匹配\n优先定位申请书栏目：三、融资方基本情况 / 基本情况 / “新三板”挂牌企业。",
+          "options": {
+            "0": "否",
+            "1": "是"
+          }
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:JYFW",
+      "field_name": "JYFW",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "JYFW",
+          "label": "经营范围",
+          "platform_type": "CLOB3000",
+          "logic": "仅在申请书的【项目基本情况】提取【经营范围】。从本主体经营范围栏目提取原文。\n优先定位申请书栏目：三、融资方基本情况 / 基本情况 / 经营范围。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:GDGS",
+      "field_name": "GDGS",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "GDGS",
+          "label": "股东个数",
+          "platform_type": "N10",
+          "logic": "仅在申请书的【项目基本情况】提取【股东个数】。提取内容并录入\n优先定位申请书栏目：三、融资方基本情况 / 基本情况 / 股东数量。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:ZGRS",
+      "field_name": "ZGRS",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "ZGRS",
+          "label": "职工人数",
+          "platform_type": "N10",
+          "logic": "仅在申请书的【项目基本情况】提取【职工人数】。提取内容并录入\n优先定位申请书栏目：三、融资方基本情况。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:QTGDCGBL",
+      "field_name": "QTGDCGBL",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "QTGDCGBL",
+          "label": "其他股东出资比例（%）",
+          "platform_type": "N9.4",
+          "logic": "仅在申请书的【项目基本情况】提取【其他股东出资比例（%）】。提取内容并录入\n优先定位申请书栏目：三、融资方基本情况 / 股权结构 / 股东名称（前十位）-11、其他股东-出资比例（%）。按百分数给出数值（如40%输出40）。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:ZZQGYZBCZZBL",
+      "field_name": "ZZQGYZBCZZBL",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "ZZQGYZBCZZBL",
+          "label": "增资前国有资本出资总比例（%）",
+          "platform_type": "N9.4",
+          "logic": "仅在申请书的【项目基本情况】提取【增资前国有资本出资总比例（%）】。提取内容并录入\n优先定位申请书栏目：三、融资方基本情况 / 基本情况 / 增资前国有资本出资总比例。按百分数给出数值（如40%输出40）。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:NBJCQK",
+      "field_name": "NBJCQK",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "NBJCQK",
+          "label": "融资方决策文件类型",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【项目基本情况】提取【融资方决策文件类型】。理解内容并与系统字典值匹配\n优先定位申请书栏目：三、融资方基本情况 / 信息预披露决策及批准情况 / 融资方决策文件类型。",
+          "options": {
+            "1": "股东会决议",
+            "2": "董事会决议",
+            "3": "总经理办公会决议",
+            "4": "其他"
+          }
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:NBJCQKQTSM",
+      "field_name": "NBJCQKQTSM",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "NBJCQKQTSM",
+          "label": "融资方决策文件类型其它说明",
+          "platform_type": "C200",
+          "logic": "仅在申请书的【项目基本情况】提取【融资方决策文件类型其它说明】。提取内容并录入\n优先定位申请书栏目：三、融资方基本情况 / 信息预披露决策及批准情况 / 融资方决策文件类型—其他。\n前置条件：“融资方决策文件类型”选“其他”。条件不满足或无法确认时返回空。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:GZJGJG",
+      "field_name": "GZJGJG",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "GZJGJG",
+          "label": "国资监管机构",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【项目基本情况】提取【国资监管机构】。理解内容并与系统字典值匹配\n优先定位申请书栏目：三、融资方基本情况 / 信息预披露决策及批准情况 / 国资监管机构。",
+          "dictionary": "capital_regulator"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:SSJT_XZ",
+      "field_name": "SSJT_XZ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "SSJT_XZ",
+          "label": "选择国家出资企业或主管部门",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【项目基本情况】提取【选择国家出资企业或主管部门】。理解内容并与系统字典值匹配\n优先定位申请书栏目：三、融资方基本情况 / 信息预披露决策及批准情况 / 国家出资企业或\n主管部门名称。\n前置条件：“国资监管机构”选择“国务院国资委监管”。条件不满足或无法确认时返回空。\n中台适用条件：参考字典：选择国家出资企业或主管部门\n（国资监管机构=='A02001'（国务院国资委监管）|| (国资监管机构=='A02003'（省级国资委监管） && 监管机构属地(省)=='110000'（北京市）)） && 经济类型!='A05007'（非国有企业） && 经济类型!='A05008'（外资企业） && 经济类型!='A05009'（其他） 时必填。没有证据时返回空。",
+          "dictionary": "enterprise_authority"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:SSJT",
+      "field_name": "SSJT",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "SSJT",
+          "label": "国家出资企业或主管部门名称",
+          "platform_type": "C150",
+          "logic": "仅在申请书的【项目基本情况】提取【国家出资企业或主管部门名称】。提取内容并录入\n优先定位申请书栏目：三、融资方基本情况 / 信息预披露决策及批准情况 / 国家出资企业或\n主管部门名称。\n前置条件：“国资监管机构”选择非“国务院国资委监管”选项。条件不满足或无法确认时返回空。\n中台适用条件：国资监管机构!='A02001'（国务院国资委监管） && !(国资监管机构=='A02003'（省级国资委监管） && 监管机构属地(省)=='110000'（北京市）) && 经济类型!='A05007'（非国有企业） && 经济类型!='A05008'（外资企业） && 经济类型!='A05009'（其他）时必填。没有证据时返回空。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:JGDQS",
+      "field_name": "JGDQS",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "JGDQS",
+          "label": "监管机构属地（省）",
+          "platform_type": "C12",
+          "logic": "仅在申请书的【项目基本情况】提取【监管机构属地（省）】。根据住所信息判断省信息并与系统字典值匹配\n优先定位申请书栏目：三、融资方基本情况 / 基本情况 / 住所。\n前置条件：“国资监管机构”选择“省级国资委监管”“省级其他部门监管”“市级国资委监管”“市级其他部门监管”。条件不满足或无法确认时返回空。\n中台适用条件：国资监管机构!='A02001'（国务院国资委监管） && 国资监管机构!='A02002'（中央其他部委监管） && 国资监管机构!=''时必填。没有证据时返回空。",
+          "dictionary": "province"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:JGDQSHI",
+      "field_name": "JGDQSHI",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "JGDQSHI",
+          "label": "监管机构属地（市）",
+          "platform_type": "C12",
+          "logic": "仅在申请书的【项目基本情况】提取【监管机构属地（市）】。根据住所信息判断市信息并与系统字典值匹配\n优先定位申请书栏目：三、融资方基本情况 / 基本情况 / 住所。\n前置条件：“国资监管机构”选择“市级国资委监管”“市级其他部门监管”。条件不满足或无法确认时返回空。\n中台适用条件：（国资监管机构==’A02005’（市级国资委监管）||国资监管机构==’A02006’（市级其他部门监管））&& 监管机构属地(省)!=’710000’(台湾省 )&& 监管机构属地(省)!=’810000’(香港特别行政区)&& 监管机构属地(省) != ‘820000’(澳门特别行政区)&& 监管机构属地(省) != ‘999998’(其他)&&监管机构属地(省) != ‘999999’(境外)时必填。没有证据时返回空。输出对应区划全称，并依据本主体住所，不能用其他主体或监管机构地址。",
+          "dictionary": "city"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:ZZJGDM",
+      "field_name": "ZZJGDM",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "ZZJGDM",
+          "label": "统一社会信用代码/组织机构代码",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【项目基本情况】提取【统一社会信用代码/组织机构代码】。提取内容并录入\n优先定位申请书栏目：三、融资方基本情况 / 信息预披露决策及批准情况 / 统一社会信用代码或组织机构代码。\n中台适用条件：国资监管机构!='A02001'（国务院国资委监管） && !(国资监管机构=='A02003' （省级国资委监管）&& 监管机构属地(省)=='110000'（北京市）) ) && 经济类型!='A05007'（非国有企业） && 经济类型!='A05008'（外资企业） && 经济类型!='A05009'（其他）时必填。没有证据时返回空。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:SFQDPZ",
+      "field_name": "SFQDPZ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "SFQDPZ",
+          "label": "是否已取得有权批准单位批准",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【项目基本情况】提取【是否已取得有权批准单位批准】。理解内容并与系统字典值匹配\n优先定位申请书栏目：三、融资方基本情况 / 信息预披露决策及批准情况 / 是否已取得有权批准单位批准-是或否。",
+          "options": {
+            "1": "是",
+            "0": "否"
+          }
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:PZDWMC",
+      "field_name": "PZDWMC",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "PZDWMC",
+          "label": "批准单位名称",
+          "platform_type": "C200",
+          "logic": "仅在申请书的【项目基本情况】提取【批准单位名称】。理解内容并提取批准单位名称信息，录入该字段\n优先定位申请书栏目：三、融资方基本情况 / 信息预披露决策及批准情况 / 是否已取得有权批准单位批准-批准单位名称。\n前置条件：“是否已取得有权批准单位批准”选“是”。条件不满足或无法确认时返回空。\n中台适用条件：是否已取得有权批准单位批准==1（是）时必填。没有证据时返回空。",
+          "approval_field": "SFQDPZ"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:PZRQ",
+      "field_name": "PZRQ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "PZRQ",
+          "label": "批准日期",
+          "platform_type": "C10",
+          "logic": "仅在申请书的【项目基本情况】提取【批准日期】。理解内容并提取批准日期信息，录入该字段\n优先定位申请书栏目：三、融资方基本情况 / 信息预披露决策及批准情况 / 是否已取得有权批准单位批准-批准日期。\n中台适用条件：示例：2022-9-30\n是否已取得有权批准单位批准==1（是）时必填\n批准日期必须小于等于当天。没有证据时返回空。日期输出YYYY-MM-DD。",
+          "approval_field": "SFQDPZ"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:PZLX",
+      "field_name": "PZLX",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "PZLX",
+          "label": "批准文件类型",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【项目基本情况】提取【批准文件类型】。理解内容并提取批准文件类型信息，与系统字典值匹配\n优先定位申请书栏目：三、融资方基本情况 / 信息预披露决策及批准情况 / 是否已取得有权批准单位批准-批准文件类型。\n中台适用条件：参考字典：批准文件类型\n是否已取得有权批准单位批准==1（是）时必填。没有证据时返回空。",
+          "dictionary": "approval_document",
+          "approval_field": "SFQDPZ"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:PZWJHJY",
+      "field_name": "PZWJHJY",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "PZWJHJY",
+          "label": "批准文件名称",
+          "platform_type": "C200",
+          "logic": "仅在申请书的【项目基本情况】提取【批准文件名称】。理解内容并提取批准文件名称信息，录入该字段\n优先定位申请书栏目：三、融资方基本情况 / 信息预披露决策及批准情况 / 是否已取得有权批准单位批准-批准文件名称。\n中台适用条件：是否已取得有权批准单位批准==1（是）时必填。没有证据时返回空。",
+          "approval_field": "SFQDPZ"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:TZFZGTJ",
+      "field_name": "TZFZGTJ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "TZFZGTJ",
+          "label": "投资方资格条件",
+          "platform_type": "CLOB3000",
+          "logic": "仅在申请书的【投资方资格条件与增资条件】提取【投资方资格条件】。提取内容并录入\n优先定位申请书栏目：四、投资方资格条件与增资条件 / 投资方\n资格条件。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:ZZTJ",
+      "field_name": "ZZTJ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "ZZTJ",
+          "label": "增资条件",
+          "platform_type": "CLOB3000",
+          "logic": "仅在申请书的【投资方资格条件与增资条件】提取【增资条件】。提取内容并录入\n优先定位申请书栏目：四、投资方资格条件与增资条件 / 增资条件。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:YPLGGQXX",
+      "field_name": "YPLGGQXX",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "YPLGGQXX",
+          "label": "预披露公告期选项",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【信息披露期】提取【预披露公告期选项】。理解内容并与系统字典值匹配\n优先定位申请书栏目：三、融资方基本情况 / 预披露\n公告期。",
+          "options": {
+            "1": "自公告之日起个工作日",
+            "2": "自公告之日起不少于个工作日"
+          }
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:YPLQ",
+      "field_name": "YPLQ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "QYZZ_YPLXMLR",
+      "disclosure_fields": [
+        {
+          "code": "YPLQ",
+          "label": "预披露公告期（工作日）",
+          "platform_type": "N10",
+          "logic": "仅在申请书的【信息披露期】提取【预披露公告期（工作日）】。理解内容并提取选中选项的工作日信息，录入该字段\n优先定位申请书栏目：三、融资方基本情况 / 预披露\n公告期。"
+        }
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:T_GDCZCG",
+      "field_name": "T_GDCZCG",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "只从【企业股权结构/股东出资及持股】提取。将该区块每条记录作为独立JSON对象，使用中台编码作键，将对象数组序列化成 extracted_value 字符串。按原文行序输出，逐行绑定同一主体或期间；提供覆盖各行的锚点。无对应区块时返回空。缺失的字段省略，只有规则明确要求时输出null。",
+      "platform_interface": "QYZZ_YPLXMLR_GDCZJCG",
+      "disclosure_rows": true,
+      "disclosure_fields": [
+        {
+          "code": "GDMC",
+          "label": "股东名称",
+          "platform_type": "C200",
+          "logic": "仅在申请书的【项目基本情况】中的【企业股权结构】提取【股东名称】。提取内容并录入\n优先定位申请书栏目：三、融资方基本情况 / 股权结构 / 股东名称（前十位）。"
+        },
+        {
+          "code": "CGBL",
+          "label": "出资比例（%）",
+          "platform_type": "N9.4",
+          "logic": "仅在申请书的【项目基本情况】中的【企业股权结构】提取【出资比例（%）】。提取内容并录入\n优先定位申请书栏目：三、融资方基本情况 / 股权结构 / 出资比例（%）。按百分数给出数值（如40%输出40）。"
+        }
+      ],
+      "disclosure_row_keys": [
+        "GDMC"
+      ]
+    },
+    {
+      "id": "QYZZ_YPLXMLR:T_NDSJBG",
+      "field_name": "T_NDSJBG",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "只从【近三年年度审计报告】提取。将该区块每条记录作为独立JSON对象，使用中台编码作键，将对象数组序列化成 extracted_value 字符串。按原文行序输出，逐行绑定同一主体或期间；提供覆盖各行的锚点。无对应区块时返回空。缺失的字段省略，只有规则明确要求时输出null。",
+      "platform_interface": "QYZZ_YPLXMLR_JSNNDSJBG",
+      "disclosure_rows": true,
+      "disclosure_fields": [
+        {
+          "code": "ND",
+          "label": "年度",
+          "platform_type": "N4",
+          "logic": "仅在申请书的【项目基本情况】中的【近三年年度审计报告】提取【年度】。提取内容并录入\n优先定位申请书栏目：三、融资方基本情况 / 主要财务\n指   标\n（万元） / 近三年企业年度审计报告数据-年度。"
+        },
+        {
+          "code": "SJJG",
+          "label": "审计机构",
+          "platform_type": "C200",
+          "logic": "仅在申请书的【项目基本情况】中的【近三年年度审计报告】提取【审计机构】。提取内容并录入\n优先定位申请书栏目：三、融资方基本情况 / 主要财务\n指   标\n（万元） / 近三年企业年度审计报告数据-审计机构\n名称。"
+        },
+        {
+          "code": "YYSR",
+          "label": "营业收入（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【项目基本情况】中的【近三年年度审计报告】提取【营业收入（万元）】。提取内容并录入，若原文件内容为空则该字段录入为空，且“业务无法提供营业收入”选择为“是”\n优先定位申请书栏目：三、融资方基本情况 / 主要财务\n指   标\n（万元） / 近三年企业年度审计报告数据-营业收入。\n中台适用条件：业务无法提供营业收入!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "YYSR_YW"
+        },
+        {
+          "code": "LRZE",
+          "label": "利润总额（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【项目基本情况】中的【近三年年度审计报告】提取【利润总额（万元）】。提取内容并录入，若原文件内容为空则该字段录入为空，且“业务无法提供利润总额”选择为“是”\n优先定位申请书栏目：三、融资方基本情况 / 主要财务\n指   标\n（万元） / 近三年企业年度审计报告数据-利润总额。\n中台适用条件：业务无法提供利润总额!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "LRZE_YW"
+        },
+        {
+          "code": "JLR",
+          "label": "净利润（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【项目基本情况】中的【近三年年度审计报告】提取【净利润（万元）】。提取内容并录入，若原文件内容为空则该字段录入为空，且“业务无法提供净利润”选择为“是”\n优先定位申请书栏目：三、融资方基本情况 / 主要财务\n指   标\n（万元） / 近三年企业年度审计报告数据-净利润。\n中台适用条件：业务无法提供净利润!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "JLR_YW"
+        },
+        {
+          "code": "ZCZJ",
+          "label": "资产总计（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【项目基本情况】中的【近三年年度审计报告】提取【资产总计（万元）】。提取内容并录入，若原文件内容为空则该字段录入为空，且“业务无法提供资产总计”选择为“是”\n优先定位申请书栏目：三、融资方基本情况 / 主要财务\n指   标\n（万元） / 近三年企业年度审计报告数据-资产总额。\n中台适用条件：业务无法提供资产总计!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "ZCZJ_YW"
+        },
+        {
+          "code": "FZZJ",
+          "label": "负债总计（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【项目基本情况】中的【近三年年度审计报告】提取【负债总计（万元）】。提取内容并录入，若原文件内容为空则该字段录入为空，且“业务无法提供负债总计”选择为“是”\n优先定位申请书栏目：三、融资方基本情况 / 主要财务\n指   标\n（万元） / 近三年企业年度审计报告数据-负债总额。\n中台适用条件：业务无法提供负债总计!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "FZZJ_YW"
+        },
+        {
+          "code": "SYZQY",
+          "label": "所有者权益（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【项目基本情况】中的【近三年年度审计报告】提取【所有者权益（万元）】。提取内容并录入，若原文件内容为空则该字段录入为空，且“ 业务无法提供所有者权益”选择为“是”\n优先定位申请书栏目：三、融资方基本情况 / 主要财务\n指   标\n（万元） / 近三年企业年度审计报告数据-所有者权益。\n中台适用条件：业务无法提供所有者权益!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "SYZQY_YW"
+        }
+      ],
+      "disclosure_row_keys": [
+        "ND"
+      ]
+    }
+  ],
+  "version": "1.0.0",
+  "enabled": true,
+  "created_at": "2026-11-04T00:00:00.000000",
+  "updated_at": "2026-11-10T02:30:00.000000"
+}

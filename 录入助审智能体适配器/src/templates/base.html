@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}规则配置管理系统{% endblock %}</title>
+    
+    <!-- Bootstrap 5 CSS (本地) -->
+    <link href="/static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons (本地) -->
+    <link rel="stylesheet" href="/static/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+        }
+        
+        .content-wrapper {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        
+        .footer {
+            background-color: #f8f9fa;
+            padding: 1rem 0;
+            margin-top: auto;
+        }
+        
+        .card-hover:hover {
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        
+        .badge-business-type {
+            font-size: 0.875rem;
+            padding: 0.35em 0.65em;
+        }
+        
+        .rule-card {
+            border-left: 3px solid #0d6efd;
+        }
+        
+        .extraction-rule {
+            border-left-color: #0d6efd;
+        }
+        
+        .audit-rule {
+            border-left-color: #198754;
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/web/rule-configs">
+                <i class="bi bi-gear-fill"></i> 规则配置管理系统
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/web/rule-configs">
+                            <i class="bi bi-list-ul"></i> 配置列表
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/web/rule-configs/create">
+                            <i class="bi bi-plus-circle"></i> 新建配置
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/docs" target="_blank">
+                            <i class="bi bi-book"></i> API文档
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container-fluid text-center text-muted">
+            <small>北交所录入助审系统 - 规则配置管理模块 &copy; 2025</small>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS (本地) -->
+    <script src="/static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.min.js"></script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
+

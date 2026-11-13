@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}创建规则配置 - 规则配置管理系统{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="bi bi-plus-circle"></i> 创建规则配置</h4>
+            </div>
+            <div class="card-body">
+                {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    <i class="bi bi-exclamation-triangle"></i> {{ error }}
+                </div>
+                {% endif %}
+
+                <form method="post" action="/web/rule-configs/create">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">配置名称 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="name" name="name" 
+                               required maxlength="100" 
+                               value="{{ name if name else '' }}"
+                               placeholder="例如：大宗实物-房产交易规则">
+                        <div class="form-text">为配置起一个有意义的名称</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="business_type" class="form-label">业务类型 <span class="text-danger">*</span></label>
+                        <select class="form-select" id="business_type" name="business_type" required>
+                            <option value="">请选择业务类型</option>
+                            {% for bt in business_types %}
+                            <option value="{{ bt }}" {% if business_type == bt %}selected{% endif %}>{{ bt }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="form-text">选择此配置适用的业务类型</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">配置描述</label>
+                        <textarea class="form-control" id="description" name="description" 
+                                  rows="3" maxlength="500"
+                                  placeholder="简要描述此配置的用途...">{{ description if description else '' }}</textarea>
+                        <div class="form-text">可选，最多500字符</div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> 创建配置
+                        </button>
+                        <a href="/web/rule-configs" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> 取消
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

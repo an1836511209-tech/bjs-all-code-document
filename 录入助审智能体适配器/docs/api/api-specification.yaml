@@ -1,0 +1,2147 @@
+openapi: 3.0.3
+info:
+  title: 北交所录入助审系统API
+  description: |
+    北交所信息披露智能录入和助审系统接口文档
+    
+    ## 主要功能模块
+    - 服务健康检查
+    - 文件质量检测
+    - 字段信息提取
+    - 字段规则审核
+    - 任务管理
+    - 规则配置管理
+    
+    ## 技术特点
+    - RESTful API设计
+    - 统一的响应格式
+    - 完善的错误处理
+    - JWT身份认证
+    
+  version: 1.0.0
+  contact:
+    name: API支持团队
+    email: support@example.com
+
+servers:
+  - url: http://101.126.54.157:7580
+    description: 生产环境（智能体根地址）
+  - url: https://api-staging.example.com
+    description: 测试环境（智能体根地址）
+  - url: http://localhost:8580
+    description: 开发环境（智能体根地址）
+  - url: http://101.126.54.157:7580/api/v1
+    description: 生产环境（业务 API）
+  - url: https://api-staging.example.com/api/v1
+    description: 测试环境（业务 API）
+  - url: http://localhost:8580/api/v1
+    description: 开发环境（业务 API）
+
+tags:
+  - name: 服务健康检查
+    description: 智能体服务健康检查接口
+  - name: 文件质量检测
+    description: 文件质量检测相关接口
+  - name: 文件分类
+    description: 文件智能分类相关接口
+  - name: 字段提取
+    description: 字段信息提取相关接口
+  - name: 规则审核
+    description: 字段规则审核相关接口
+  - name: 任务管理
+    description: 任务查询和管理接口
+  - name: 规则配置
+    description: 规则配置管理接口
+
+security:
+  - BearerAuth: []
+
+paths:
+  /health:
+    get:
+      tags:
+        - 服务健康检查
+      summary: 智能体健康检查
+      description: |
+        检查智能体服务是否正常运行，用于负载均衡探活、部署验收和运维监控。
+        该接口挂载在服务根路径，无需 JWT 认证。
+      operationId: healthCheck
+      security: []
+      servers:
+        - url: http://101.126.54.157:7580
+          description: 生产环境
+        - url: https://api-staging.example.com
+          description: 测试环境
+        - url: http://localhost:8580
+          description: 开发环境
+      responses:
+        '200':
+          description: 服务正常
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: healthy
+                    description: 服务状态
+                  service:
+                    type: string
+                    example: 北交所录入助审系统
+                    description: 服务名称
+                  version:
+                    type: string
+                    example: "1.0.0"
+                    description: 服务版本号
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2025-10-22T10:00:00Z"
+                    description: 响应时间（UTC）
+              example:
+                status: healthy
+                service: 北交所录入助审系统
+                version: "1.0.0"
+                timestamp: "2025-10-22T10:00:00Z"
+
+  /file/quality-check:
+    post:
+      tags:
+        - 文件质量检测
+      summary: 文件质量检测
+      description: |
+        同步检测上传附件的质量，包括清晰度、分辨率、遮挡检测等。
+        支持PDF和图片格式文件。
+        
+        **PDF处理说明：**
+        - 自动转换PDF所有页面为图像进行检测（最多10页）
+        - 采用"一票否决"原则：任何一页不合格，整个PDF标记为不合格
+        - 返回结果包含页面统计和聚合评估
+        
+        **检测算法说明：**
+        - **清晰度**：多指标融合算法（拉普拉斯方差+Tenengrad梯度+方差系数），0-100分评分制
+        - **分辨率**：检查图像尺寸是否满足最低要求（最低600x800，推荐1200x1600）
+        - **遮挡**：检测图像中的噪点、黑色区域和异常遮挡物
+      operationId: checkFileQuality
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - files
+              properties:
+                files:
+                  type: array
+                  description: 待检测的文件列表
+                  items:
+                    $ref: '#/components/schemas/FileInput'
+                request_id:
+                  type: string
+                  description: 请求唯一标识，用于幂等性控制
+                  example: "req_123456789"
+            examples:
+              
+              质量最差测试用例:
+                summary: 质量最差的文件测试用例
+                description: 用于测试系统对低质量文件的检测能力
+                value:
+                  files:
+                    - file_url: "https://pefile.oss-cn-beijing.aliyuncs.com/mmh/%E4%B8%B4%E6%97%B6%E6%96%87%E4%BB%B6%E5%A4%B9/bad_quality.png"
+                      file_name: "信息披露申请书.pdf"
+                      file_type: "info_disclosure_application"
+                  request_id: "req_20251024100001"
+              
+              质量良好测试用例:
+                summary: 质量良好的文件测试用例
+                description: 用于测试系统对高质量文件的检测能力
+                value:
+                  files:
+                    - file_url: "https://pefile.oss-cn-beijing.aliyuncs.com/mmh/%E4%B8%B4%E6%97%B6%E6%96%87%E4%BB%B6%E5%A4%B9/good_quality.png"
+                      file_name: "信息披露申请书.pdf"
+                      file_type: "info_disclosure_application"
+                  request_id: "req_20251024100001"
+              
+              质量中等测试用例:
+                summary: 质量中等的文件测试用例（PDF格式）
+                description: 用于测试系统对中等质量PDF文件的检测能力
+                value:
+                  files:
+                    - file_url: "https://pefile.oss-cn-beijing.aliyuncs.com/mmh/临时文件夹/房屋租赁合同.pdf"
+                      file_name: "信息披露申请书.pdf"
+                      file_type: "info_disclosure_application"
+                  request_id: "req_20251024100001"
+      responses:
+        '200':
+          description: 检测成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileQualityCheckResponse'
+              examples:
+                质量良好响应示例:
+                  summary: 高质量文件检测结果
+                  value:
+                    code: 200
+                    message: "success"
+                    trace_id: "trace_20251024100001"
+                    timestamp: "2025-10-24T10:00:00Z"
+                    data:
+                      - file_id: "file_20251024100001"
+                        file_name: "信息披露申请书.pdf"
+                        file_type: "info_disclosure_application"
+                        file_url: "https://pefile.oss-cn-beijing.aliyuncs.com/mmh/%E4%B8%B4%E6%97%B6%E6%96%87%E4%BB%B6%E5%A4%B9/good_quality.png"
+                        quality_status: "passed"
+                        quality_result:
+                          clarity: "passed"
+                          clarity_score: 89.09
+                          resolution: "passed"
+                          resolution_value: "1920x1080"
+                          occlusion: "passed"
+                          occlusion_score: 0.02
+                        message: "文件质量校验通过"
+                
+                质量中等响应示例:
+                  summary: 中等质量文件检测结果
+                  value:
+                    code: 200
+                    message: "success"
+                    trace_id: "trace_20251024100002"
+                    timestamp: "2025-10-24T10:00:00Z"
+                    data:
+                      - file_id: "file_20251024100002"
+                        file_name: "信息披露申请书.pdf"
+                        file_type: "info_disclosure_application"
+                        file_url: "https://pefile.oss-cn-beijing.aliyuncs.com/mmh/临时文件夹/房屋租赁合同.pdf"
+                        quality_status: "warning"
+                        quality_result:
+                          clarity: "warning"
+                          clarity_score: 45.6
+                          resolution: "passed"
+                          resolution_value: "1200x1600"
+                          occlusion: "passed"
+                          occlusion_score: 0.15
+                        message: "文件质量一般，建议重新上传更清晰的文件"
+                
+                质量最差响应示例:
+                  summary: 低质量文件检测结果
+                  value:
+                    code: 200
+                    message: "success"
+                    trace_id: "trace_20251024100003"
+                    timestamp: "2025-10-24T10:00:00Z"
+                    data:
+                      - file_id: "file_20251024100003"
+                        file_name: "信息披露申请书.pdf"
+                        file_type: "info_disclosure_application"
+                        file_url: "https://pefile.oss-cn-beijing.aliyuncs.com/mmh/%E4%B8%B4%E6%97%B6%E6%96%87%E4%BB%B6%E5%A4%B9/bad_quality.png"
+                        quality_status: "failed"
+                        quality_result:
+                          clarity: "failed"
+                          clarity_score: 18.3
+                          resolution: "warning"
+                          resolution_value: "800x600"
+                          occlusion: "failed"
+                          occlusion_score: 0.45
+                        message: "文件质量不合格，请重新上传清晰的文件"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /file/classification:
+    post:
+      tags:
+        - 文件分类
+      summary: 文件智能分类
+      description: |
+        对上传的文件进行智能分类，返回对应的文件类型枚举值。
+        
+        **处理流程：**
+        1. 下载文件并判断格式
+        2. 解析文件前两页内容（用于减少处理时间）
+        3. 使用 LLM 智能分类
+        4. 返回分类结果
+        
+        **支持的文件格式：**
+        - PDF: 使用 OCR 解析
+        - Word (.doc, .docx): 转换为 PDF 后解析
+        - 图片 (JPG, PNG, BMP, TIFF, WebP): 直接 OCR 解析
+        - Excel (.xlsx, .xlsm): 提取文本内容
+        - CSV: 提取文本内容
+      operationId: classifyFiles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassificationRequest'
+            examples:
+              多文件分类:
+                summary: 多文件分类请求示例
+                value:
+                  files:
+                    - file_url: "https://example.com/files/doc1.pdf"
+                      file_name: "信息披露申请书.pdf"
+                    - file_url: "https://example.com/files/doc2.docx"
+                      file_name: "内部决议.docx"
+                    - file_url: "https://example.com/files/license.jpg"
+                      file_name: "营业执照.jpg"
+                  request_id: "req_20251114100001"
+      responses:
+        '200':
+          description: 分类成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationResponse'
+              examples:
+                分类成功示例:
+                  summary: 多文件分类成功返回
+                  value:
+                    code: 200
+                    message: "success"
+                    trace_id: "trace_20251114100001"
+                    timestamp: "2025-11-14T10:00:00Z"
+                    data:
+                      results:
+                        - file_name: "信息披露申请书.pdf"
+                          file_url: "https://example.com/files/doc1.pdf"
+                          file_type: "info_disclosure_application"
+                        - file_name: "内部决议.docx"
+                          file_url: "https://example.com/files/doc2.docx"
+                          file_type: "internal_decision"
+                        - file_name: "营业执照.jpg"
+                          file_url: "https://example.com/files/license.jpg"
+                          file_type: "business_license"
+                      processing_time_ms: 2500
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /extraction/sync:
+    post:
+      tags:
+        - 字段提取
+      summary: 同步字段提取
+      description: |
+        从多个附件中同步提取字段信息，返回完整结果。
+        如果处理时间超过timeout，将返回taskId供后续查询。
+      operationId: extractFieldsSync
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExtractionRequest'
+            example:
+              extraction_type: "有纸大宗实物"
+              files:
+                - file_url: "https://example.com/files/application.pdf"
+                  file_name: "信息披露申请书.pdf"
+                  file_type: "info_disclosure_application"
+                - file_url: "https://example.com/files/certificate.pdf"
+                  file_name: "房屋所有权证.pdf"
+                  file_type: "property_certificate"
+              rule_config_id: "rule_dzswv10"
+              timeout: 1000
+              request_id: "req_20251022100002"
+      responses:
+        '200':
+          description: 提取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtractionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /audit/sync:
+    post:
+      tags:
+        - 规则审核
+      summary: 同步规则审核
+      description: |
+        对用户确认的字段和附件进行规则审核，返回完整审核结果。
+        支持数据交叉验证、字段值内容审核、字段值交叉验证等多种审核类型。
+        
+        **返回数据说明：**
+        1. 返回结果包含请求入参confirmed_fields
+        2. 对于"文件审核"类型的规则，返回结果包含：
+           - file_type: 文件类型（审核规则中的material_name）
+           - audit_points: 审核要点原始内容（审核规则中的audit_content）
+           - uploaded_files: 已上传文件列表（从入参files中匹配）
+           - audit_point_details: 审核要点详情列表（每个要点独立的审核结果）
+           - audit_result/audit_explanation/confidence/audit_details: 均为null（查看audit_point_details）
+        3. 对于confirmed_fields中未被审核的字段，会标记为"需人工审核"(manual_review)
+        4. summary中包含manual_review计数
+      operationId: auditFieldsSync
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuditRequest'
+            examples:
+              带附件的审核请求:
+                summary: 带附件的审核请求
+                description: 需要参考附件内容进行审核
+                value:
+                  audit_type: "有纸大宗实物"
+                  confirmed_fields:
+                    - field_name: "坐落位置"
+                      field_value: "北京市朝阳区建国路1号"
+                      field_type: "text"
+                    - field_name: "房屋面积"
+                      field_value: "150.5"
+                      field_type: "text"
+                  files:
+                    - file_url: "https://example.com/files/certificate.pdf"
+                      file_name: "房屋所有权证.pdf"
+                      file_type: "property_certificate"
+                  rule_config_id: "rule_dzswv10"
+                  timeout: 1000
+              
+              不传附件的审核请求:
+                summary: 纯字段逻辑审核（不传附件）
+                description: 只需要对字段值进行逻辑校验，不需要附件
+                value:
+                  audit_type: "有纸大宗实物"
+                  confirmed_fields:
+                    - field_name: "房屋面积"
+                      field_value: 150.5
+                      field_type: "text"
+                    - field_name: "土地面积"
+                      field_value: 120.0
+                      field_type: "text"
+                  files: []
+                  request_id: "req_20251209100001"
+      responses:
+        '200':
+          description: 审核成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditResponse'
+              examples:
+                完整审核结果示例:
+                  summary: 包含字段审核、文件审核和人工审核的完整返回示例（按规则维度组织）
+                  value:
+                    code: 200
+                    message: "success"
+                    trace_id: "trace_20251118100001"
+                    timestamp: "2025-11-18T10:00:00Z"
+                    data:
+                      request_id: "req_20251118100001"
+                      task_id: "task_20251118100001"
+                      status: "completed"
+                      audit_type: "有纸大宗实物"
+                      confirmed_fields:
+                        - field_name: "坐落位置"
+                          field_value: "北京市朝阳区建国路1号"
+                          field_type: "text"
+                        - field_name: "房屋面积"
+                          field_value: "150.5"
+                          field_type: "text"
+                        - field_name: "产权人"
+                          field_value: "张三"
+                          field_type: "text"
+                      audit_results:
+                        # 字段审核示例（包含提取数据）
+                        - audit_id: "audit_001"
+                          audit_rule_id: "rule_001"
+                          audit_rule_name: "坐落位置一致性校验"
+                          audit_type: "字段审核"
+                          audit_result: "passed"
+                          audit_status: "completed"
+                          audit_explanation: null
+                          confidence: 0.95
+                          related_fields:
+                            - field_name: "坐落位置"
+                              field_value: "北京市朝阳区建国路1号"
+                              field_type: "text"
+                              extraction_data:
+                                field_id: "field_001"
+                                field_name: "坐落位置"
+                                field_type: "text"
+                                values:
+                                  - source_file_type: "info_disclosure_application"
+                                    source_file_name: "信息披露申请书.pdf"
+                                    source_field_name: "坐落位置"
+                                    extracted_value: "北京市朝阳区建国路1号"
+                                    extract_status: "success"
+                                    confidence: 0.98
+                                    sources:
+                                      - source_file_type: "info_disclosure_application"
+                                        source_file_name: "信息披露申请书.pdf"
+                                        source_field: "坐落位置"
+                                        source_content: "坐落位置：北京市朝阳区建国路1号"
+                                        preview_image_url: "https://minio.example.com/highlights/location_001.png"
+                                        page_number: 2
+                                        coordinates:
+                                          x: 120
+                                          y: 300
+                                          width: 400
+                                          height: 30
+                                        confidence: 0.98
+                                  - source_file_type: "property_certificate"
+                                    source_file_name: "房屋所有权证.pdf"
+                                    source_field_name: "房屋坐落"
+                                    extracted_value: "北京市朝阳区建国路1号"
+                                    extract_status: "success"
+                                    confidence: 0.96
+                                    sources:
+                                      - source_file_type: "property_certificate"
+                                        source_file_name: "房屋所有权证.pdf"
+                                        source_field: "房屋坐落"
+                                        source_content: "房屋坐落：北京市朝阳区建国路1号"
+                                        preview_image_url: "https://minio.example.com/highlights/location_002.png"
+                                        page_number: 1
+                                        coordinates:
+                                          x: 150
+                                          y: 250
+                                          width: 380
+                                          height: 28
+                                        confidence: 0.96
+                                error_message: null
+                        
+                        # 文件审核示例（多要点）
+                        - audit_id: "audit_002"
+                          audit_rule_id: "rule_002"
+                          audit_rule_name: "转让方内部决策文件"
+                          audit_type: "文件审核"
+                          audit_result: null
+                          audit_status: "completed"
+                          audit_explanation: null
+                          confidence: null
+                          file_type: "《内部决议或有权批准机构决策文件》"
+                          audit_points: "1.内部决策中不应当包含指定受让方的内容\r\n2.内部决策文件内容包括但不限于批准实物资产转让行为、标的名称等内容"
+                          uploaded_files:
+                            - file_name: "内部决策.pdf"
+                              file_url: "https://example.com/files/decision.pdf"
+                              file_type: "internal_decision"
+                          audit_details: null
+                          audit_point_details:
+                            - point_index: 1
+                              point_content: "1.内部决策中不应当包含指定受让方的内容"
+                              audit_result: "passed"
+                              audit_explanation: "审核会议纪要内容，未发现指定受让方的信息，符合要求。"
+                              confidence: 0.9
+                            - point_index: 2
+                              point_content: "2.内部决策文件内容包括但不限于批准实物资产转让行为、标的名称等内容"
+                              audit_result: "passed"
+                              audit_explanation: "会议纪要中明确提到了批准实物资产转让行为和标的名称，符合要求。"
+                              confidence: 0.9
+                          related_fields: []
+                        
+                        # 人工审核示例（未配置审核规则的字段）
+                        - audit_id: "audit_003"
+                          audit_rule_id: null
+                          audit_rule_name: "产权人审核"
+                          audit_type: "人工审核"
+                          audit_result: "manual_review"
+                          audit_status: "completed"
+                          audit_explanation: "该字段未配置自动审核规则，需要人工审核"
+                          confidence: null
+                          related_fields:
+                            - field_name: "产权人"
+                              field_value: "张三"
+                              field_type: "text"
+                              extraction_data:
+                                field_id: "field_003"
+                                field_name: "产权人"
+                                field_type: "text"
+                                values:
+                                  - source_file_type: "property_certificate"
+                                    source_file_name: "房屋所有权证.pdf"
+                                    source_field_name: "产权人"
+                                    extracted_value: "张三"
+                                    extract_status: "success"
+                                    confidence: 0.97
+                                    sources:
+                                      - source_file_type: "property_certificate"
+                                        source_file_name: "房屋所有权证.pdf"
+                                        source_field: "产权人"
+                                        source_content: "产权人：张三"
+                                        preview_image_url: "https://minio.example.com/highlights/owner_001.png"
+                                        page_number: 1
+                                        coordinates:
+                                          x: 200
+                                          y: 180
+                                          width: 150
+                                          height: 25
+                                        confidence: 0.97
+                                error_message: null
+                      summary:
+                        total: 3
+                        passed: 2
+                        failed: 0
+                        pending: 0
+                        manual_review: 1
+                      processing_time_ms: 3500
+                      trigger_type: null
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /task/{taskId}:
+    get:
+      tags:
+        - 任务管理
+      summary: 查询任务状态
+      description: |
+        查询长时间运行任务的状态和结果。
+        支持超时后继续查询完整结果。
+        
+        如果提供了type参数，系统会验证任务类型是否匹配。
+        如果任务存在但类型不匹配，将返回404错误。
+        这可以用于区分相同任务ID的提取和审核任务。
+      operationId: getTaskStatus
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          description: 任务ID
+          schema:
+            type: string
+          example: "task_20251022100001"
+        - name: type
+          in: query
+          description: 任务类型（可选），用于区分提取和审核任务
+          schema:
+            type: string
+            enum: [extraction, audit]
+          example: "extraction"
+        - name: include_details
+          in: query
+          description: 是否包含详细结果
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: 查询成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskStatusResponse'
+        '404':
+          description: 任务不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /task/{taskId}/cancel:
+    post:
+      tags:
+        - 任务管理
+      summary: 取消任务
+      description: 取消正在执行的任务
+      operationId: cancelTask
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          description: 任务ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 取消成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          task_id:
+                            type: string
+                          status:
+                            type: string
+                            enum: [cancelled]
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          description: 任务不存在
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /rules:
+    get:
+      tags:
+        - 规则配置
+      summary: 查询规则配置列表
+      description: |
+        查询规则配置列表，支持分页和多条件筛选。
+        可按规则类型、业务类型、状态等条件过滤。
+      operationId: listRules
+      parameters:
+        - name: rule_type
+          in: query
+          description: 规则类型
+          schema:
+            type: string
+            enum: [extraction, audit]
+        - name: business_type
+          in: query
+          description: 业务类型
+          schema:
+            type: string
+            enum: [有纸大宗实物, 无纸大宗实物, 有纸小宗实物, 无纸小宗实物]
+          example: "有纸大宗实物"
+        - name: status
+          in: query
+          description: 规则状态
+          schema:
+            type: string
+            enum: [active, inactive]
+        - name: keyword
+          in: query
+          description: 关键字搜索
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: 页码（从1开始）
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: page_size
+          in: query
+          description: 每页数量
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+      responses:
+        '200':
+          description: 查询成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags:
+        - 规则配置
+      summary: 创建规则配置
+      description: 创建新的规则配置
+      operationId: createRule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleConfigInput'
+            example:
+              rule_name: "有纸大宗实物提取规则v1.0"
+              rule_type: "extraction"
+              business_type: "有纸大宗实物"
+              status: "active"
+              version: "1.0"
+              rule_config:
+                fields:
+                  - field_name: "坐落位置"
+                    field_type: "text"
+                    required: true
+                    extraction_logic: "从《信息披露申请书》中按字段值录入坐落位置信息"
+                    source_files: ["信息披露申请书.pdf"]
+                    source_field_names: ["坐落位置", "房屋坐落"]
+                    validation_rules: ["非空校验"]
+                    priority: 1
+      responses:
+        '201':
+          description: 创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleConfigResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /rules/{ruleId}:
+    get:
+      tags:
+        - 规则配置
+      summary: 获取规则配置详情
+      description: 获取指定规则配置的详细信息
+      operationId: getRule
+      parameters:
+        - name: ruleId
+          in: path
+          required: true
+          description: 规则ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 查询成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleConfigResponse'
+        '404':
+          description: 规则不存在
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    put:
+      tags:
+        - 规则配置
+      summary: 更新规则配置
+      description: |
+        更新规则配置，支持部分更新。
+        只需传入需要更新的字段。
+      operationId: updateRule
+      parameters:
+        - name: ruleId
+          in: path
+          required: true
+          description: 规则ID
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleConfigInput'
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleConfigResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          description: 规则不存在
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    delete:
+      tags:
+        - 规则配置
+      summary: 删除规则配置
+      description: |
+        删除规则配置，默认软删除。
+        设置hardDelete=true进行物理删除。
+      operationId: deleteRule
+      parameters:
+        - name: ruleId
+          in: path
+          required: true
+          description: 规则ID
+          schema:
+            type: string
+        - name: hard_delete
+          in: query
+          description: 是否物理删除
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: 删除成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          rule_id:
+                            type: string
+                          deleted:
+                            type: boolean
+        '404':
+          description: 规则不存在
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /file/preview:
+    get:
+      tags:
+        - 文件质量检测
+      summary: 文件预览
+      description: |
+        生成文件预览图片，支持坐标标注和高亮。
+        用于展示字段提取和审核的来源位置。
+      operationId: previewFile
+      parameters:
+        - name: file_url
+          in: query
+          required: true
+          description: 文件URL
+          schema:
+            type: string
+        - name: coordinates
+          in: query
+          description: 坐标信息（JSON格式）
+          schema:
+            type: string
+          example: '{"x":100,"y":200,"width":300,"height":50}'
+        - name: highlight
+          in: query
+          description: 是否高亮标注
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: 预览图片
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        使用JWT Token进行身份认证。
+        在请求头中添加：Authorization: Bearer <token>
+
+  schemas:
+    BaseResponse:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          description: 响应状态码
+          example: 200
+        message:
+          type: string
+          description: 响应消息
+          example: "success"
+        trace_id:
+          type: string
+          description: 请求追踪ID
+          example: "trace_20251022100001"
+        timestamp:
+          type: string
+          format: date-time
+          description: 响应时间戳
+          example: "2025-10-22T10:00:00Z"
+
+    ErrorResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            error:
+              type: object
+              properties:
+                error_code:
+                  type: string
+                  description: 业务错误码
+                error_message:
+                  type: string
+                  description: 错误详细信息
+                details:
+                  type: array
+                  description: 错误详情列表
+                  items:
+                    type: object
+                    properties:
+                      field:
+                        type: string
+                      message:
+                        type: string
+
+    ClassificationFileInput:
+      type: object
+      description: 文件分类输入对象
+      required:
+        - file_url
+        - file_name
+      properties:
+        file_url:
+          type: string
+          description: 文件URL地址
+          example: "https://example.com/files/document.pdf"
+        file_name:
+          type: string
+          description: 文件名称
+          example: "信息披露申请书.pdf"
+
+    ClassificationRequest:
+      type: object
+      description: 文件分类请求
+      required:
+        - files
+      properties:
+        files:
+          type: array
+          description: 待分类的文件列表
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ClassificationFileInput'
+        request_id:
+          type: string
+          description: 请求唯一标识，用于幂等性控制
+          example: "req_20251114100001"
+
+    ClassificationResultItem:
+      type: object
+      description: 单个文件分类结果
+      properties:
+        file_name:
+          type: string
+          description: 文件名称
+          example: "信息披露申请书.pdf"
+        file_url:
+          type: string
+          description: 文件URL地址
+          example: "https://example.com/files/doc1.pdf"
+        file_type:
+          type: string
+          description: 分类后的文件类型枚举值
+          enum: [
+            info_disclosure_application,
+            evaluation_report,
+            evaluation_filing,
+            internal_decision,
+            business_license,
+            asset_list,
+            inspection_management,
+            property_certificate,
+            land_use_certificate,
+            land_use_contract,
+            vehicle_certificate,
+            ship_certificate,
+            aircraft_certificate,
+            patent_certificate,
+            central_asset_disposal_authorization,
+            central_asset_transfer_application,
+            central_asset_receipt,
+            asset_disposal_application,
+            asset_receipt_confirmation,
+            asset_confirmation_form,
+            project_progress_record,
+            other_documents
+          ]
+          example: "info_disclosure_application"
+
+    ClassificationData:
+      type: object
+      description: 文件分类响应数据
+      properties:
+        results:
+          type: array
+          description: 文件分类结果列表
+          items:
+            $ref: '#/components/schemas/ClassificationResultItem'
+        processing_time_ms:
+          type: integer
+          description: 处理时间（毫秒）
+          example: 1500
+
+    ClassificationResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/ClassificationData'
+
+    FileInput:
+      type: object
+      description: 文件输入对象
+      properties:
+        file_url:
+          type: string
+          description: 文件URL地址（file_url和file_stream二选一）
+          example: "https://example.com/files/document.pdf"
+        file_stream:
+          type: string
+          description: 文件流（Base64编码或Data URI）
+          example: "data:application/pdf;base64,JVBERi0xLjQK..."
+        file_name:
+          type: string
+          description: 文件名称
+          example: "信息披露申请书.pdf"
+        file_type:
+          type: string
+          description: 业务文件类型
+          enum: [
+            info_disclosure_application,              # 信息披露申请书
+            evaluation_report,                        # 评估报告或其他定价文件
+            evaluation_filing,                        # 评估备案表/核准文件
+            internal_decision,                        # 内部决议或有权批准机构决策文件
+            business_license,                         # 营业执照/事业单位法人证书/身份证
+            asset_list,                               # 资产清单
+            inspection_management,                    # 踏勘承诺函
+            property_certificate,                     # 房屋产权所有证/不动产权证
+            land_use_certificate,                     # 国有土地使用证
+            land_use_contract,                        # 国有建设用地使用权出让合同
+            vehicle_certificate,                      # 行驶证/机动车登记证书（限机动车）
+            ship_certificate,                         # 船舶所有权证书/船舶检验证书/船舶国籍证明（限船舶）
+            aircraft_certificate,                     # 适航证/电台执照/国籍登记证（限飞机）
+            patent_certificate,                       # 专利证书
+            central_asset_disposal_authorization,     # 中央行政事业单位国有资产处置委托书
+            central_asset_transfer_application,       # 中央行政事业单位国有资产转让申请表
+            central_asset_receipt,                    # 中央行政事业单位国有资产接收单
+            asset_disposal_application,               # 行政事业单位国有资产处置申请表
+            asset_receipt_confirmation,               # 行政事业单位国有资产接收确认书
+            asset_confirmation_form,                  # 行政事业单位国有资产确认单
+            project_progress_record                   # 项目进度记录表
+          ]
+          example: "info_disclosure_application"
+      required:
+        - file_name
+        - file_type
+
+    FileQualityResult:
+      type: object
+      properties:
+        clarity:
+          type: string
+          enum: [passed, warning, failed]
+          description: 清晰度检测结果
+        clarity_score:
+          type: number
+          format: float
+          description: 清晰度分数（多指标融合评分：0-100分，>=70优秀，>=40良好，>=20一般，<20较差）
+          minimum: 0
+          maximum: 100
+          example: 89.09
+        resolution:
+          type: string
+          enum: [passed, warning, failed]
+          description: 分辨率检测结果
+        resolution_value:
+          type: string
+          description: 分辨率值
+          example: "1920x1080"
+        occlusion:
+          type: string
+          enum: [passed, warning, failed]
+          description: 遮挡检测结果
+        occlusion_score:
+          type: number
+          format: float
+          description: 遮挡分数（0-1，越低越好）
+          minimum: 0
+          maximum: 1
+          example: 0.02
+
+    FileQualityCheckResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  file_id:
+                    type: string
+                    description: 文件ID
+                    example: "file_20251022100001"
+                  file_name:
+                    type: string
+                    description: 文件名称
+                  file_type:
+                    type: string
+                    description: 业务文件类型
+                    enum: [
+                      info_disclosure_application,    # 信息披露申请书
+                      evaluation_report,              # 评估报告或其他定价文件
+                      evaluation_filing,              # 评估备案表/核准文件
+                      internal_decision,              # 内部决议或有权批准机构决策文件
+                      business_license,               # 营业执照/事业单位法人证书
+                      asset_list,                     # 资产清单
+                      inspection_management,          # 踏勘管理办法/踏勘确认书
+                      property_certificate,           # 房屋产权所有证/不动产权证/国有土地使用证
+                      land_use_contract,              # 国有建设用地使用权出让合同
+                      vehicle_certificate,            # 行驶证/机动车登记证书（限机动车）
+                      ship_certificate,               # 船舶所有权证书/船舶检验证书/船舶国籍证明（限船舶）
+                      aircraft_certificate,           # 适航证/电台执照/国籍登记证（限飞机）
+                      patent_certificate             # 专利证书
+                    ]
+                    example: "info_disclosure_application"
+                  file_url:
+                    type: string
+                    description: 文件URL地址
+                    example: "https://pefile.oss-cn-beijing.aliyuncs.com/mmh/临时文件夹/信息披露申请书.pdf"
+                  quality_status:
+                    type: string
+                    enum: [passed, warning, failed]
+                    description: 质量状态
+                  quality_result:
+                    $ref: '#/components/schemas/FileQualityResult'
+                  message:
+                    type: string
+                    description: 检测结果消息
+                    example: "文件质量校验通过"
+
+    ExtractionRequest:
+      type: object
+      required:
+        - extraction_type
+      properties:
+        task_id:
+          type: string
+          description: 任务ID（可选，用于继续未完成的任务）
+          example: "task_20251022100001"
+        extraction_type:
+          type: string
+          description: 业务类型
+          enum: [有纸大宗实物, 无纸大宗实物, 有纸小宗实物, 无纸小宗实物]
+          example: "有纸大宗实物"
+        files:
+          type: array
+          description: 待提取的文件列表（通常需要至少1个文件，但审核场景内部调用时可能为空）
+          default: []
+          items:
+            $ref: '#/components/schemas/FileInput'
+        rule_config_id:
+          type: string
+          description: 规则配置ID（可选，不传则使用extraction_type的默认规则）
+          example: "rule_dzswv10"
+        timeout:
+          type: integer
+          description: 超时时间（毫秒）
+          default: 1000
+          example: 1000
+        request_id:
+          type: string
+          description: 请求唯一标识，用于幂等性控制
+          example: "req_20251022100001"
+
+    SourceInfo:
+      type: object
+      description: 溯源信息
+      properties:
+        source_file_type:
+          type: string
+          description: 来源文件类型
+          example: "pdf"
+        source_file_name:
+          type: string
+          description: 来源文件名
+          example: "信息披露申请书.pdf"
+        source_field:
+          type: string
+          description: 来源字段名
+          example: "房屋坐落"
+        source_content:
+          type: string
+          description: 来源内容
+          example: "北京市朝阳区建国路1号"
+        preview_image_url:
+          type: string
+          description: 文档原文预览图片URL
+          example: "https://example.com/preview/file_page1_region1.png"
+        coordinates:
+          type: object
+          description: 坐标信息
+          properties:
+            x:
+              type: integer
+            y:
+              type: integer
+            width:
+              type: integer
+            height:
+              type: integer
+        confidence:
+          type: number
+          format: float
+          description: 置信度（0-1）
+          example: 0.95
+
+    ExtractedFieldValue:
+      type: object
+      description: 字段的单个来源提取值
+      properties:
+        source_file_type:
+          type: string
+          description: 来源文件类型
+          example: "info_disclosure_application"
+        source_file_name:
+          type: string
+          description: 来源文件名
+          example: "信息披露申请书.pdf"
+        source_field_name:
+          type: string
+          description: 来源字段名（原文件中的字段名）
+          example: "坐落位置"
+        extracted_value:
+          description: 提取的值（根据field_type不同，类型不同）
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        extract_status:
+          type: string
+          enum: [success, failed]
+          description: 单个来源的提取状态（success=成功, failed=失败）
+        confidence:
+          type: number
+          format: float
+          description: 置信度
+          example: 0.95
+        sources:
+          type: array
+          description: 详细溯源信息列表
+          items:
+            $ref: '#/components/schemas/SourceInfo'
+
+    ExtractedField:
+      type: object
+      description: 提取的字段信息（支持多来源）
+      properties:
+        field_id:
+          type: string
+          description: 字段ID
+          example: "field_20251022100001"
+        field_name:
+          type: string
+          description: 字段名称（系统字段名）
+          example: "坐落位置"
+        field_type:
+          type: string
+          enum: [text, single_choice, multiple_choice]
+          description: 字段类型
+        field_status:
+          type: string
+          enum: [success, pending, failed]
+          description: 字段提取状态（success=成功且一致, pending=待确认, failed=失败）
+        values:
+          type: array
+          description: 从不同来源提取的值列表
+          items:
+            $ref: '#/components/schemas/ExtractedFieldValue'
+        error_message:
+          type: string
+          description: 错误信息（如果失败）
+        inconsistent_values:
+          type: array
+          description: 不一致的值列表（当多来源值不一致时）
+          items:
+            type: string
+          example: ["北京市朝阳区xxx", "北京市海淀区xxx"]
+
+    ExtractionResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                request_id:
+                  type: string
+                  description: 请求ID
+                  example: "req_20251022100002"
+                task_id:
+                  type: string
+                  description: 任务ID（异步处理时返回）
+                  example: "task_abc123"
+                status:
+                  type: string
+                  enum: [success, partial, pending, failed]
+                  description: 任务整体状态（success=全部成功, partial=部分成功, pending=全部待确认, failed=全部失败）
+                extraction_type:
+                  type: string
+                  description: 提取类型
+                  enum: [有纸大宗实物, 无纸大宗实物, 有纸小宗实物, 无纸小宗实物]
+                rule_config_id:
+                  type: string
+                  description: 规则配置ID（实际使用的配置ID，可能为空）
+                  example: "rule_dzswv10"
+                results:
+                  type: array
+                  description: 字段提取结果列表
+                  items:
+                    $ref: '#/components/schemas/ExtractedField'
+                total_fields:
+                  type: integer
+                  description: 总字段数
+                  example: 10
+                success_count:
+                  type: integer
+                  description: 成功提取的字段数（field_status=success）
+                  example: 8
+                pending_count:
+                  type: integer
+                  description: 待确认的字段数（field_status=pending，无值或多来源值不一致）
+                  example: 1
+                failed_count:
+                  type: integer
+                  description: 失败的字段数（field_status=failed）
+                  example: 1
+                processing_time_ms:
+                  type: integer
+                  description: 处理时间（毫秒）
+                  example: 5200
+
+    AuditRequest:
+      type: object
+      required:
+        - audit_type
+        - confirmed_fields
+      properties:
+        task_id:
+          type: string
+          description: 任务ID（可选）
+        audit_type:
+          type: string
+          description: 业务类型
+          enum: [有纸大宗实物, 无纸大宗实物, 有纸小宗实物, 无纸小宗实物]
+          example: "有纸大宗实物"
+        confirmed_fields:
+          type: array
+          description: 用户确认后的字段列表
+          items:
+            type: object
+            required:
+              - field_name
+              - field_type
+              - values
+            properties:
+              field_name:
+                type: string
+              field_value:
+                description: 字段值（该字段接收文本内容，非字典数值）
+                oneOf:
+                  - type: string
+                  - type: array
+                    items:
+                      type: string
+              field_type:
+                type: string
+                enum: [text, single_choice, multiple_choice]
+        files:
+          type: array
+          description: 审核参考文件列表（可选，某些审核类型如纯字段逻辑审核可能不需要附件）
+          default: []
+          items:
+            $ref: '#/components/schemas/FileInput'
+        rule_config_id:
+          type: string
+          description: 规则配置ID（可选）
+        timeout:
+          type: integer
+          description: 超时时间（毫秒）
+          default: 1000
+        request_id:
+          type: string
+          description: 请求唯一标识
+        trigger_type:
+          type: string
+          description: 触发类型（可选）
+
+    AuditPointDetail:
+      type: object
+      description: 单个审核要点的详细结果（用于文件审核）
+      properties:
+        point_index:
+          type: integer
+          description: 审核要点索引（从1开始）
+          example: 1
+        point_content:
+          type: string
+          description: 审核要点内容
+          example: "1.信息披露申请书封面需加盖转让方公章"
+        audit_result:
+          type: string
+          enum: [passed, failed, pending]
+          description: 该要点的审核结果
+          example: "passed"
+        audit_explanation:
+          type: string
+          description: 该要点的审核说明
+          example: "经检查，封面已加盖公章，符合要求"
+        confidence:
+          type: number
+          format: float
+          description: 该要点的置信度（0-1）
+          example: 0.9
+          minimum: 0
+          maximum: 1
+
+    AuditResult:
+      type: object
+      description: 单条审核规则的完整结果（按规则维度组织）
+      properties:
+        audit_id:
+          type: string
+          description: 审核ID
+          example: "audit_20251022100001"
+        audit_rule_id:
+          type: string
+          description: 审核规则ID（来自规则配置）
+          example: "rule_001"
+        audit_rule_name:
+          type: string
+          description: 审核规则名称
+          example: "坐落位置一致性校验"
+        audit_type:
+          type: string
+          description: 审核类型：字段审核、文件审核或人工审核
+          enum: [字段审核, 文件审核, 人工审核]
+          example: "字段审核"
+        audit_result:
+          type: string
+          nullable: true
+          enum: [passed, failed, pending, manual_review]
+          description: |
+            审核结果（文件审核时为null，查看audit_point_details）：
+            - passed: 通过
+            - failed: 不通过
+            - pending: 待确认
+            - manual_review: 需人工审核
+        audit_status:
+          type: string
+          enum: [completed, processing, failed]
+          description: 审核状态
+        audit_explanation:
+          type: string
+          nullable: true
+          description: 审核说明（字段审核时有值，文件审核时为null）
+          example: "系统字段值与审核材料不一致"
+        confidence:
+          type: number
+          format: float
+          nullable: true
+          description: 审核置信度（0-1，文件审核时为null）
+          example: 0.92
+        
+        # ========== 字段审核专用字段 ==========
+        related_fields:
+          type: array
+          description: 关联的字段列表（仅字段审核和人工审核有值）
+          items:
+            type: object
+            properties:
+              field_name:
+                type: string
+                description: 字段名称
+                example: "坐落位置"
+              field_value:
+                description: 用户确认的字段值
+                oneOf:
+                  - type: string
+                  - type: array
+                    items:
+                      type: string
+              field_type:
+                type: string
+                enum: [text, single_choice, multiple_choice]
+                description: 字段类型
+              
+              # 提取任务的数据（与提取接口的 ExtractedField 结构完全一致，便于前端组件复用）
+              extraction_data:
+                type: object
+                description: 该字段的提取结果数据（结构与 /extraction/sync 接口返回的 ExtractedField 一致）
+                properties:
+                  field_id:
+                    type: string
+                    description: 字段ID
+                    example: "field_001"
+                  field_name:
+                    type: string
+                    description: 字段名称
+                    example: "坐落位置"
+                  field_type:
+                    type: string
+                    enum: [text, single_choice, multiple_choice]
+                    description: 字段类型
+                  values:
+                    type: array
+                    description: 从不同来源提取的值列表
+                    items:
+                      type: object
+                      description: ExtractedFieldValue 结构
+                      properties:
+                        source_file_type:
+                          type: string
+                          description: 来源文件类型
+                          example: "info_disclosure_application"
+                        source_file_name:
+                          type: string
+                          description: 来源文件名
+                          example: "信息披露申请书.pdf"
+                        source_field_name:
+                          type: string
+                          description: 来源字段名
+                          example: "坐落位置"
+                        extracted_value:
+                          description: 提取的值
+                          oneOf:
+                            - type: string
+                            - type: array
+                              items:
+                                type: string
+                        extract_status:
+                          type: string
+                          enum: [success, failed, partial]
+                          description: 提取状态
+                        confidence:
+                          type: number
+                          format: float
+                          description: 提取置信度
+                          example: 0.95
+                        sources:
+                          type: array
+                          description: 溯源信息列表
+                          items:
+                            $ref: '#/components/schemas/SourceInfo'
+                  error_message:
+                    type: string
+                    nullable: true
+                    description: 错误信息（提取失败时）
+        
+        # ========== 文件审核专用字段 ==========
+        file_type:
+          type: string
+          description: 文件类型（仅文件审核有值，来自规则配置的material_name）
+          example: "《信息披露申请书》"
+        audit_points:
+          type: string
+          description: 审核要点（仅文件审核有值，来自规则配置的audit_content）
+          example: "1.信息披露申请书封面需加盖转让方公章"
+        uploaded_files:
+          type: array
+          description: 已上传的相关文件列表（仅文件审核有值）
+          items:
+            type: object
+            properties:
+              file_name:
+                type: string
+                description: 文件名称
+                example: "信息披露申请书.pdf"
+              file_url:
+                type: string
+                description: 文件URL
+                example: "https://example.com/files/application.pdf"
+              file_type:
+                type: string
+                description: 文件类型枚举值
+                example: "info_disclosure_application"
+        audit_details:
+          type: string
+          nullable: true
+          description: 审核详情（已废弃，请使用audit_point_details）
+          example: null
+        audit_point_details:
+          type: array
+          nullable: true
+          description: 审核要点详情列表（仅文件审核有值，每个要点独立审核结果）
+          items:
+            $ref: '#/components/schemas/AuditPointDetail'
+
+    AuditResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                task_id:
+                  type: string
+                status:
+                  type: string
+                  enum: [completed, timeout, failed]
+                audit_type:
+                  type: string
+                  enum: [有纸大宗实物, 无纸大宗实物, 有纸小宗实物, 无纸小宗实物]
+                audit_results:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/AuditResult'
+                confirmed_fields:
+                  type: array
+                  description: 用户确认的字段列表（请求入参）
+                  items:
+                    type: object
+                    properties:
+                      field_name:
+                        type: string
+                      field_value:
+                        oneOf:
+                          - type: string
+                          - type: array
+                            items:
+                              type: string
+                      field_type:
+                        type: string
+                summary:
+                  type: object
+                  description: 审核结果汇总
+                  properties:
+                    total:
+                      type: integer
+                      description: 总数
+                    passed:
+                      type: integer
+                      description: 通过数量
+                    failed:
+                      type: integer
+                      description: 不通过数量
+                    pending:
+                      type: integer
+                      description: 待确认数量
+                    manual_review:
+                      type: integer
+                      description: 需人工审核数量
+                processing_time_ms:
+                  type: integer
+                  description: 处理时间（毫秒）
+
+    ExtractionData:
+      type: object
+      description: 字段提取响应数据（data字段内容）
+      properties:
+        request_id:
+          type: string
+          description: 请求ID
+          example: "req_20251022100002"
+        task_id:
+          type: string
+          description: 任务ID（异步处理时返回）
+          example: "task_abc123"
+        status:
+          type: string
+          enum: [success, partial, pending, failed]
+          description: 任务整体状态（success=全部成功, partial=部分成功, pending=全部待确认, failed=全部失败）
+        extraction_type:
+          type: string
+          description: 提取类型
+          enum: [有纸大宗实物, 无纸大宗实物, 有纸小宗实物, 无纸小宗实物]
+        rule_config_id:
+          type: string
+          description: 规则配置ID（实际使用的配置ID，可能为空）
+          example: "rule_dzswv10"
+        results:
+          type: array
+          description: 字段提取结果列表
+          items:
+            $ref: '#/components/schemas/ExtractedField'
+        total_fields:
+          type: integer
+          description: 总字段数
+          example: 10
+        success_count:
+          type: integer
+          description: 成功提取的字段数（field_status=success）
+          example: 8
+        pending_count:
+          type: integer
+          description: 待确认的字段数（field_status=pending，无值或多来源值不一致）
+          example: 1
+        failed_count:
+          type: integer
+          description: 失败的字段数（field_status=failed）
+          example: 1
+        processing_time_ms:
+          type: integer
+          description: 处理时间（毫秒）
+          example: 5200
+
+    AuditData:
+      type: object
+      description: 审核响应数据（data字段内容）
+      properties:
+        request_id:
+          type: string
+          description: 请求ID
+        task_id:
+          type: string
+          description: 任务ID
+        status:
+          type: string
+          enum: [completed, timeout, failed]
+          description: 整体状态
+          example: "completed"
+        audit_type:
+          type: string
+          description: 业务类型
+          enum: [有纸大宗实物, 无纸大宗实物, 有纸小宗实物, 无纸小宗实物]
+        confirmed_fields:
+          type: array
+          description: 用户确认的字段列表（请求入参）
+          items:
+            type: object
+            properties:
+              field_name:
+                type: string
+                description: 字段名称
+              field_value:
+                description: 字段值
+                oneOf:
+                  - type: string
+                  - type: array
+                    items:
+                      type: string
+              field_type:
+                type: string
+                enum: [text, single_choice, multiple_choice]
+                description: 字段类型
+        audit_results:
+          type: array
+          description: 审核结果列表（包含agent审核结果和人工审核项）
+          items:
+            $ref: '#/components/schemas/AuditResult'
+        summary:
+          type: object
+          description: 审核结果汇总
+          properties:
+            total:
+              type: integer
+              description: 总数
+            passed:
+              type: integer
+              description: 通过数量
+            failed:
+              type: integer
+              description: 不通过数量
+            pending:
+              type: integer
+              description: 待确认数量
+            manual_review:
+              type: integer
+              description: 需人工审核数量
+        processing_time_ms:
+          type: integer
+          description: 处理时间（毫秒）
+        trigger_type:
+          type: string
+          nullable: true
+          description: 触发类型（请求入参）
+
+    TaskStatusResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                task_id:
+                  type: string
+                  description: 任务ID
+                task_type:
+                  type: string
+                  enum: [extraction, audit]
+                  description: 任务类型
+                status:
+                  type: string
+                  enum: [pending, processing, completed, failed, timeout, cancelled]
+                  description: 任务状态
+                progress:
+                  type: number
+                  format: float
+                  description: 进度（0-1）
+                  example: 0.75
+                status_message:
+                  type: string
+                  nullable: true
+                  description: 当前进度阶段描述（如：正在解析文件...、排队等待中（第3位））
+                  example: "正在提取字段..."
+                result:
+                  description: 任务结果（根据task_type不同，结构不同）
+                  oneOf:
+                    - $ref: '#/components/schemas/ExtractionData'
+                    - $ref: '#/components/schemas/AuditData'
+                  nullable: true
+                total_count:
+                  type: integer
+                  nullable: true
+                  description: 总任务数（提取任务为总字段数，审核任务为总规则数）
+                  example: 10
+                completed_count:
+                  type: integer
+                  nullable: true
+                  description: 已完成任务数（提取任务为成功字段数，审核任务为通过规则数）
+                  example: 10
+                error_message:
+                  type: string
+                  nullable: true
+                  description: 错误信息
+                created_at:
+                  type: string
+                  format: date-time
+                  description: 创建时间
+                updated_at:
+                  type: string
+                  format: date-time
+                  description: 更新时间
+                completed_at:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: 完成时间
+
+    RuleConfigInput:
+      type: object
+      required:
+        - rule_name
+        - rule_type
+        - business_type
+        - rule_config
+      properties:
+        rule_name:
+          type: string
+          description: 规则名称
+          example: "大宗实物提取规则v1.0"
+        rule_type:
+          type: string
+          enum: [extraction, audit]
+          description: 规则类型
+        business_type:
+          type: string
+          description: 业务类型
+          enum: [有纸大宗实物, 无纸大宗实物, 有纸小宗实物, 无纸小宗实物]
+          example: "有纸大宗实物"
+        status:
+          type: string
+          enum: [active, inactive]
+          description: 状态
+          default: active
+        version:
+          type: string
+          description: 版本号
+          example: "1.0"
+        rule_config:
+          type: object
+          description: 规则配置详情
+          properties:
+            fields:
+              type: array
+              description: 字段配置列表（用于提取规则）
+              items:
+                type: object
+                properties:
+                  field_name:
+                    type: string
+                  field_type:
+                    type: string
+                    enum: [text, single_choice, multiple_choice]
+                  required:
+                    type: boolean
+                  extraction_logic:
+                    type: string
+                    description: 提取逻辑（自然语言描述）
+                  source_files:
+                    type: array
+                    description: 来源文件名列表
+                    items:
+                      type: string
+                  source_field_names:
+                    type: array
+                    description: 来源字段名列表
+                    items:
+                      type: string
+                  validation_rules:
+                    type: array
+                    description: 校验规则
+                    items:
+                      type: string
+                  default_value:
+                    type: string
+                    description: 默认值
+                  priority:
+                    type: integer
+                    description: 优先级
+            audit_rules:
+              type: array
+              description: 审核规则列表（用于审核规则）
+              items:
+                type: object
+                properties:
+                  audit_rule_name:
+                    type: string
+                  related_fields:
+                    type: array
+                    items:
+                      type: string
+                  reference_files:
+                    type: array
+                    description: 审核参考文件
+                    items:
+                      type: string
+                  reference_field_names:
+                    type: array
+                    description: 参考字段名
+                    items:
+                      type: string
+                  audit_content:
+                    type: string
+                    description: 审核内容（自然语言描述）
+                  auto_processing_logic:
+                    type: string
+                    description: 自动处理逻辑
+
+    RuleConfigDetail:
+      allOf:
+        - $ref: '#/components/schemas/RuleConfigInput'
+        - type: object
+          properties:
+            rule_id:
+              type: string
+              description: 规则ID
+            created_by:
+              type: string
+              description: 创建人
+            created_at:
+              type: string
+              format: date-time
+              description: 创建时间
+            updated_at:
+              type: string
+              format: date-time
+              description: 更新时间
+
+    RuleConfigResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/RuleConfigDetail'
+
+    RuleListResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                total:
+                  type: integer
+                  description: 总数
+                page:
+                  type: integer
+                  description: 当前页码
+                page_size:
+                  type: integer
+                  description: 每页数量
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      rule_id:
+                        type: string
+                      rule_name:
+                        type: string
+                      rule_type:
+                        type: string
+                        enum: [extraction, audit]
+                      business_type:
+                        type: string
+                      status:
+                        type: string
+                        enum: [active, inactive]
+                      version:
+                        type: string
+                      created_by:
+                        type: string
+                      created_at:
+                        type: string
+                        format: date-time
+                      updated_at:
+                        type: string
+                        format: date-time
+
+  responses:
+    BadRequest:
+      description: 请求参数错误
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: 400
+            message: "Bad Request"
+            trace_id: "trace_20251022100001"
+            timestamp: "2025-10-22T10:00:00Z"
+            error:
+              error_code: "INVALID_PARAMETER"
+              error_message: "请求参数验证失败"
+              details:
+                - field: "files"
+                  message: "files字段不能为空"
+
+    Unauthorized:
+      description: 未授权
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: 401
+            message: "Unauthorized"
+            error:
+              error_code: "UNAUTHORIZED"
+              error_message: "Token无效或已过期"
+
+    InternalServerError:
+      description: 服务器内部错误
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: 500
+            message: "Internal Server Error"
+            error:
+              error_code: "INTERNAL_ERROR"
+              error_message: "服务器内部错误，请稍后重试"
+

@@ -1,0 +1,1092 @@
+PAGE 1
+1
+北交所录入助审系统业务品类扩展详细设计
+产权转让 企业增资 机动车
+版本 V1.0 评审版
+编制日期 2026 年 11 月 4 日
+本设计供后端、接口、前端、测试和运维团队实施业务扩展。四个产权增资场景沿用字段提取接口，机动车通
+过新增任务接口承载一份公共信息和多辆车的字段、审核与证据。重点改造业务识别、规则选择、结果缓存、
+多实体处理、材料归并、任务可靠执行和结构化错误链路。
+设计基线为需规原章节、2026 年 10 月 30 日中台 API 文档以及仓库提交
+4c67c5474191dada9e93026ecced46a037ab9097。文中“现有”描述代码事实；“新增”“拟”描述实施
+目标。业务字段、材料编码与阈值按第 15 章评审清单发布，不把示例配置作为生产规则。
+文档导航
+1 约定与业务上下文
+2 现状定位与模块变更
+3 数据结构与存储
+4 规则与提示词配置
+5 公共处理链与业务一致性校验
+6 产权转让与企业增资录入
+7 机动车辅助录入
+8 机动车助审
+9 任务 幂等 缓存与恢复
+10 异常与兼容治理
+11 非功能与运维设计
+12 实施 迁移与回滚
+13 验证方案
+14 源码与材料引用
+15 评审冻结清单
+16 对外接口详细契约
+17 需求到设计和验收的追踪
+
+PAGE 2
+2
+1 约定与业务上下文
+1.1 场景标识
+context 字段 类型 定义
+business_​ type string 对外完整业务值 原四类值保持不变
+business_​ category enum
+physical property_​ transfer
+capital_​ increase vehicle
+disclosure_​ stage enum 或 null pre formal 仅产权增资适用
+disposal_​ mode enum 或 null auction dismantling 仅机动车适用
+operation enum extraction audit split
+trigger_​ type string 或 null
+机动车审核 node_​ 1 node_​ 2 对应两节
+点
+caller_​ id project_​ id string 由鉴权及业务系统绑定的调用方和项目
+schema_​ version string 新结果契约版本 初始为 1.0
+新增完整业务值为“产权转让-预披露”“产权转让-正式披露”“企业增资-预披露”“企业增资-正式披
+露”“机动车-有纸”。机动车处置模式独立传入，不增加大宗、小宗维度。机动车新接口内部构造上下文，
+不要求调用者同时填写多套相互重复的业务标识。
+BusinessContextResolver 解析值后验证适用组合：产权增资必须有阶段；机动车必须有处置模式，审核必须
+有节点；不接受未知类型并回退到任意默认规则。原有请求仍用 extraction_type/audit_type，内部映射为统
+一上下文。
+1.2 不同状态的语义
+状态维度 取值 解释
+任务生命周期
+pending processing completed failed
+cancelled timeout
+是否排队 执行 终结
+业务处理结果 success partial failed 字段或车辆处理完整性
+字段提取 success pending failed 值是否明确 是否待人工确认
+机动车审核结论 passed failed pending not_​ applicable 通过 不通过 待确认 无需审核
+附件匹配
+matched missing unexpected
+ambiguous
+材料完整性或类型识别结论
+
+PAGE 3
+3
+completed 可包含待确认和不通过结论；HTTP 200 只表明查询成功，不能解释为审核通过。旧实物
+manual_review 继续保留原含义，不映射为机动车 not_applicable。新生命周期复用现有 TaskStatus，阶段
+由 stage 新增字段表达。
+2 现状定位与模块变更
+2.1 源码事实
+文件与定位 已实现或限制 设计动作
+src/​ schemas/​ rule_​
+config.py BusinessType
+仅 4 类实物 FieldType 仅 3 种 新类型注册 场景配置模型
+src/​ utils/​ extraction_
+​ type_​ mapper.py
+类型到规则选择独立字典 改为统一业务注册表
+src/​ services/​ rule_​ c
+onfig_​ service.py
+本地 JSON 默认选择同类最新启用 发布快照 启用唯一性与类型校验
+src/​ services/​ extracti
+on/​ service.py
+缓存可早于规则加载 同类型材料合并 调整顺序 按实体和来源分组
+src/​ utils/​ field_​ valu
+e_​ converter.py 129 至
+154 行
+嵌套数组展开只读首条 机动车新模型绕开该转换并显式迭代
+src/​ services/​ audit/​
+service.py 814 至 849 行
+field_​ name 与 file_​ type 的单值索引会
+覆盖
+改为实体字段到来源数组
+src/​ services/​ task_​ s
+tore.py
+Redis 与本地回退 应用内后台执行 新任务仓储与持久队列接口
+src/​ platform_​ gw 平台头与材料编码和响应适配 新字典 新任务类型 结构化错误透传
+2.2 建议文件与类
+建议路径 组件 调用契约
+src/​ domain/​ business
+.py
+BusinessContext BusinessRegistry resolve(request principal)
+src/​ services/​ busines
+s_​ validation/​ service.
+py
+BusinessValidationService validate(context documents snapshot)
+
+PAGE 4
+4
+建议路径 组件 调用契约
+src/​ services/​ rule_​ s
+napshot_​ service.py
+RuleSnapshotService
+resolve_​ and_​ freeze(context
+config_​ id)
+src/​ services/​ vehicle/
+​ extraction.py
+VehicleExtractionService execute(task snapshot materials)
+src/​ services/​ vehicle/
+​ entity_​ index.py
+VehicleEntityIndexer build(baseline observations)
+src/​ services/​ vehicle/
+​ material_​ merge.py
+VehicleMaterialMerger merge(operator_​ files agency_​ files)
+src/​ services/​ vehicle/
+​ audit.py
+VehicleAuditService execute(entities rules evidence)
+src/​ services/​ vehicle/
+​ split.py
+VehicleSplitService split(parent selection page_​ map)
+src/​ schemas/​ vehicle.
+py
+车辆请求与结果模型 创建 匹配 查询 拆页 审核
+src/​ api/​ v1/​ endpoi
+nts/​ vehicle.py
+车辆路由 统一鉴权及编排入口
+src/​ services/​ tasks TaskRepository Queue Worker create claim checkpoint commit cancel
+以上是目标结构；实现可以按仓库风格调整文件名，但需要保持这些职责边界。基础解析、LLM 和溯源客户
+端继续复用，避免业务服务直接调用多套互不一致的解析链。
+3 数据结构与存储
+3.1 核心对象
+对象 关键字段 约束
+TaskRecord
+task_​ id caller_​ id project_​ id
+context request_​ fingerprint status
+stage run_​ id parent_​ task_​ id
+caller_​ id 与 request_​ id 联合唯一 终态
+提交有版本号
+RuleSnapshot
+snapshot_​ id config_​ id
+content_​ hash rule_​ payload
+prompt_​ versions
+material_​ policy_​ hash
+cascade_​ hash
+发布后不可改 每次任务引用固定快照
+
+PAGE 5
+5
+对象 关键字段 约束
+Material
+file_​ id original_​ name
+content_​ hash file_​ type
+uploader_​ role entity_​ refs
+upload_​ version file_​ size
+文件名不是唯一键 original 与 effective 并
+存
+MaterialObservation
+file_​ id segment_​ id page_​ idx
+detected_​ type category stage
+plate_​ raw confidence evidence_​ refs
+保留未知值与识别依据
+VehicleEntity
+entity_​ id plate_​ raw
+plate_​ normalized identity_​ status
+baseline_​ refs
+task 内 entity_​ id 唯一 号牌重复不静默合
+并
+FieldValue
+entity_​ id field_​ id raw_​ value
+normalized_​ value value_​ type
+field_​ status candidates
+selected_​ source_​ id
+一个实体一个字段可有多个来源候选
+AuditItem
+entity_​ id rule_​ id result explanation
+evidence_​ refs applicable input_​ refs
+限定快照和运行版本
+Evidence
+evidence_​ id file_​ id page_​ idx bbox
+coordinate_​ space text anchor_​ id
+preview_​ ref
+来源必须能关联原始材料
+SplitArtifact
+artifact_​ id original_​ file_​ id
+original_​ pages plate_​ name
+object_​ key status
+每个输入页有去向或待确认原因
+MergeDecision
+logical_​ group_​ id kept_​ file_​ id
+suppressed_​ file_​ ids reason
+evidence_​ refs
+不物理删除被替代材料
+任务输入、进度、最终结果与附件清单通过 TaskRepository 持久化，队列只存 task_id 和运行标识。建议将
+不可变输入、规则快照及大结果放在受控对象存储，Redis 保存状态、租约、幂等索引和短期缓存；持久队列
+采用 Redis Streams 消费组或平台等价组件。Redis 应启用持久化及高可用；若平台提供关系数据库，任务索
+引与审计改由数据库实现同一仓储契约。部署评审必须明确唯一正式选型，不能混用本地回退与跨节点任务执
+行。
+
+PAGE 6
+6
+3.2 字段与来源结构
+{
+"entity_id": "vehicle-001",
+"field_id": "plate_number",
+"field_name": "号牌号码",
+"value_type": "text",
+"value": "京 A12345",
+"field_status": "pending",
+"selected_source_id": "source-01",
+"selection_reason": "按已发布规则优先选取处置清单",
+"candidates": [
+{"source_id": "source-01", "file_id": "file-list", "value": "京 A12345", "priority": 1,
+"evidence_refs": ["ev-01"]},
+{"source_id": "source-02", "file_id": "file-license", "value": "京 A12346", "priority": 2,
+"evidence_refs": ["ev-02"]}
+],
+"consistency": "inconsistent"
+}
+示例号牌与文件标识为说明数据。号牌差异返回候选值和原因，不能因选中了高优先级来源而消除不一致。多
+转让方、多股东或财务期间如纳入申请书结构化字段，使用 entity_path 和 row_id 承载；不得沿用只取首项
+的转换。其是否逐行输出由字段表确定，机动车逐车数组属于必交。
+3.3 机动车结果结构
+{
+"schema_version": "1.0",
+"task_id": "task-v-001",
+"run_id": "run-001",
+"business_type": "机动车-有纸",
+"disposal_mode": "auction",
+"rule_snapshot_id": "snapshot-v-001",
+"result_status": "partial",
+"common_fields": [],
+"vehicles": [
+{"entity_id": "vehicle-001", "plate_number": "京 A12345", "identity_status": "identified", "fields":
+[], "audit_results": []},
+{"entity_id": "vehicle-002", "plate_number": null, "identity_status": "missing", "fields": [],
+"audit_results": []}
+],
+"vehicle_statistics": {"baseline_raw_rows": 2, "baseline_identified_count": 1,
+"baseline_unique_plate_count": 1, "unidentified_count": 1},
+"material_match": {"status": "completed", "items": []},
+"cross_file_checks": [],
+"unresolved_records": [{"entity_id": "vehicle-002", "source_row_id": "row-002", "file_id": "file-
+list", "page_number": 2, "reason": "号牌未提取成功"}],
+"split_results": []
+}
+最终 vehicles 数组保留无法确认的记录，允许 plate_number 为 null，以 entity_id 关联。
+unresolved_records 引用其 entity_id 和原始行，保证基准原始行数可对账；统计区分行数、已识别记录数及
+去重号牌数。
+
+PAGE 7
+7
+3.4 证据坐标和存储生命周期
+PDF 原始页号内部 page_idx 从 0 开始，展示 page_number 为 page_idx+1；bbox 统一为未旋转标准页上
+的 PDF 点坐标[x0,y0,x1,y1]，声明页面宽高与旋转。OCR 像素框通过缩放和旋转矩阵转换，派生裁剪图记录
+原页变换矩阵。Word 先保留段落/表格单元锚点，再转 PDF 获得展示页坐标；转换版与原文件绑定版本和内
+容指纹，不能把原 Word 字符串位置当成 PDF 坐标。
+原始文件、转换 PDF、拆页文件及证据图片使用不同对象前缀并记录来源关系。API 返回受控预览地址或短效
+链接，存储只保存 object_key，链接过期可重新授权生成。保留期限分别配置并经业务确认；审计日志至少
+180 天，任务缓存不能代替审计留存。
+4 规则与提示词配置
+4.1 规则解析和发布
+RuleSnapshotService 先解析上下文；若显式提供 rule_config_id，验证配置存在、启用、业务类型与场景一
+致；未指定时读取该场景当前发布指针。发现无配置、多个默认发布指针或跨类型引用，拒绝执行。读取规
+则、材料策略、提示词及级联内容生成内容指纹，后续所有阶段只使用该快照。
+JSON 配置继续供管理页面编辑，新增 draft → validated → published → retired 发布状态。编辑产生新修
+订，不原地修改已发布快照；撤回发布只阻止新任务引用，在途任务保留原快照。界面仍从业务注册表生成下
+拉，并展示处置模式与阶段适用范围。
+4.2 配置扩展项
+配置项 含义 校验
+scenario 业务 阶段 处置模式 节点 与发布场景一一匹配
+material_​ requirements
+材料组 any_​ of 条件 required_​ when
+基准来源
+替代组不能无候选且必交
+entity_​ scope common vehicle 或申请书明细 禁止跨实体取值
+field_​ code
+value_​ type unit
+precision
+稳定编码 数据类型 金额比例单位 数值不得仅以字符串模糊比较
+extraction_​ method rule semantic hybrid 规则失败进入明确分支
+source_​ priorities 按场景与上传角色排序的来源 同级冲突置待确认
+applicable_​ when 适用表达式 无法确定适用性时待确认
+source_​ logic AND OR 无材料或提取失败的处理显式配置
+
+PAGE 8
+8
+配置项 含义 校验
+comparison
+exact normalized semantic numeric
+date
+禁止执行任意代码表达式
+prompt_​ template_​ id
+version
+提示词与结构约束 发布指纹含模板实际内容
+不把新规则强塞进既有 FieldType 三个选项。保留旧规则结构，通过可选的扩展块或独立 VehicleRuleConfig
+保存新能力；配置迁移缺省值应保持旧实物行为，不将 auto_pass_when_missing 复制到新业务。
+4.3 提示词执行约束
+模板包含适用场景、字段组、字段定义、材料角色、示例、JSON Schema、未知值策略和证据锚点要求。一
+次提取一组关联信息，四种披露模板各自发布；机动车按附件类型及公共信息/车辆信息分组。模型输入使用
+实体限定片段，禁止将所有车辆全文压为一个无归属上下文。
+模型只能返回候选字段及锚点，后处理校验类型、枚举、范围、来源存在性和实体归属；结构不合法可有限重
+试，重试次数由配置确定，耗尽后标记失败或待确认。置信度用于辅助排序和评估，阈值经标注样本校准，不
+能仅靠模型自评分自动通过。模型、提示词、解析器版本记录在运行上下文中。
+5 公共处理链与业务一致性校验
+5.1 请求执行顺序
+鉴权和项目权限 → 参数校验 → 规范请求及已有幂等记录检查
+→ 已有同请求直接返回原任务及快照
+→ 首次请求解析业务上下文及规则快照 → 原子幂等占位与入队 → Worker 认领
+→ 下载与文件校验 → 解析或复用解析缓存 → 内容识别与材料匹配
+→ 业务阶段校验 → 查询隔离后的业务结果缓存
+→ 场景提取或审核 → 溯源 → 结果校验与原子提交
+已验证同一输入、同一策略的业务校验结果可以缓存；无校验标识的历史结果不得跳过新业务校验。机动车审
+核允许材料不齐时继续对可用信息审核并输出待确认；产权增资若缺核心申请书或业务不匹配，终止本次辅助
+录入。
+5.2 内容校验
+识别器独立输出 detected_business_category、detected_disclosure_stage、material_type、
+recognition_status 及证据。判断基于正文标题、表单章节和核心语义，文件名和调用方编码仅为线索；证据
+不足时继续检索章节，不强制将通用营业执照识别为某个披露阶段。
+情况 动作 业务错误
+明确不同业务 任务失败 输出文件及证据 BUSINESS_​ TYPE_​ MISMATCH
+
+PAGE 9
+9
+情况 动作 业务错误
+业务一致 阶段明确不兼容 任务失败 DISCLOSURE_​ STAGE_​ MISMATCH
+多份核心材料存在冲突 返回逐文件冲突清单 MATERIAL_​ SET_​ CONFLICT
+缺少本场景核心申请书 提示补充相应材料 REQUIRED_​ MATERIAL_​ MISSING
+有材料但无法确认业务或
+阶段
+中止本次提取并提示复核
+MATERIAL_​ BUSINESS_​ UNDETERMIN
+ED
+解析器或模型服务故障 独立技术错误 可有限重试
+DOCUMENT_​ PARSE_​ FAILED
+MODEL_​ UNAVAILABLE
+通用材料不独立决定业务类别；历史预披露材料如允许作为正式披露参考，必须在兼容矩阵中显式标注，不能
+替代正式披露申请书。合并 PDF 按可识别文档片段识别，检测到不兼容核心材料时整体拒绝。对新场景严格
+校验，既有实物规则保持原业务口径并回归。
+6 产权转让与企业增资录入
+6.1 四种策略
+策略 ID 核心材料 需规明确示例 条件处理
+PT_​ PRE 产权转让信息预披露申请书
+是否获有权单位批准 批准单位 批
+准日期
+先判断批准状态 再提取
+批准信息
+PT_​ FORMAL 产权转让信息披露申请书
+从申请书理解信息披露规则并提取
+字段
+正式披露字段独立配置
+CI_​ PRE 企业增资信息预披露申请书 预披露决策及批准情况 批准单位
+未批准或未说明不得补造
+单位
+CI_​ FORMAL 企业增资信息披露申请书
+公告期满是否征集到符合条件的意
+向投资方及安排
+保留条件分支和方案原文
+完整字段表不由材料标题推导。每个字段至少配置 field_code、中文名称、值类型、适用场景、来源位置、规
+则或语义方法、必填/条件、枚举、标准化、优先级、证据要求和人工确认条件。金额、比例、时间先确认单
+位和语义，再规范化；未写明的数值不按常识填充。
+6.2 提取流程
+解析器产出统一 DocumentContext，包括文本块、表格行列、标题层级和锚点。规则定位器按字段标签及相
+邻单元格/段落命中候选；多命中保留来源集合。语义任务按字段组执行，覆盖长文本和条件分支，所有返回
+锚点须在输入存在。来源冲突、无法识别或条件前提不明时字段置 pending。
+
+PAGE 10
+10
+沿用 FieldExtractionResult 输出格式；字段值在 values 中保留来源和 SourceInfo。标准值、选择原因等可
+作为兼容可选属性添加，旧调用方不需新增必填参数。任务查询 include_details 返回同一 ExtractionData，
+承担需规的结果获取职责。
+6.3 示例规则
+{
+"scenario": "PT_PRE",
+"field_code": "approval_authority",
+"field_name": "批准单位名称",
+"entity_scope": "common",
+"extraction_method": "hybrid",
+"applicable_when": {"field": "approval_obtained", "equals": true},
+"source_materials": ["产权转让信息预披露申请书"],
+"missing_action": "pending",
+"evidence_required": true
+}
+上述编码为设计示例，应和业务系统字段表对照后冻结。提取结果增加可选 applicable 布尔值。批准状态为
+false 时关联字段 value=null、applicable=false、field_status=success，表示成功判定不适用，不计入有
+效值提取成功数，单列 not_applicable_count；不把审核 not_applicable 混入提取状态枚举。批准状态未知
+则 applicable=null、field_status=pending，不能默认批准。旧字段统计保持原口径，新统计属性只对明确
+声明的新场景使用。
+7 机动车辅助录入
+
+
+PAGE 11
+11
+7.1 材料字典
+分组 需规列举材料 适用位置
+M01 申请委托组
+车辆处置申请表 中央行政事业单位国有资
+产处置委托书 行政事业单位国有资产处置
+申请表 委托函
+录入 原则上按主体性质选择
+M02 清单组 车辆处置明细表 处置清单 录入及两类助审 基准候选
+M03 决策批准组 内部决策 批复文件 录入
+M04 主体证明组 营业执照 事业单位法人证书 录入 拍卖补传
+M05 车辆权证组 机动车行驶证 机动车登记证书 录入及两类助审
+M06 拍卖补充组
+机动车评估结果确认表 车辆信息确认单 评
+估结果备案表 交强险保单 购置税发票 购车
+发票 评估单 评估报告 回收或接收证明
+拍卖机构补传
+M07 解体补充组
+回收或接收证明 机动车注销证明 注销单 评
+估单 评估报告 处置清单
+解体机构补传
+M08 图像及其他依据 相关图片 交管 12123 我的机动车页截图 对应图像审核或年检规则
+材料字典记录 canonical_type、display_name、aliases、platform_codes、allowed_scenarios 和实体范
+围。现有 vehicle_certificate 和 property_certificate 分别核对语义，不将房屋产权证当成产权交易材料。需
+规列举“应上传”材料但未给出各场景全部必传/可选/替代条件，配置发布前逐项冻结；斜杠列举不直接全部
+设为 AND 必传。
+7.2 基准车辆建立与统计
+先按规则指定 baseline_material_group，解析每一条车辆记录并保存 source_row_id 和原页。有效号牌做全
+半角、空白与大小写规范化；只做确定性标准化，不自动将 O 和 0 等字符替换。保留 raw_plate，疑似 OCR
+错误进入待确认。一个号牌出现多条时保留多条记录并登记重复冲突，不能静默去重后减少车辆数量。
+基准集合 B 由已识别的规范号牌形成，同时保留基准未识别记录 U。每份其他材料形成观察集合 O_f 及未识别
+页，计算 missing=B-O_f、candidate_extra=O_f-B、matched=B∩O_f。仅对该材料按规则应覆盖的车辆范
+围计算缺失，单车行驶证不要求覆盖整批车辆。U 非空时 candidate_extra 可能对应尚未识别的基准行，只能
+输出候选额外与待确认；只有基准完整且归属明确时确认为 extra。统计按材料组并集覆盖与单文件观察两层
+输出，重复页不重复计算车辆数。
+输出项 统计口径
+baseline_​ raw_​ rows 基准材料原始车辆记录数 保留空号牌和重复行
+
+PAGE 12
+12
+输出项 统计口径
+baseline_​ identified_​ c
+ount
+成功提取号牌的记录数
+baseline_​ unique_​ pla
+te_​ count
+已识别规范号牌去重数
+material_​ vehicle_​ cou
+nt
+各材料组或文件识别到的车辆数及口径
+missing_​ vehicles
+extra_​ vehicles
+与预期覆盖范围的集合差异
+duplicate_​ records 同号牌重复记录及来源
+unresolved_​ records 无号牌 模糊 多号牌或跨材料冲突
+基准材料多份不一致时不给出唯一权威总数，返回差异和待确认。VIN 等可以辅助人工定位，未经业务确认不
+能取代需规规定的号牌比对标识。内部 entity_id 保持稳定，号牌人工更正不改变实体身份。
+7.3 公共与动态字段
+公共字段按任务聚合，车辆字段按 entity_id 聚合。规则定位先找标签和表格行，语义提取仅使用该车辆的片
+段与必要公共信息。输出字段状态、候选值、来源优先级和选值原因；公共字段多来源冲突也须输出待确认，
+不能任取第一辆车中的值。
+字段组 需规示例 建议值类型
+common.transferor 转让方名称 地址 text
+common.task 审批单位 任务接收方归属 text 或业务字典
+vehicle.identity 号牌号码 车辆品牌 型号 text
+vehicle.amount 审批原值 元 decimal 与 unit
+vehicle.audit_​ input
+初登日期 是否有年检 评估价 转让底价 起始
+价 加价幅度
+date boolean decimal
+这张表是需规示例的技术落点，不替代完整录入和审核字段表。Decimal 进行金额运算，API 可传十进制字符
+串避免二进制浮点误差；日期使用 ISO 形式并保留原文和精度，只有月份的日期不补成某一天。
+7.4 按页拆分
+拆分由用户显式调用，传父任务、文件选择和当前 run_id。服务验证用户权限、父结果版本、输入 PDF 及可
+识别号牌页映射，创建 vehicle_split 子任务。输入页依次处理：唯一号牌页生成单页 PDF；无号牌、多号
+
+PAGE 13
+13
+牌、低质量或无法归属页不猜测，保留原页并输出 unresolved_pages；多页同车按页分别命名，合并成一车
+一份属于后续可选能力。
+文件名采用“号牌_原文件短标识_p 页号.pdf”，对象键使用随机标识避免覆盖，显示名过滤路径字符。派生
+文件只包含对应原页，不重排原文件；每页必须出现在 split_results 或 unresolved_pages 中，生成失败记录
+error 并可重试。取消后不发布未提交的派生清单，临时对象由清理任务回收。
+8 机动车助审
+8.1 材料归并算法
+归并输入包括 operator 与 agency 两类上传角色，以及拍卖/解体和实体归属。先精确哈希识别完全重复内
+容，再构建“材料类型+文件名称+实体范围”的候选组；名称及大小、关键页内容等只用于同组判定证据，
+不能跨车辆抑制材料。
+同组判定为重复或已确认机构替代经办版本时，effective 选择 agency，operator 保留为 suppressed 并记
+录理由。仅单方存在的文件直接保留，同类型不同名不自动替代。同名同类型但内容差异或车辆归属不明时保
+留双方且不抑制经办材料，输出归并冲突；只有确认同一材料替代关系后才机构优先。冲突未解决的受影响字
+段和审核项置 pending，不能仅凭机构优先产生通过结论。
+需规列出的哈希、名称大小、关键页、类型条件是判定依据，未明确其组合。设计采取保守候选匹配和可解释
+替代，组合规则须在材料策略中评审确认。最终返回 original_materials、effective_materials 及
+merge_decisions，审核证据引用实际使用的版本。
+8.2 两节点规则范围
+处置模式 node_​ 1 node_​ 2
+auction 机构提交后 经办核实车辆基本信息及附件
+提交经理时 车辆扩展信息 项目基本信息 竞
+价规则参数及附件
+dismantling 机构提交后 经办核实解体信息及附件 提交经理时 解体信息及附件
+以上来自 S1 流程图；详细字段范围随审核要点表冻结。每次触发生成独立 run_id 并固定输入字段、材料版本
+及快照；node_2 不直接继承 node_1 结论，允许复用相同输入的解析及提取结果。业务系统字段或材料发生
+改变后重新触发，并将旧结果标记为历史版本供查看。
+8.3 审核规则与判定顺序
+先判断适用性，再判断材料与数据是否足够，再执行确定性或语义比较，最后生成证据与说明。审核按
+entity_id 运行，公共信息另以 common 范围运行。不同车辆号牌天然不同，跨文件一致性是在同一车辆预期
+范围内比较，混入其他车辆作为额外或归属冲突输出。
+
+PAGE 14
+14
+规则类型 方法 示例
+同字段交叉 规范化后逐来源比对
+初登日期对行驶证注册日期和登记证登记日
+期
+内容审核 按规则 OR 或 AND 组合 多个指定材料中的值与待审字段比较
+语义判断 模型提取事实后按规则判定 年检信息与 12123 截图条件
+图像审核 多模态识别资产类型和号牌 机动车/​ 非机动车与待审值比较
+关联数值 Decimal 和明确比较符 转让底价≥评估价 加价幅度≤起始价×3%
+年检规则按需规分支处理：材料体现年检信息时“是否有年检”应为是；材料未体现且未上传交管 12123 我
+的机动车页截图时应为否；已上传截图但无法解析或识别时进入待确认，不能当作未上传。其他未明确分支按
+审核要点表配置。
+数值例子来自需规，具体适用业务、币种、单位、起始价定义和边界规则随审核要点确认。图像不可辨识或车
+牌遮挡时输出待确认；纯 OCR 文本不能证明资产类型，多模态能力未就绪时不得伪称完成图像审核。
+8.4 四态与多来源组合
+前提 输出 说明要求
+规则明确不适用 not_​ applicable 可不提供说明 保留适用条件
+参考齐备 成功解析及提取
+满足要点
+passed 可无说明
+参考齐备 成功解析及提取
+违反要点
+failed 必须说明违背项并提供依据
+缺材料 解析失败 提取失败
+无法判断
+pending 必须列出缺少或失败依据
+转让方附属信息与行驶证
+产权人不一致
+pending 按需规指定例外输出待确认
+AND/OR 只对规则明确纳入的来源集合求值。默认严格满足需规四态前提：必需来源缺失或提取失败时置
+pending；完整前提下 OR 任一一致即可通过，AND 全部一致才通过。若业务确认某 OR 来源可独立形成充
+分证据，须显式配置 sufficient_source_sets，不能以“任一命中”掩盖必交材料缺失。AND 中有明确不一致
+但仍有必需来源缺失时按默认 pending 返回已知冲突，是否提前判不通过由业务规则单独确认。
+
+PAGE 15
+15
+8.5 溯源与汇总
+数据交叉验证返回各依据文件名、页码和高亮截图；内容审核及字段交叉验证返回审核要点；多来源字段按规
+则优先级排列，缺失文件仍列名称及缺失状态。纯规则计算记录输入字段、单位、公式和中间数值，不伪造原
+文截图。图像审核证据保留实际图片及识别区域。
+汇总字段为 total、passed、failed、pending、not_applicable，满足 total 等于四态之和；分别提供
+common 和逐车汇总，任务汇总仅计算一次。缺规则、模型异常和系统中断分别标记为任务故障或未完成
+项，不能算作已通过规则。
+9 任务 幂等 缓存与恢复
+9.1 任务状态转换
+pending 在 Worker 认领后变 processing，也可以在排队期间直接变 cancelled；Worker 领取前检查取消状
+态。processing 最终变 completed、failed、cancelled 或 timeout。新增 stage 依次为 queued、
+downloading、parsing、validating、extracting、checking、tracing、finalizing，审核和拆页补充
+auditing、splitting 并按实际阶段裁剪。进度取已完成工作量/固定计划工作量，新增子阶段不能让已返回进
+度倒退；阶段内进度是估算值，只有结果提交完成才为 1。
+HTTP 等待超时只返回 pending，不把运行任务改为 timeout；执行预算耗尽才进入 timeout。轮询建议初始
+2 秒并退避至 10 秒，增加抖动；具体值为设计建议，可配置。任务查询 include_details=false 只读轻量状
+态，避免大批量结果反复传输。
+9.2 幂等与重新触发
+request_id 在 caller_id 作用域内唯一。创建幂等指纹基于规范化原始请求，包括业务、显式配置 ID 或默认选
+择意图、稳定附件引用、确认字段和选择参数，不包含会因后续发布改变的实际默认规则。先检查已有幂等记
+录；同指纹返回原 task_id 及其已固定快照，异指纹返回 409 IDEMPOTENCY_CONFLICT；仅首次请求解析
+和锁定当前规则快照并原子创建任务。调用方传 task_id 时也核对调用方、业务和输入，不能附着到其他任
+
+PAGE 16
+16
+务。下载后使用服务端 SHA-256 计算业务处理指纹，兼容 file_content_hash 仍按 MD5 核验，不信任自报
+哈希。稳定 file_id 及受管对象版本用于幂等，不能随意去除签名 URL 参数来假定内容相同。
+审核重新触发使用新的 request_id 并传 previous_task_id，建立历史关系，不重置原任务终态；相同重触发
+请求只生成一个新任务。为同项目不同审核节点和处置模式分别生成输入指纹，confirmed_fields 变更必须使
+审核缓存失效。
+9.3 缓存分层
+缓存 建议指纹输入 复用边界
+下载对象 服务端校验的内容哈希 不信任调用方自报 hash
+解析缓存 内容哈希 解析器版本 参数 转换字体版本 可跨业务共享但仍执行权限检查
+材料识别 内容哈希 识别器及提示词版本 片段边界 不按期望业务强制归类
+集合校验
+识别结果 内容清单 期望场景 材料策略
+hash
+相同场景和策略
+提取结果
+调用方/​ 项目 场景 规则快照 提示词/​ 模
+型 级联 hash 文件身份及角色/​ 归属
+不跨类型 阶段 模式
+审核结果
+提取指纹 确认字段 hash 规则快照 归并策
+略 节点
+人工更正或材料版本变化失效
+拆页结果 原文件 hash 页映射 用户选择 拆分器版本 同父任务版本和选择
+文件清单排序要稳定，但同内容不同角色、不同车辆归属保留独立条目；文件名如参与材料匹配也进入业务指
+纹。新命名空间不读取缺少业务/规则标识的历史结果，旧任务仍可按 ID 查询。成功结果与待确认结果均记录
+判定上下文；技术失败不写成功缓存。
+9.4 持久执行与取消
+run_id 表示一次业务运行的不可变标识，技术重试或故障恢复不改变 run_id，重新助审生成新 task_id 与
+run_id。Worker 消费持久队列，使用原子认领、租约心跳、内部 attempt_no 和 fencing_token，按解析、
+校验、提取等阶段保存检查点。依赖故障可指数退避有限重试；参数、权限、业务错配不自动重试。租约过期
+后新 Worker 可恢复，旧 Worker 用过期 fencing_token 无法提交。
+取消先持久化 cancel_requested，再发布通知；Worker 在文件、页、车辆和模型调用边界检查，尽可能取
+消未完成外部请求，最终原子转 cancelled。若成功提交先发生，取消返回已完成；取消先提交则迟到的模型
+返回不得覆盖终态。无法停止外部调用时仍禁止提交其结果，并清理暂存对象。
+任务记录与入队采用仓储支持的原子机制；Redis 实现可用 Lua 或事务同时写幂等、任务元信息与 Stream，
+外部对象先写不可变内容，再提交其引用。不要声称网络和外部模型实现恰好一次；允许至少一次执行，依靠
+幂等结果提交保证单一有效结果。
+
+PAGE 17
+17
+10 异常与兼容治理
+10.1 错误模型
+{
+"code": 400,
+"message": "材料业务类型与请求不匹配",
+"trace_id": "trace-example",
+"error": {
+"error_code": "BUSINESS_TYPE_MISMATCH",
+"error_message": "申请书正文与产权转让预披露场景不匹配",
+"retryable": false,
+"details": [{
+"file_id": "file-001",
+"field": "files[0]",
+"message": "识别为企业增资信息预披露申请书",
+"expected_business_type": "产权转让-预披露",
+"detected_business_category": "企业增资",
+"detected_disclosure_stage": "pre",
+"page_number": 1,
+"evidence": "企业增资信息预披露申请书"
+}]
+}
+}
+示例为原生 API 拟扩展错误，不套用中台外层 code。统一 ErrorDetail 新增可选文件、实体、页和识别属
+性，HTTP 异常处理器保留 details 和 trace_id；路由先捕获可识别业务异常，避免通用 except 改写为 500。
+task 查询新增可选 data.error 与 error_message 并存，异步失败与同步失败使用同一结构。
+HTTP 错误码示例 处理
+400
+INVALID_​ SCENARIO
+RULE_​ CONFIG_​ MISMATCH
+VALIDATION_​ ERROR
+修正参数 保留现有 400 校验外壳
+400
+BUSINESS_​ TYPE_​ MISMATCH
+DISCLOSURE_​ STAGE_​ MISMATCH
+补正业务和材料
+403 或 404
+FILE_​ ACCESS_​ DENIED
+TASK_​ NOT_​ FOUND
+文件授权失败 403 不可见任务统一 404 以
+避免枚举
+404
+TASK_​ NOT_​ FOUND
+RULE_​ CONFIG_​ NOT_​ FOUND
+不存在或已过保留期限
+409
+IDEMPOTENCY_​ CONFLICT
+RESULT_​ NOT_​ READY
+STALE_​ TASK_​ VERSION
+更换请求号 或继续查询当前运行
+413
+FILE_​ LIMIT_​ EXCEEDED
+PAGE_​ LIMIT_​ EXCEEDED
+拆分输入
+
+PAGE 18
+18
+HTTP 错误码示例 处理
+429
+TASK_​ QUEUE_​ FULL
+RATE_​ LIMITED
+按 Retry-After 退避
+502 或 503
+MODEL_​ UNAVAILABLE
+PARSER_​ UNAVAILABLE
+依赖故障 可有限重试
+机动车单个材料失败如不妨碍整体处理，则结果 partial 并在相关字段/规则置 pending；全任务无法解析、系
+统故障或无可用输入则任务 failed。业务材料不齐与技术系统不可用在统计和告警中分开。
+10.2 兼容发布
+旧接口参数、状态值、results 结构保持，新增属性均可选。机动车新 API 使用 schema_version 并单独模
+型，避免旧客户端把 not_applicable 反序列化失败。业务注册表、FileType 中文标签、文件名规则、LLM 分
+类、MaterialResolver 和平台材料编码同步更新，不能只加一个枚举。
+网关解码、业务路由和响应适配共用同一错误映射，原生与中台成功码分别治理。新 TaskType 需覆盖 Redis
+序列化、状态/取消路由、网关允许列表、权限作用域和前端显示。规则快照与缓存升级使用新前缀，不批量
+重写历史结果。
+11 非功能与运维设计
+11.1 性能验收
+保留 S1 一.6 的全部目标：30 用户并发、平均响应小于 3 秒、事务成功率 100%、CPU/内存/磁盘 I/O 均小于
+80%、模型 prefill 小于 2 秒、decode 至少 15 token/s。创建/查询响应与长任务全流程分别采集，测试报告
+必须声明 3 秒覆盖哪些事务，并给出全流程平均值及 P95/P99，禁止以异步接收率替代全流程成功率。
+测试矩阵包括单车和多车、原生 PDF 和扫描 PDF、Word、图像、混合材料、冷缓存与热缓存。批量规模、
+文档页数和模型部署资源在性能基线评审中确定。容量计算依据“每任务平均页数×任务到达率×解析耗时”
+和模型 token 吞吐配置 Worker、队列上限及连接池，不预设缺少实测支持的并发数。
+11.2 高可用和恢复
+按 99.99%可用和零单点目标，对网关、API、队列/Redis、Worker、对象存储、解析器、模型端点分别配置
+冗余；负载均衡健康检查与就绪探测分离。应用内 Semaphore 不能承担跨副本总并发限制，使用中心配额或
+队列调度控制模型及解析并发。
+演练覆盖 API 退出、Worker 被杀、租约过期、Redis 切换、对象存储短暂不可用、模型超时、重复消费和取
+消竞争。RPO/RTO、备份频率及恢复窗口随平台方案冻结，备份必须验证可恢复任务、规则快照、原始材料
+和证据引用，不只恢复 Redis 键。
+
+PAGE 19
+19
+11.3 观测与审计
+日志串联 trace_id、task_id、run_id、caller_id、snapshot_id、file_id 和 entity_id；禁止记录完整敏感附件
+或凭证。指标包含各阶段耗时、队列长度及最老任务等待时长、错误率、材料错配率、待确认率、缓存命中
+率、丢失锚点率、拆页未归属率及各依赖健康度。监控按阈值告警并携带任务定位信息，阈值由压测与试运行
+确定。
+审计事件包括任务创建/取消/重试、结果读取/导出、人工更正、规则发布/撤回、权限和模型配置变更。按 S1
+保留 180 天，只追加、独立存储、管理员只读查询和备份；审计不可由普通任务清理删除。任务缓存与审计
+记录分别配置生命周期。
+11.4 安全落点
+中台鉴权结果与项目权限在接入层验证，内部下载及预览仍校验文件权限。下载 URL 允许名单、禁止回环/链
+路本地/云元数据和内网未授权地址，重定向逐次校验；限制文件大小、页数、MIME 和解压量，解析进程隔
+离并控制超时。导出文件名过滤路径与控制字符。
+文档内容与系统提示词分离，模型不执行正文内指令；输出经过结构、来源、字段白名单和实体边界校验。配
+置 API 的外部字典地址同样执行网络限制。凭证通过受管配置注入，不写入规则导出、任务结果或日志。
+传输、存储加密及国密算法、审计防篡改、备份和等保要求按 S1 一.9 及交易所统一平台实现。接口本身不能
+代表完整用户密码策略或多因素认证，应与统一身份平台分工验收。兼容性等四份需规引用附件在上线基线中
+核对版本和适用条目。
+12 实施 迁移与回滚
+先落地统一业务注册和规则快照、结构化错误、缓存隔离、幂等及持久任务，再开发四个产权增资场景，随后
+接入机动车多实体模型、录入、拆页与助审。图像模型、字段表和中台编码可并行准备，但未评审的规则不得
+设为默认启用。
+迁移步骤为发布兼容模型 → 新规则以 draft 导入 → 校验材料映射和字段依赖 → 样本验证 → 发布快照 → 配
+置场景开关 → 小流量联调 → 分场景放量。历史任务仍使用原类型与结果模型，新任务只写新命名空间。
+回滚前停止该场景接收新任务并确认在途任务处理策略，保留原文件、输入及结果。回退策略指针和应用版
+本，禁止旧程序消费新 TaskType 队列；新旧队列或消费组隔离。回滚验收确认旧四类实物可调用、旧任务能
+查询、未完成任务有明确状态，不能用删除新任务记录代替回滚。
+13 验证方案
+用例 ID 输入或故障 预期
+T01 四种申请书各配正确场景 对应快照提取 正确来源与字段
+
+PAGE 20
+20
+用例 ID 输入或故障 预期
+T02 产权请求配增资正文 文件名伪装
+BUSINESS_​ TYPE_​ MISMATCH 无后续
+提取
+T03 正式请求配预披露正文 按兼容矩阵拒绝或限定为参考材料
+T04 同材料切换业务 规则 提示词 不命中不兼容业务结果缓存
+T05 显式配置禁用或类型不符 在缓存前拒绝
+T06 多车 同类型多证书 车辆字段重名 每车字段齐全 无首条截断 无覆盖
+T07 号牌重复 空号牌 O 与 0 混淆 保留原记录 统计对账 待确认
+T08 单车证书与整批清单 按预期覆盖范围比对 不误报其他车辆缺失
+T09 其他附件混入额外车辆 定位额外号牌 文件及页
+T10 经办与机构重复/​ 冲突附件 机构优先 留存原版及归并依据
+T11 用户未触发拆页 不生成拆分子任务
+T12 多页 PDF 唯一/​ 多/​ 无号牌及取消 所有页有去向 未确认页不猜测
+T13 AND 与 OR 完整与缺失来源组合 四态及说明符合已发布规则
+T14 转让方附属信息与产权人不一致 pending 而非直接 failed
+T15 数值等于边界 超出 3% 单位不同 Decimal 边界正确 单位不明待确认
+T16 图像机动车/​ 非机动车 遮挡号牌 正确比对 不可识别待确认
+T17 node_​ 1 和 node_​ 2 同输入不同节点 各用对应规则 不串结果
+T18 幂等重复/​ 冲突 并发两副本 一个有效任务 或 409 冲突
+T19 超时返回 pending 后实际失败 查询保留相同结构化错误
+T20 Worker 退出 重复消费 迟到提交 检查点恢复 单一合法终态
+T21 取消与完成竞争 已完成或已取消 无终态反转
+T22 越权任务 文件 预览 拆页 拒绝访问 无跨项目结果泄露
+T23 Word 表格 跨页文本 旋转 PDF 锚点与原页一致 截图可定位
+T24 旧四类实物及中台包装 请求响应与业务口径回归通过
+T25 30 并发 冷热缓存 依赖故障 按需规性能及可用性口径出具报告
+
+PAGE 21
+21
+正确性验收以业务方标注样本和标准答案为准，需覆盖拍卖/解体、两节点、四披露场景与反例。字段级准确
+率、证据命中率和图像识别阈值由业务评审确定，测试按字段类型和场景分别报告，不以总体平均掩盖关键字
+段错误。
+14 源码与材料引用
+S1 来源为用户提供的需规 RTF；其正文一.3.1 覆盖机动车录入，一.3.2 及后续一.4.3 编号覆盖助审，一.4.4 和
+一.4.5 覆盖产权增资，一.5 至一.9 覆盖非功能。原编号存在不连续，追踪按原编号保留。
+S2 来源为 2026 年 10 月 30 日 API DOCX，重点为第一章第 1 节 1.2.1 至 1.2.7。S3 代码关键文件包括
+src/main.py、src/api/v1/endpoints、src/schemas、src/services/extraction/service.py、
+src/services/audit/service.py、src/services/task_store.py、src/services/rule_config_service.py、
+src/utils/file_hash.py、src/utils/field_value_converter.py 和 src/platform_gw。完整现状审查存于配套
+evidence/code_audit.md。
+15 评审冻结清单
+项目 冻结内容 未冻结前的实施边界
+字段表
+四披露场景和机动车字段编码 类型 条件 枚
+举 单位 明细范围
+框架与示例规则可实现 生产规则不发布
+材料表
+中台编码 必交/​ 替代/​ 可选 主体条件 车
+辆基准文件
+保留候选和待确认 不猜测基准
+归并政策
+同名同类型相同内容的组合条件 冲突版本
+用法
+全量留存 明确冲突提示
+审核要点
+两节点范围 AND/​ OR 充分来源 例外与数
+值口径
+默认严格待确认 不默认通过
+接口合同
+新路径 中台服务编码 四态 UI 展示 请求作
+用域
+新功能按版本灰度 旧契约保持
+平台资源
+任务持久化 可靠队列 图像模型 加密和高可
+用
+不以本地回退声明满足零单点
+验收指标
+字段准确率 置信阈值 性能事务范围
+RPO/​ RTO
+输出实测报告 不预填达标结论
+
+PAGE 22
+22
+16 对外接口详细契约
+16.1 原有接口与文档差异
+能力 原生方法与路径 使用方式
+文件质量 POST /​ api/​ v1/​ file/​ quality-check 复用
+文件分类 POST /​ api/​ v1/​ file/​ classification 扩展材料注册表
+披露辅助录入 POST /​ api/​ v1/​ extraction/​ sync 复用并增加四种 extraction_​ type
+原有规则审核 POST /​ api/​ v1/​ audit/​ sync 保留实物契约
+任务状态及结果 GET /​ api/​ v1/​ task/​ {task_​ id} type 必传 include_​ details 控制结果
+任务取消
+POST
+/​ api/​ v1/​ task/​ {task_​ id}/​ canc
+el
+type 区分任务族
+既有预览
+GET
+/​ api/​ v1/​ preview/​ files/​ {file_​
+path:path}
+新业务需补鉴权与私有缓存策略
+API DOCX 文件分类标记待更新，代码已有 task_id、timeout 默认 300000ms、status 与统计字段，且支持
+classification 任务查询；文档列出的提取业务 status 含 timeout，但当前模型只有
+success/partial/pending/failed，timeout 属于任务生命周期。统一参数校验当前为 HTTP400
+VALIDATION_ERROR。修订接口文档时以这些差异为专项验收项。
+原生成功外壳为数值 code=200。平台提供方默认前缀/api/platform/v1，成功业务头 x-gw-biz-code 为
+PS-001，x-gw-biz-msg 提供说明；平台任务路径为 GET /task?task_id=...&type=...以及 POST
+/task/cancel?task_id=...&type=...。提供方不能伪造由平台生成的返回头。新车辆 API 必须新增平台路由、
+白名单、类型/编码和错误映射，不能假定自动透传。
+平台当前未压缩 JSON 大小阈值为 10×1024×1024 字节，最终口径由接口联调确认。结果采用分页与受控文
+件引用，不能靠截断 JSON 降低大小。业务审核不通过仍是合法结果，HTTP200 与 PS-001 不代表审核
+passed。
+16.2 披露辅助录入参数与交互
+字段 类型 必填与语义
+extraction_​ type string 必填 四个新完整业务值或原四类值
+files array 新四场景非空且含相应申请书
+
+PAGE 23
+23
+字段 类型 必填与语义
+files[].file_​ url string 必填 受控 URL 或兼容原文件引用
+files[].file_​ name string 必填 展示名和辅助线索
+files[].file_​ type FileType 必填 扩展四种申请书材料枚举
+files[].file_​ content_​ h
+ash
+string 或 null 可选 兼容 MD5 服务端核验
+files[].file_​ size integer 或 null 可选 字节
+rule_​ config_​ id string 或 null 可选 必须启用且匹配场景
+request_​ id task_​ id string 或 null 兼容可选 新调用应传 request_​ id
+timeout integer
+默认 1000 最小 1000 单位毫秒 同步等待窗
+口
+四种拟新增材料枚举为 property_transfer_pre_application、property_transfer_formal_application、
+capital_increase_pre_application、capital_increase_formal_application。它们是系统内部编码建议，中台
+材料编码需另行注册；不复用房屋产权证 property_certificate 代表产权交易申请书。
+{
+"request_id": "pt-pre-entry-001",
+"extraction_type": "产权转让-预披露",
+"files": [{
+"file_url": "https://example.invalid/files/application.docx",
+"file_name": "产权转让信息预披露申请书.docx",
+"file_type": "property_transfer_pre_application"
+}],
+"timeout": 1000
+}
+同步等待内完成则保留现有 ExtractionData，返回 results、统计和来源；未完成则 data.status=pending 并
+返回 task_id。后续 GET /api/v1/task/{task_id}?type=extraction&include_details=false 只读生命周期，
+include_details=true 获得结果。生命周期 completed 后 result.status 可能仍为 pending，表示所有字段待
+确认，不能继续等待其自行完成。错业务、错阶段或核心材料无法识别时按第 10 章返回错误，同步与查询保
+持相同 error 结构。
+16.3 机动车接口表
+编号 方法与路径 输入或视图
+V01
+POST
+/​ api/​ v1/​ vehicle/​ extraction/​ tas
+ks
+创建录入任务
+
+PAGE 24
+24
+编号 方法与路径 输入或视图
+V02
+POST
+/​ api/​ v1/​ vehicle/​ audit/​ tasks
+创建或重新触发助审
+V03
+GET
+/​ api/​ v1/​ vehicle/​ tasks/​ {task_​
+id}
+生命周期和进度
+V04
+GET
+/​ api/​ v1/​ vehicle/​ tasks/​ {task_​
+id}/​ materials
+附件匹配及归并
+V05
+GET
+/​ api/​ v1/​ vehicle/​ tasks/​ {task_​
+id}/​ result
+固定运行版本的分页结果
+V06
+POST
+/​ api/​ v1/​ vehicle/​ tasks/​ {task_​
+id}/​ split
+用户触发拆页子任务
+V07
+POST
+/​ api/​ v1/​ task/​ {task_​ id}/​ canc
+el?type=...
+复用取消 新增三种 TaskType
+新增 TaskType 为 vehicle_extraction、vehicle_audit、vehicle_split。车辆查询路由是同一 TaskRepository
+的视图，通用 task 接口也支持这些 type。创建成功沿用 HTTP200 和 code200，返回 TaskAccepted；不引
+入与旧接口冲突的新外壳。
+16.4 创建录入与助审
+字段 类型 要求
+request_​ id string 新机动车任务必填 最大 128 字符
+project_​ id string 必填 并验证调用方权限
+business_​ type string 必填 固定机动车-有纸
+disposal_​ mode enum 必填 auction 或 dismantling
+rule_​ config_​ id string 或 null 可选 不传选当前发布快照
+files array<VehicleFileInput> 必填 非空 覆盖本轮有效材料
+trigger_​ type enum 助审必填 node_​ 1 或 node_​ 2
+
+PAGE 25
+25
+字段 类型 要求
+extraction_​ task_​ id string 或 null 助审可选 同项目同模式的录入任务
+previous_​ task_​ id string 或 null 重触发可选 链接上一轮审核
+common_​ confirmed_
+​ fields
+array 助审必填 可以为空数组
+vehicles array
+助审必填 非空 每实体含 entity_​ id 和
+confirmed_​ fields
+VehicleFileInput 包含 file_id、file_url、file_name、file_type、uploader_role 以及可选 entity_refs、
+file_content_hash 和 file_size。file_id 在项目材料版本中唯一，uploader_role 取 operator/agency；服务
+端通过可信业务元数据校验来源角色，不能仅凭任意声明获得高优先级。输入文件引用的类型、长度、总文件
+数与大小受发布的接口配置约束。
+ConfirmedField 沿用 field_name、field_value、field_type；机动车新增稳定 field_id 以便对照规则，
+field_type 兼容原模型。entity_id 与录入结果一致；纯人工录入场景由业务系统分配项目内稳定实体 ID 并传
+完整车辆确认数据，不强制依赖历史智能录入任务。
+{
+"request_id": "vehicle-entry-001",
+"project_id": "project-example",
+"business_type": "机动车-有纸",
+"disposal_mode": "auction",
+"files": [
+{"file_id": "f01", "file_url": "https://example.invalid/files/list.pdf", "file_name": "车辆处置明细
+表.pdf", "file_type": "vehicle_disposal_list", "uploader_role": "operator"},
+{"file_id": "f02", "file_url": "https://example.invalid/files/license.pdf", "file_name": "行驶证合
+并.pdf", "file_type": "vehicle_driving_license", "uploader_role": "operator"}
+]
+}
+示例只说明结构，正式执行仍按规则检查全量材料。VehicleFileInput 采用拟新增的内部材料编码，
+vehicle_driving_license 与 vehicle_registration_certificate 分别表示行驶证和登记证。旧
+vehicle_certificate 需重新识别细类，不能等价为两类证件齐备。
+{
+"code": 200,
+"message": "success",
+"trace_id": "trace-example",
+"data": {
+"request_id": "vehicle-entry-001",
+"task_id": "task-entry-001",
+"task_type": "vehicle_extraction",
+"status": "pending",
+"run_id": "run-entry-001",
+"created_at": "2026-11-04T10:00:00+08:00",
+"status_url": "/api/v1/vehicle/tasks/task-entry-001",
+"result_url": "/api/v1/vehicle/tasks/task-entry-001/result"
+}
+}
+
+PAGE 26
+26
+时间使用带时区 ISO8601，可统一存 UTC；示例按北京时间展示。助审在相同结构上增加 trigger_type、
+common_confirmed_fields 与 vehicles；重新触发须使用新 request_id，可带 previous_task_id，不覆盖原
+结果。
+16.5 状态 附件匹配与分页结果
+V03 返回 task_id、task_type、run_id、status、stage、progress、status_message、total_count、
+completed_count、error_message、error 及创建/更新时间。stage 取第 9 章阶段值，并补 auditing 与
+splitting，所有接口使用同一注册表；progress 表示处理进度，不代表通过比例。
+V04 返回 ready、items、missing_materials、unexpected_materials、ambiguous_materials 和
+merge_decisions。items 含 file_id、声明及识别类型、match_status、适用条件、识别依据和
+evidence_refs；match_status 沿用 matched/missing/unexpected/ambiguous，缺失材料放在
+missing_materials 且无伪造 file_id。ready=false 只表示尚未完成匹配，ready=true 表示匹配阶段完成，不
+等价于材料齐全。
+V05 参数为 run_id、cursor、page_size。run_id 首轮可不传，服务端固定返回的运行版本；后续必须与游标
+一致。page_size 建议默认 20、范围 1 至 100，正式上限结合平台 10M 字节限制与压测发布。游标绑定
+task_id、run_id、过滤条件和实体顺序并签名，过期或版本不符返回 409 STALE_TASK_VERSION。未知任
+务或跨项目不可见任务统一 404 TASK_NOT_FOUND。
+结果外壳 data 包含第 3.3 节结构并新增 next_cursor、has_more 及 evidence_map。evidence_map 按
+evidence_id 索引本页实体及公共字段所引用的证据，包含 file_id、source_file_name、page_idx、
+page_number、bbox、coordinate_space、page_width、page_height、source_content、
+trace_supported、preview_url 及不可溯源原因。所有 evidence_refs 必须在本页 evidence_map 中可解
+析，或给出受控证据查询引用；预览 URL 经调用方权限授权后生成。只切分 vehicles 数组；
+common_fields、全任务统计及汇总属于同一固定快照，不按当前页重新计算，前端不得将多页汇总相加。
+每页车辆字段 sources 引用文件预览，不返回图片 Base64；大范围证据与明细可另读受控对象引用。
+pending/processing 读取结果返回 409 RESULT_NOT_READY 并包含 status；failed/cancelled/timeout
+返回 409 TASK_NOT_COMPLETED 及原 error。completed 允许返回 result_status=partial，以及审核
+failed/pending 结论。结果对象发布后不可变，run_id 兼作该运行结果版本。
+16.6 拆页与取消
+{
+"request_id": "vehicle-split-001",
+"parent_run_id": "run-entry-001",
+"file_ids": ["f02"],
+"entity_ids": ["vehicle-001"]
+}
+
+PAGE 27
+27
+V06 只允许引用已完成的 vehicle_extraction 父任务，parent_run_id 和 file_ids 必填，file_ids 非空；
+entity_ids 可选，仅包含父结果中的实体。缺省不表示立即自动拆页，只有显式调用 V06 才触发。返回
+TaskAccepted，其中 task_type 为 vehicle_split，并带 parent_task_id 和 parent_run_id。
+子结果包括 split_results、unresolved_pages 与 summary。每个 split_results 项包含 artifact_id、
+entity_id、plate_number、original_file_id、original_pages、file_name、download_url 和 status；本期
+按页拆分，original_pages 每项仅一个原页号。summary.total_requested_pages 等于 success_pages 加
+unresolved_pages_count 加 failed_pages，不得遗漏输入页。选择实体范围外的页记录 skipped_pages 并
+从 requested_pages 扣除，所有源页仍有映射清单。
+父任务结果保持不可变，前端按 entity_id 关联子任务拆分结果。第 3.3 节父结果中的 split_results 初始为
+空，不随子任务更新；重新录入后拆页须引用新父任务及 run_id。取消子任务不取消父任务。
+V07 沿用通用取消外壳，type 为对应新 TaskType。待执行任务可立即取消；执行中任务先持久化取消请求并
+返回当前 status 和可选 cancel_requested=true，Worker 确认后查询得到 cancelled。已完成任务返回 409
+TASK_ALREADY_TERMINAL，不重置结果；重发取消请求应幂等返回同一取消状态。
+16.7 平台和前端联调清单
+平台侧新增三个 TaskType、车辆路由、材料编码、错误映射、响应大小监控及鉴权主体透传；规则/预览等未
+被当前平台路由覆盖的入口需独立权限配置。不得将 x-gw-appid 或 x-gw-org 直接当成用户授权凭证。
+前端按公共信息与车辆列表展示录入建议，按来源优先级显示差异；所有未识别车辆与页保留人工确认入口。
+助审显示四态与缺失理由、规则依据及原页截图，区分节点和历史版本；拆页提供显式勾选动作并展示未归属
+页；确认字段改变后提示旧审核结果已过期，由业务系统触发新审核。
+17 需求到设计和验收的追踪
+需求标识及原章节 需求主题 详细设计 验证
+VE01 一.3.1.1.1 附件匹配 缺失 类型错误 5 及 7.1 16.5 T06 T09
+VE02 一.3.1.2.1 原生 PDF 文本 表格 坐标 3.4 5.1 T23
+VE03 一.3.1.2.2 Word 段落 表格及位置 3.4 6.2 T23
+VE04 一.3.1.2.3 规则匹配 来源优先级及提示 4 及 7.3 T06 T10
+VE05 一.3.1.2.4 语义提取 4.3 7.3 T06
+VE06 一.3.1.2.5 车辆数量 号牌跨文件统计 7.2 T07 T08 T09
+VE07 一.3.1.3.1 一份公共信息 多条车辆 3.3 7.3 T06
+VE08 一.3.1.3.2 用户勾选 按页拆分并命名 7.4 16.6 T11 T12
+VE09 一.3.1.4.1 多来源一致性 片段和截图 7.3 8.5 T06 T23
+VE10 一.3.1.5 提示词分组 样例 约束与调优 4.3 13 标注样本回归
+
+PAGE 28
+28
+需求标识及原章节 需求主题 详细设计 验证
+VE11 一.3.1.6 创建 状态 匹配 结果接口 16.3 至 16.5 T18 T19
+VA01 一.3.2.1.1
+经办机构取并集 同类机构优
+先
+8.1 T10
+VA02 一.3.2.1.2 号牌全附件比对 7.2 8.3 T07 T08 T09
+VA03 一.3.2.2.1 异名同义字段 语义比较 8.3 初登日期样本
+VA04 一.3.2.3.1 至 3.2
+数据交叉 内容审核
+AND/​ OR
+8.3 8.4 T13
+VA05 一.4.3.4.3 图像资产类型与号牌 8.3 T16
+VA06 一.4.3.4.4 关联字段数值约束 8.3 T15
+VA07 一.4.3.4.5 至 4.6 四态 例外 说明 8.4 8.5 T13 T14
+VA08 一.4.3.4.7 原文截图及规则溯源 3.4 8.5 T23
+VA09 一.4.3.5 至 3.6 提示词 重触发 状态 结果 4.3 9 16 T17 T18 T19
+PT01 一.4.4.1 产权预披露解析 校验 提取 5 6 16.2 T01 T02 T03
+PT02 一.4.4.2 产权正式披露解析 校验 提取 5 6 16.2 T01 T02 T03
+CI01 一.4.5.1 增资预披露解析 校验 提取 5 6 16.2 T01 T02 T03
+CI02 一.4.5.2 增资正式披露解析 校验 提取 5 6 16.2 T01 T02 T03
+PC01 一.4.4.1.4
+四场景共用接口 标准值和来
+源
+6.2 16.2 T01 T19
+WF01 一.2.1 至 2.2 拍卖解体两助审节点 8.2 16.4 T17
+WF02 一.2.3 披露辅助录入后人工审批 1 及 6 概要 1.3 业务流程联调
+NF01 一.5.1 至 5.4 架构 可扩展 规范 易用 2 4.3 16.7 评审及兼容检查
+NF02 一.5.5 至 5.6 180 天审计 监控告警 11.3 审计保留/​ 权限检查
+NF03 一.6 30 并发 3 秒 资源 模型指标 11.1 T25
+NF04 一.7 至 8 兼容性 99.99% 零单点 11.2 12 T20 T24 T25
+NF05 一.9
+身份 网络 数据 加密 审计 注
+入
+11.3 11.4 T22 安全测试与演练
+完整字段与规则级用例应在正式字段表和审核要点发布后细化为“规则 ID—样本 ID—预期值—证据页”的验
+收数据，不以本表的功能级覆盖替代业务正确性验收。

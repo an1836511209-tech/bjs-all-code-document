@@ -1,0 +1,950 @@
+{% extends "base.html" %}
+
+{% block title %}{{ config.name }} - 规则配置管理系统{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- 配置基本信息 -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">
+                    <i class="bi bi-gear-fill"></i> {{ config.name }}
+                </h4>
+                <div>
+                    {% if config.enabled %}
+                    <span class="badge bg-success">启用</span>
+                    {% else %}
+                    <span class="badge bg-light text-dark">禁用</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>业务类型：</strong>
+                            <span class="badge bg-primary">{{ config.business_type }}</span>
+                        </p>
+                        <p><strong>配置版本：</strong> {{ config.version }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>创建时间：</strong> {{ config.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                        <p><strong>更新时间：</strong> {{ config.updated_at.strftime('%Y-%m-%d %H:%M:%S') if config.updated_at else '-' }}</p>
+                    </div>
+                </div>
+                {% if config.description %}
+                <p><strong>配置描述：</strong> {{ config.description }}</p>
+                {% endif %}
+                
+                <div class="mt-3">
+                    <a href="/web/rule-configs" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> 返回列表
+                    </a>
+                    <form method="post" action="/web/rule-configs/{{ config.id }}/delete" 
+                          onsubmit="return confirm('确定要删除此配置吗？删除后无法恢复！');" 
+                          style="display: inline;">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> 删除配置
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- 提取规则 -->
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="bi bi-file-earmark-text"></i> 提取规则 ({{ config.extraction_rules|length }})
+                </h5>
+                <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#addExtractionRuleModal">
+                    <i class="bi bi-plus"></i> 添加提取规则
+                </button>
+            </div>
+            <div class="card-body">
+                {% if config.extraction_rules %}
+                <!-- 搜索框 -->
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="extractionRuleSearch" 
+                           placeholder="🔍 搜索提取规则（字段名称、参考材料、提取逻辑等）">
+                </div>
+                <div class="accordion" id="extractionRulesAccordion">
+                    {% for rule in config.extraction_rules %}
+                    <div class="accordion-item" data-rule-data="{{ rule.model_dump_json() | escape }}">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" 
+                                    type="button" 
+                                    data-bs-toggle="collapse" 
+                                    data-bs-target="#extractionRule{{ loop.index }}">
+                                <strong>{{ rule.field_name }}</strong>
+                                <span class="badge bg-secondary ms-2">{{ rule.field_type }}</span>
+                                {% if not rule.enabled %}
+                                <span class="badge bg-warning ms-2">已禁用</span>
+                                {% endif %}
+                            </button>
+                        </h2>
+                        <div id="extractionRule{{ loop.index }}" 
+                             class="accordion-collapse collapse {% if loop.first %}show{% endif %}" 
+                             data-bs-parent="#extractionRulesAccordion">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>字段类型：</strong> {{ rule.field_type }}</p>
+                                        <p><strong>参考材料：</strong></p>
+                                        <ul>
+                                            {% for material in rule.reference_materials %}
+                                            <li>{{ material }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        {% if rule.choices %}
+                                        <p><strong>选项列表：</strong></p>
+                                        <ul>
+                                            {% for choice in rule.choices %}
+                                            <li>{{ choice }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                        {% endif %}
+                                        
+                                        {% if rule.api_config %}
+                                        <p><strong>接口配置：</strong></p>
+                                        <ul>
+                                            <li><strong>URL：</strong> {{ rule.api_config.url }}</li>
+                                            <li><strong>方法：</strong> {{ rule.api_config.method }}</li>
+                                            <li><strong>超时：</strong> {{ rule.api_config.timeout }}秒</li>
+                                            {% if rule.api_config.description %}
+                                            <li><strong>说明：</strong> {{ rule.api_config.description }}</li>
+                                            {% endif %}
+                                        </ul>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <p><strong>提取逻辑：</strong></p>
+                                <div class="alert alert-light">{{ rule.extraction_logic }}</div>
+                                
+                                {% if rule.notes %}
+                                <p><strong>备注：</strong> {{ rule.notes }}</p>
+                                {% endif %}
+                                
+                                <div class="mt-3">
+                                    <button type="button" class="btn btn-sm btn-primary" 
+                                            onclick="editExtractionRule('{{ config.id }}', '{{ rule.id }}', this)">
+                                        <i class="bi bi-pencil"></i> 编辑
+                                    </button>
+                                    <form method="post" 
+                                          action="/web/rule-configs/{{ config.id }}/extraction-rules/{{ rule.id }}/delete" 
+                                          onsubmit="return confirm('确定要删除此提取规则吗？');" 
+                                          style="display: inline;">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="bi bi-trash"></i> 删除
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="alert alert-info" role="alert">
+                    <i class="bi bi-info-circle"></i> 暂无提取规则，点击上方按钮添加第一个提取规则
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- 审核规则 -->
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="bi bi-check-circle"></i> 审核规则 ({{ config.audit_rules|length }})
+                </h5>
+                <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#addAuditRuleModal">
+                    <i class="bi bi-plus"></i> 添加审核规则
+                </button>
+            </div>
+            <div class="card-body">
+                {% if config.audit_rules %}
+                <!-- 搜索框 -->
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="auditRuleSearch" 
+                           placeholder="🔍 搜索审核规则（字段名称、审核材料、审核内容等）">
+                </div>
+                <div class="accordion" id="auditRulesAccordion">
+                    {% for rule in config.audit_rules %}
+                    <div class="accordion-item" data-rule-data="{{ rule.model_dump_json() | escape }}">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" 
+                                    type="button" 
+                                    data-bs-toggle="collapse" 
+                                    data-bs-target="#auditRule{{ loop.index }}">
+                                <strong>{{ rule.field_name }}</strong>
+                                {% if rule.audit_type == "字段审核" %}
+                                <span class="badge bg-info ms-2">{{ rule.audit_type }}</span>
+                                {% else %}
+                                <span class="badge bg-warning ms-2">{{ rule.audit_type }}</span>
+                                {% endif %}
+                                {% if rule.use_simple_comparison %}
+                                <span class="badge bg-success ms-2">简单对比</span>
+                                {% endif %}
+                                {% if rule.auto_pass_when_missing %}
+                                <span class="badge bg-warning ms-2">材料缺失自动通过</span>
+                                {% endif %}
+                                {% if not rule.enabled %}
+                                <span class="badge bg-danger ms-2">已禁用</span>
+                                {% endif %}
+                            </button>
+                        </h2>
+                        <div id="auditRule{{ loop.index }}" 
+                             class="accordion-collapse collapse {% if loop.first %}show{% endif %}" 
+                             data-bs-parent="#auditRulesAccordion">
+                            <div class="accordion-body">
+                                <p><strong>审核类型：</strong> 
+                                    {% if rule.audit_type == "字段审核" %}
+                                    <span class="badge bg-info">{{ rule.audit_type }}</span>
+                                    {% else %}
+                                    <span class="badge bg-warning">{{ rule.audit_type }}</span>
+                                    {% endif %}
+                                </p>
+                                
+                                {% if rule.audit_type == "字段审核" %}
+                                <p><strong>映射类型：</strong> 
+                                    {% if rule.mapping_type == "auto" %}
+                                    <span class="badge bg-success">自动映射</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">自定义映射</span>
+                                    {% endif %}
+                                </p>
+                                
+                                {% if rule.mapping_type == "auto" %}
+                                <p><strong>源字段名称：</strong> {{ rule.source_field_name }}</p>
+                                <p><strong>包含用户表单数据：</strong> {% if rule.include_user_input %}是{% else %}否{% endif %}</p>
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle"></i> 
+                                    此审核规则使用自动映射，将自动从提取规则"{{ rule.source_field_name }}"中获取参考材料和字段映射{% if rule.include_user_input %}，并包含用户表单提交的数据{% endif %}。
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                                
+                                {% if rule.audit_data_sources %}
+                                <p><strong>审核数据源：</strong></p>
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>材料名称</th>
+                                            <th>字段名称</th>
+                                            <th>说明</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for ds in rule.audit_data_sources %}
+                                        <tr>
+                                            <td>{{ ds.material_name }}</td>
+                                            <td>{{ ds.field_name if ds.field_name else '全文' }}</td>
+                                            <td>{{ ds.description if ds.description else '-' }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% endif %}
+                                
+                                <p><strong>对比方式：</strong>
+                                    {% if rule.use_simple_comparison %}
+                                    <span class="badge bg-success">简单对比模式</span>
+                                    <small class="text-muted">（直接字符串对比，不调用LLM）</small>
+                                    {% else %}
+                                    <span class="badge bg-info">LLM智能审核</span>
+                                    {% endif %}
+                                </p>
+                                
+                                {% if rule.auto_pass_when_missing %}
+                                <p><strong>材料缺失处理：</strong>
+                                    <span class="badge bg-warning">自动通过</span>
+                                    <small class="text-muted">（适用于无纸项目，参考材料不存在时自动判定为通过）</small>
+                                </p>
+                                {% endif %}
+                                
+                                <p><strong>审核内容：</strong></p>
+                                <div class="alert alert-light">{{ rule.audit_content }}</div>
+                                
+                                <p><strong>自动处理规则：</strong></p>
+                                <div class="alert alert-light">{{ rule.auto_process_rules }}</div>
+                                
+                                {% if rule.notes %}
+                                <p><strong>备注：</strong> {{ rule.notes }}</p>
+                                {% endif %}
+                                
+                                <div class="mt-3">
+                                    <button type="button" class="btn btn-sm btn-primary" 
+                                            onclick="editAuditRule('{{ config.id }}', '{{ rule.id }}', this)">
+                                        <i class="bi bi-pencil"></i> 编辑
+                                    </button>
+                                    <form method="post" 
+                                          action="/web/rule-configs/{{ config.id }}/audit-rules/{{ rule.id }}/delete" 
+                                          onsubmit="return confirm('确定要删除此审核规则吗？');" 
+                                          style="display: inline;">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="bi bi-trash"></i> 删除
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="alert alert-info" role="alert">
+                    <i class="bi bi-info-circle"></i> 暂无审核规则，点击上方按钮添加第一个审核规则
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 添加提取规则模态框 -->
+<div class="modal fade" id="addExtractionRuleModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title">添加提取规则</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="/web/rule-configs/{{ config.id }}/extraction-rules/create">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">字段名称 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="field_name" required maxlength="100"
+                               placeholder="例如：坐落位置">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">字段类型 <span class="text-danger">*</span></label>
+                        <select class="form-select" name="field_type" required id="fieldTypeSelect">
+                            {% for ft in field_types %}
+                            <option value="{{ ft }}">{{ ft }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">参考材料 <span class="text-danger">*</span></label>
+                        <select class="form-select" name="reference_materials" multiple required size="8">
+                            {% for file_type, label in file_types.items() %}
+                            <option value="{{ label }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        <small class="form-text text-muted">按住 Ctrl (Windows) 或 Command (Mac) 可多选</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">提取逻辑 <span class="text-danger">*</span></label>
+                        <textarea class="form-control" name="extraction_logic" required rows="3" maxlength="20000"
+                                  placeholder="用自然语言描述如何从参考材料中提取此字段..."></textarea>
+                    </div>
+
+                    <div class="mb-3" id="choicesGroup" style="display: none;">
+                        <label class="form-label">选项列表（单选/多选时必填）</label>
+                        <input type="text" class="form-control" name="choices"
+                               placeholder="多个选项用逗号分隔，例如：选项1,选项2,选项3">
+                        <small class="form-text text-muted">多个选项用逗号分隔</small>
+                    </div>
+
+                    <hr>
+                    <h6>接口配置（可选）</h6>
+
+                    <div class="mb-3">
+                        <label class="form-label">接口URL</label>
+                        <input type="url" class="form-control" name="api_url"
+                               placeholder="http://api.example.com/dict">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">请求方法</label>
+                            <select class="form-select" name="api_method">
+                                {% for method in http_methods %}
+                                <option value="{{ method }}">{{ method }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">超时时间（秒）</label>
+                            <input type="number" class="form-control" name="api_timeout" value="30" min="1" max="300">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">备注</label>
+                        <textarea class="form-control" name="notes" rows="2" maxlength="500"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">添加</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 添加审核规则模态框 -->
+<div class="modal fade" id="addAuditRuleModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">添加审核规则</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="/web/rule-configs/{{ config.id }}/audit-rules/create">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">审核类型 <span class="text-danger">*</span></label>
+                        <select class="form-select" name="audit_type" required>
+                            {% for at in audit_types %}
+                            <option value="{{ at }}">{{ at }}</option>
+                            {% endfor %}
+                        </select>
+                        <small class="form-text text-muted">字段审核：针对字段值进行审核；文件审核：针对文件/附件进行审核</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">审核字段/文件名称 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="field_name" required maxlength="100"
+                               placeholder="例如：坐落位置 或 《信息披露申请书》">
+                    </div>
+
+                    <!-- 审核类型：字段审核时显示映射类型选项 -->
+                    <div id="fieldAuditOptions" style="display: none;">
+                        <div class="mb-3">
+                            <label class="form-label">数据映射类型 <span class="text-danger">*</span></label>
+                            <select class="form-select" name="mapping_type" id="auditMappingTypeSelect">
+                                <option value="auto" selected>自动映射（从提取规则自动获取）</option>
+                                <option value="manual">自定义映射（手动配置）</option>
+                            </select>
+                            <small class="form-text text-muted">自动映射：复用提取规则的参考材料；自定义映射：灵活配置审核材料和字段</small>
+                        </div>
+
+                        <!-- 自动映射配置区 -->
+                        <div id="autoMappingGroup">
+                            <div class="mb-3">
+                                <label class="form-label">选择源字段（提取规则） <span class="text-danger">*</span></label>
+                                <select class="form-select" name="source_field_name" id="sourceFieldSelect">
+                                    <option value="">-- 请选择提取规则字段 --</option>
+                                    {% for rule in config.extraction_rules %}
+                                    <option value="{{ rule.field_name }}">{{ rule.field_name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <small class="form-text text-muted">将自动从该提取规则获取参考材料和字段映射</small>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input class="form-check-input" type="checkbox" name="include_user_input" id="includeUserInputCheck" checked>
+                                <label class="form-check-label" for="includeUserInputCheck">
+                                    包含用户表单数据（系统会根据字段名自动匹配用户填写的数据）
+                                </label>
+                            </div>
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle"></i> 
+                                <strong>自动映射说明：</strong><br>
+                                1. 系统将自动从选定的提取规则中获取所有参考材料的提取结果<br>
+                                2. 如果勾选"包含用户表单数据"，同时包含用户在表单系统中手工填写的数据<br>
+                                3. 您只需填写审核内容和审核处理方式即可
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 自定义映射配置区（字段审核+自定义映射 或 文件审核时使用） -->
+                    <div id="manualMappingGroup" style="display: none;">
+                        <div class="mb-3">
+                            <label class="form-label">审核数据源配置 <span class="text-danger">*</span></label>
+                            <div id="dataSourcesList" class="border rounded p-2 mb-2" style="max-height: 300px; overflow-y: auto;">
+                                <!-- 数据源项将动态添加到这里 -->
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="addDataSource()">
+                                <i class="bi bi-plus"></i> 添加数据源
+                            </button>
+                            <input type="hidden" name="audit_data_sources_json" id="auditDataSourcesJson">
+                            <small class="form-text text-muted d-block mt-2">
+                                数据源配置说明：<br>
+                                - 材料名称：如《信息披露申请书》<br>
+                                - 字段名称：留空或填"全文"表示获取整个材料内容，否则填具体字段名<br>
+                                - 说明：选填，用于说明这个数据源的用途
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">审核内容 <span class="text-danger">*</span></label>
+                        <textarea class="form-control" name="audit_content" required rows="3" maxlength="20000"
+                                  placeholder="描述具体的审核内容..."></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="use_simple_comparison" id="useSimpleComparisonCheck">
+                            <label class="form-check-label" for="useSimpleComparisonCheck">
+                                <strong>启用简单对比模式</strong>
+                                <small class="text-muted d-block">适用于简单的字段一致性校验，直接进行字符串对比，不调用LLM审核（提升速度，降低成本）</small>
+                            </label>
+                        </div>
+                        <div class="alert alert-info mt-2" id="simpleComparisonInfo" style="display: none;">
+                            <i class="bi bi-info-circle"></i> 
+                            <strong>简单对比模式说明：</strong><br>
+                            启用后，系统将直接比对用户输入值与审核数据源中的字段值是否一致，无需调用大语言模型。<br>
+                            适用于70%以上的简单字段一致性校验场景，如：校验系统字段值是否与审核材料字段内容一致。
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="auto_pass_when_missing" id="autoPassWhenMissingCheck">
+                            <label class="form-check-label" for="autoPassWhenMissingCheck">
+                                <strong>材料缺失时自动通过</strong>
+                                <small class="text-muted d-block">适用于无纸项目：当参考材料（如信息披露申请书）不存在或内容为空时，该规则自动判定为通过</small>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">自动处理规则 <span class="text-danger">*</span></label>
+                        <textarea class="form-control" name="auto_process_rules" required rows="4" maxlength="20000"
+                                  placeholder="描述审核的自动处理规则，例如：&#10;若无法成功提取对应字段中的任一数值或无法做出判断，则审核结果为待确认。若可正常提取对应全部字段值，且符合上述审核要求，则审核通过。若可正常提取对应全部字段值，但不符合上述审核要求，则审核不通过。"></textarea>
+                        <small class="form-text text-muted">描述不同情况下的处理方式</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">备注</label>
+                        <textarea class="form-control" name="notes" rows="2" maxlength="500"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-success">添加</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // 根据字段类型显示/隐藏选项列表输入框
+    document.getElementById('fieldTypeSelect').addEventListener('change', function() {
+        const choicesGroup = document.getElementById('choicesGroup');
+        const value = this.value;
+        if (value === 'single_choice' || value === 'multiple_choice') {
+            choicesGroup.style.display = 'block';
+        } else {
+            choicesGroup.style.display = 'none';
+        }
+    });
+
+    // 审核规则：根据审核类型显示/隐藏字段审核选项
+    const auditTypeSelect = document.querySelector('select[name="audit_type"]');
+    const fieldAuditOptions = document.getElementById('fieldAuditOptions');
+    const mappingTypeSelect = document.getElementById('auditMappingTypeSelect');
+    const autoMappingGroup = document.getElementById('autoMappingGroup');
+    const manualMappingGroup = document.getElementById('manualMappingGroup');
+    const sourceFieldSelect = document.getElementById('sourceFieldSelect');
+
+    if (auditTypeSelect) {
+        auditTypeSelect.addEventListener('change', function() {
+            const auditType = this.value;
+            if (auditType === '字段审核') {
+                fieldAuditOptions.style.display = 'block';
+                // 触发映射类型的change事件
+                if (mappingTypeSelect) {
+                    mappingTypeSelect.dispatchEvent(new Event('change'));
+                }
+            } else {
+                // 文件审核：隐藏字段审核选项，显示自定义映射区
+                fieldAuditOptions.style.display = 'none';
+                manualMappingGroup.style.display = 'block';
+            }
+        });
+        
+        // 初始化显示状态
+        auditTypeSelect.dispatchEvent(new Event('change'));
+    }
+
+    // 审核规则：根据映射类型显示/隐藏表单区域
+    if (mappingTypeSelect) {
+        mappingTypeSelect.addEventListener('change', function() {
+            const mappingType = this.value;
+            if (mappingType === 'auto') {
+                // 显示自动映射区，隐藏自定义映射区
+                autoMappingGroup.style.display = 'block';
+                manualMappingGroup.style.display = 'none';
+                // 设置必填状态
+                sourceFieldSelect.setAttribute('required', 'required');
+            } else {
+                // 显示自定义映射区，隐藏自动映射区
+                autoMappingGroup.style.display = 'none';
+                manualMappingGroup.style.display = 'block';
+                // 设置必填状态
+                sourceFieldSelect.removeAttribute('required');
+            }
+        });
+    }
+
+    // 简单对比模式：切换提示信息显示
+    const useSimpleComparisonCheck = document.getElementById('useSimpleComparisonCheck');
+    const simpleComparisonInfo = document.getElementById('simpleComparisonInfo');
+    
+    if (useSimpleComparisonCheck && simpleComparisonInfo) {
+        useSimpleComparisonCheck.addEventListener('change', function() {
+            if (this.checked) {
+                simpleComparisonInfo.style.display = 'block';
+            } else {
+                simpleComparisonInfo.style.display = 'none';
+            }
+        });
+    }
+
+    // 数据源管理
+    let dataSourcesArray = [];
+    
+    function addDataSource(materialName = '', fieldName = '', description = '') {
+        const index = dataSourcesArray.length;
+        const dataSource = {
+            material_name: materialName,
+            field_name: fieldName,
+            description: description
+        };
+        dataSourcesArray.push(dataSource);
+        
+        const dataSourcesList = document.getElementById('dataSourcesList');
+        const item = document.createElement('div');
+        item.className = 'border rounded p-2 mb-2 bg-light';
+        item.dataset.index = index;
+        item.innerHTML = `
+            <div class="row g-2">
+                <div class="col-md-4">
+                    <select class="form-control form-control-sm" onchange="updateDataSource(${index}, 'material_name', this.value)">
+                        <option value="">-- 选择材料 --</option>
+                        {% for file_type, label in file_types.items() %}
+                        <option value="{{ label }}" ${materialName === '{{ label }}' ? 'selected' : ''}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <small class="text-muted">材料名称</small>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control form-control-sm" 
+                           value="${fieldName}" 
+                           onchange="updateDataSource(${index}, 'field_name', this.value)"
+                           placeholder="字段名或'全文'">
+                    <small class="text-muted">字段名称</small>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control form-control-sm" 
+                           value="${description}" 
+                           onchange="updateDataSource(${index}, 'description', this.value)"
+                           placeholder="说明（选填）">
+                    <small class="text-muted">说明</small>
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-sm btn-danger" onclick="removeDataSource(${index})">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        dataSourcesList.appendChild(item);
+        updateDataSourcesJson();
+    }
+    
+    function updateDataSource(index, field, value) {
+        if (dataSourcesArray[index]) {
+            dataSourcesArray[index][field] = value;
+            updateDataSourcesJson();
+        }
+    }
+    
+    function removeDataSource(index) {
+        const item = document.querySelector(`[data-index="${index}"]`);
+        if (item) {
+            item.remove();
+            dataSourcesArray[index] = null;  // 标记为已删除
+            updateDataSourcesJson();
+        }
+    }
+    
+    function updateDataSourcesJson() {
+        // 过滤掉null值（已删除的项）
+        const validDataSources = dataSourcesArray.filter(ds => ds !== null);
+        document.getElementById('auditDataSourcesJson').value = JSON.stringify(validDataSources);
+    }
+    
+    // 表单提交前验证
+    document.querySelector('#addAuditRuleModal form').addEventListener('submit', function(e) {
+        const auditType = document.querySelector('select[name="audit_type"]').value;
+        const mappingType = document.getElementById('auditMappingTypeSelect').value;
+        
+        // 自定义映射或文件审核时，检查是否有数据源
+        if ((auditType === '文件审核') || (auditType === '字段审核' && mappingType === 'manual')) {
+            const validDataSources = dataSourcesArray.filter(ds => ds !== null && ds.material_name);
+            if (validDataSources.length === 0) {
+                e.preventDefault();
+                alert('请至少添加一个审核数据源！');
+                return false;
+            }
+        }
+    });
+
+    // 提取规则搜索功能
+    const extractionSearch = document.getElementById('extractionRuleSearch');
+    if (extractionSearch) {
+        extractionSearch.addEventListener('input', function(e) {
+            const searchText = e.target.value.toLowerCase();
+            const items = document.querySelectorAll('#extractionRulesAccordion .accordion-item');
+            
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchText)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    }
+
+    // 审核规则搜索功能
+    const auditSearch = document.getElementById('auditRuleSearch');
+    if (auditSearch) {
+        auditSearch.addEventListener('input', function(e) {
+            const searchText = e.target.value.toLowerCase();
+            const items = document.querySelectorAll('#auditRulesAccordion .accordion-item');
+            
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchText)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    }
+
+    // 编辑提取规则
+    function editExtractionRule(configId, ruleId, btnElement) {
+        try {
+            // 从最近的accordion-item中获取规则数据
+            const accordionItem = btnElement.closest('.accordion-item');
+            const ruleDataJson = accordionItem.dataset.ruleData;
+            const ruleData = JSON.parse(ruleDataJson);
+            
+            // 修改模态框标题和按钮
+            const modal = document.getElementById('addExtractionRuleModal');
+            const modalTitle = modal.querySelector('.modal-title');
+            const form = modal.querySelector('form');
+            const submitBtn = modal.querySelector('button[type="submit"]');
+            
+            modalTitle.textContent = '编辑提取规则';
+            submitBtn.textContent = '更新';
+            submitBtn.className = 'btn btn-warning';
+            form.action = `/web/rule-configs/${configId}/extraction-rules/${ruleId}/update`;
+            
+            // 填充表单数据
+            const fieldNameEl = form.querySelector('input[name="field_name"]');
+            if (fieldNameEl) fieldNameEl.value = ruleData.field_name || '';
+            
+            const fieldTypeEl = form.querySelector('select[name="field_type"]');
+            if (fieldTypeEl) fieldTypeEl.value = ruleData.field_type || '';
+            
+            // 设置参考材料（多选）
+            const refMaterialsSelect = form.querySelector('select[name="reference_materials"]');
+            if (refMaterialsSelect) {
+                Array.from(refMaterialsSelect.options).forEach(option => {
+                    option.selected = ruleData.reference_materials && ruleData.reference_materials.includes(option.value);
+                });
+            }
+            
+            const extractionLogicEl = form.querySelector('textarea[name="extraction_logic"]');
+            if (extractionLogicEl) extractionLogicEl.value = ruleData.extraction_logic || '';
+            
+            // 选项列表
+            const choicesEl = form.querySelector('textarea[name="choices"]');
+            const choicesGroup = document.getElementById('choicesGroup');
+            if (choicesEl) {
+                if (ruleData.choices && ruleData.choices.length > 0) {
+                    choicesEl.value = ruleData.choices.join('\n');
+                    if (choicesGroup) choicesGroup.style.display = 'block';
+                } else {
+                    choicesEl.value = '';
+                }
+            }
+            
+            // API配置
+            const apiUrlEl = form.querySelector('input[name="api_url"]');
+            const apiMethodEl = form.querySelector('select[name="api_method"]');
+            const apiTimeoutEl = form.querySelector('input[name="api_timeout"]');
+            const apiDescEl = form.querySelector('input[name="api_description"]');
+            
+            if (ruleData.api_config) {
+                if (apiUrlEl) apiUrlEl.value = ruleData.api_config.url || '';
+                if (apiMethodEl) apiMethodEl.value = ruleData.api_config.method || 'GET';
+                if (apiTimeoutEl) apiTimeoutEl.value = ruleData.api_config.timeout || 30;
+                if (apiDescEl) apiDescEl.value = ruleData.api_config.description || '';
+            } else {
+                if (apiUrlEl) apiUrlEl.value = '';
+                if (apiDescEl) apiDescEl.value = '';
+            }
+            
+            const notesEl = form.querySelector('textarea[name="notes"]');
+            if (notesEl) notesEl.value = ruleData.notes || '';
+            
+            // 显示模态框
+            const bsModal = new bootstrap.Modal(modal);
+            bsModal.show();
+            
+            // 当模态框关闭时，重置为添加模式
+            modal.addEventListener('hidden.bs.modal', function() {
+                resetExtractionRuleModal();
+            }, { once: true });
+        } catch (e) {
+            console.error('解析规则数据失败:', e);
+            alert('加载规则数据失败，请刷新页面后重试');
+        }
+    }
+
+    // 重置提取规则模态框为添加模式
+    function resetExtractionRuleModal() {
+        const modal = document.getElementById('addExtractionRuleModal');
+        const modalTitle = modal.querySelector('.modal-title');
+        const form = modal.querySelector('form');
+        const submitBtn = modal.querySelector('button[type="submit"]');
+        
+        modalTitle.textContent = '添加提取规则';
+        submitBtn.textContent = '添加';
+        submitBtn.className = 'btn btn-primary';
+        form.action = `/web/rule-configs/{{ config.id }}/extraction-rules/create`;
+        form.reset();
+        document.getElementById('choicesGroup').style.display = 'none';
+    }
+
+    // 编辑审核规则
+    function editAuditRule(configId, ruleId, btnElement) {
+        try {
+            // 从最近的accordion-item中获取规则数据
+            const accordionItem = btnElement.closest('.accordion-item');
+            const ruleDataJson = accordionItem.dataset.ruleData;
+            const ruleData = JSON.parse(ruleDataJson);
+            
+            // 修改模态框标题和按钮
+            const modal = document.getElementById('addAuditRuleModal');
+            const modalTitle = modal.querySelector('.modal-title');
+            const form = modal.querySelector('form');
+            const submitBtn = modal.querySelector('button[type="submit"]');
+            
+            modalTitle.textContent = '编辑审核规则';
+            submitBtn.textContent = '更新';
+            submitBtn.className = 'btn btn-warning';
+            form.action = `/web/rule-configs/${configId}/audit-rules/${ruleId}/update`;
+            
+            // 填充表单数据
+            const auditTypeEl = form.querySelector('select[name="audit_type"]');
+            if (auditTypeEl) auditTypeEl.value = ruleData.audit_type || '';
+            
+            const fieldNameEl = form.querySelector('input[name="field_name"]');
+            if (fieldNameEl) fieldNameEl.value = ruleData.field_name || '';
+            
+            // 设置映射类型
+            const mappingTypeEl = form.querySelector('select[name="mapping_type"]');
+            if (mappingTypeEl) {
+                mappingTypeEl.value = ruleData.mapping_type || 'auto';
+            }
+            
+            // 设置源字段名称（自动映射时）
+            const sourceFieldEl = form.querySelector('select[name="source_field_name"]');
+            if (sourceFieldEl) sourceFieldEl.value = ruleData.source_field_name || '';
+            
+            // 设置包含用户输入
+            const includeUserInputEl = form.querySelector('input[name="include_user_input"]');
+            if (includeUserInputEl) {
+                includeUserInputEl.checked = ruleData.include_user_input !== false;
+            }
+            
+            // 清空并重新加载数据源
+            dataSourcesArray = [];
+            document.getElementById('dataSourcesList').innerHTML = '';
+            
+            if (ruleData.audit_data_sources && ruleData.audit_data_sources.length > 0) {
+                ruleData.audit_data_sources.forEach(ds => {
+                    addDataSource(ds.material_name || '', ds.field_name || '', ds.description || '');
+                });
+            }
+            
+            const auditContentEl = form.querySelector('textarea[name="audit_content"]');
+            if (auditContentEl) auditContentEl.value = ruleData.audit_content || '';
+            
+            // 简单对比模式
+            const useSimpleComparisonEl = form.querySelector('input[name="use_simple_comparison"]');
+            if (useSimpleComparisonEl) {
+                useSimpleComparisonEl.checked = ruleData.use_simple_comparison || false;
+                // 触发change事件以显示/隐藏提示信息
+                useSimpleComparisonEl.dispatchEvent(new Event('change'));
+            }
+            
+            // 材料缺失时自动通过
+            const autoPassWhenMissingEl = form.querySelector('input[name="auto_pass_when_missing"]');
+            if (autoPassWhenMissingEl) {
+                autoPassWhenMissingEl.checked = ruleData.auto_pass_when_missing || false;
+            }
+            
+            // 自动处理规则
+            const autoProcessRulesEl = form.querySelector('textarea[name="auto_process_rules"]');
+            if (autoProcessRulesEl) autoProcessRulesEl.value = ruleData.auto_process_rules || '';
+            
+            const notesEl = form.querySelector('textarea[name="notes"]');
+            if (notesEl) notesEl.value = ruleData.notes || '';
+            
+            // 触发审核类型的change事件以正确显示/隐藏区域
+            if (auditTypeEl) {
+                auditTypeEl.dispatchEvent(new Event('change'));
+            }
+            
+            // 显示模态框
+            const bsModal = new bootstrap.Modal(modal);
+            bsModal.show();
+            
+            // 当模态框关闭时，重置为添加模式
+            modal.addEventListener('hidden.bs.modal', function() {
+                resetAuditRuleModal();
+            }, { once: true });
+        } catch (e) {
+            console.error('解析规则数据失败:', e);
+            alert('加载规则数据失败，请刷新页面后重试');
+        }
+    }
+
+    // 重置审核规则模态框为添加模式
+    function resetAuditRuleModal() {
+        const modal = document.getElementById('addAuditRuleModal');
+        const modalTitle = modal.querySelector('.modal-title');
+        const form = modal.querySelector('form');
+        const submitBtn = modal.querySelector('button[type="submit"]');
+        
+        modalTitle.textContent = '添加审核规则';
+        submitBtn.textContent = '添加';
+        submitBtn.className = 'btn btn-success';
+        form.action = `/web/rule-configs/{{ config.id }}/audit-rules/create`;
+        form.reset();
+        
+        // 清空数据源
+        dataSourcesArray = [];
+        document.getElementById('dataSourcesList').innerHTML = '';
+        updateDataSourcesJson();
+        
+        // 隐藏简单对比模式提示
+        const simpleComparisonInfo = document.getElementById('simpleComparisonInfo');
+        if (simpleComparisonInfo) simpleComparisonInfo.style.display = 'none';
+    }
+</script>
+{% endblock %}
+

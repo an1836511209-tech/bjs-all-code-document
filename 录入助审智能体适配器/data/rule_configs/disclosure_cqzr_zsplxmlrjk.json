@@ -1,0 +1,1666 @@
+{
+  "id": "disclosure_cqzr_zsplxmlrjk",
+  "name": "产权转让-正式披露辅助录入",
+  "business_type": "产权转让-正式披露",
+  "description": "来源：二期字段对应关系.xlsx、北交互联安融汇达运维系统接口文档 v5.3.26",
+  "extraction_rules": [
+    {
+      "id": "CQZR_ZSPLXMLRJK:XMMC",
+      "field_name": "XMMC",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "XMMC",
+          "label": "项目名称",
+          "platform_type": "C400",
+          "logic": "仅在申请书的【转让标的基本情况】提取【项目名称】。提取内容并录入\n优先定位申请书栏目：封面 / 标的名称。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:BDQYMC",
+      "field_name": "BDQYMC",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "BDQYMC",
+          "label": "标的企业名称",
+          "platform_type": "C200",
+          "logic": "仅在申请书的【转让标的基本情况】提取【标的企业名称】。提取内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 标的企业名称。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:PROVINCE",
+      "field_name": "PROVINCE",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "PROVINCE",
+          "label": "省",
+          "platform_type": "C12",
+          "logic": "仅在申请书的【转让标的基本情况】提取【省】。理解内容并提取省信息并与系统字典值匹配",
+          "dictionary": "province"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:CITY",
+      "field_name": "CITY",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "CITY",
+          "label": "市",
+          "platform_type": "C12",
+          "logic": "仅在申请书的【转让标的基本情况】提取【市】。理解内容并提取市信息并与系统字典值匹配\n中台适用条件：省!='710000' && 省!='810000' && 省!='820000' && 省!='999999' && 省!='999998'时必填。没有证据时返回空。输出对应区划全称，并依据本主体住所，不能用其他主体或监管机构地址。",
+          "dictionary": "city"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:QX",
+      "field_name": "QX",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "QX",
+          "label": "区(县)",
+          "platform_type": "C12",
+          "logic": "仅在申请书的【转让标的基本情况】提取【区(县)】。理解内容并提取区县信息并与系统字典值匹配输出对应区划全称，并依据本主体住所，不能用其他主体或监管机构地址。",
+          "dictionary": "district"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:ZCD",
+      "field_name": "ZCD",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "ZCD",
+          "label": "注册地(住所)",
+          "platform_type": "C400",
+          "logic": "仅在申请书的【转让标的基本情况】提取【注册地(住所)】。理解内容并提取完整地址信息并录入\n优先定位申请书栏目：二、转让标的基本情况 / 标的企业基本情况 / 注册地（住所）。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:FDDBR",
+      "field_name": "FDDBR",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "FDDBR",
+          "label": "法定代表人",
+          "platform_type": "C200",
+          "logic": "仅在申请书的【转让标的基本情况】提取【法定代表人】。提取内容并录入"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:CLRQ",
+      "field_name": "CLRQ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "CLRQ",
+          "label": "成立日期",
+          "platform_type": "DATE",
+          "logic": "仅在申请书的【转让标的基本情况】提取【成立日期】。提取内容并录入日期输出YYYY-MM-DD。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:ZCZB",
+      "field_name": "ZCZB",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "ZCZB",
+          "label": "注册资本(万元)",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让标的基本情况】提取【注册资本(万元)】。提取内容并录入按万元给出数值。仅在原文单位明确时换算。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:SSZB",
+      "field_name": "SSZB",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "SSZB",
+          "label": "实收资本(万元)",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让标的基本情况】提取【实收资本(万元)】。提取内容并录入按万元给出数值。仅在原文单位明确时换算。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:SSHYLX",
+      "field_name": "SSHYLX",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "SSHYLX",
+          "label": "所属行业类型",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让标的基本情况】提取【所属行业类型】。根据匹配到中台“所属行业”反向匹配“所属行业类型”",
+          "dictionary": "industry_group"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:SSHY",
+      "field_name": "SSHY",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "SSHY",
+          "label": "所属行业",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让标的基本情况】提取【所属行业】。理解内容并与系统字典值匹配",
+          "dictionary": "property_industry"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:QYLX",
+      "field_name": "QYLX",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "QYLX",
+          "label": "企业类型",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让标的基本情况】提取【企业类型】。理解内容并与系统字典值匹配",
+          "dictionary": "property_enterprise"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:TYSHXYDM",
+      "field_name": "TYSHXYDM",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "TYSHXYDM",
+          "label": "统一社会信用代码/组织机构代码",
+          "platform_type": "C22",
+          "logic": "仅在申请书的【转让标的基本情况】提取【统一社会信用代码/组织机构代码】。提取内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 标的企业基本情况 / 统一社会信用代码或组织机构代码。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:JYGM",
+      "field_name": "JYGM",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "JYGM",
+          "label": "经营规模",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让标的基本情况】提取【经营规模】。理解内容并与系统字典值匹配",
+          "options": {
+            "A04004": "微型",
+            "A04003": "小型",
+            "A04002": "中型",
+            "A04001": "大型"
+          }
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:JJLX",
+      "field_name": "JJLX",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "JJLX",
+          "label": "经济类型",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让标的基本情况】提取【经济类型】。理解内容并与系统字典值匹配",
+          "dictionary": "property_economy"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:JYFW",
+      "field_name": "JYFW",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "JYFW",
+          "label": "经营范围",
+          "platform_type": "CLOB4000",
+          "logic": "仅在申请书的【转让标的基本情况】提取【经营范围】。从本主体经营范围栏目提取原文。\n优先定位申请书栏目：二、转让标的基本情况 / 标的企业基本情况 / 经营范围。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:FQYXSR",
+      "field_name": "FQYXSR",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "FQYXSR",
+          "label": "其他股东是否放弃优先受让权",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【转让标的基本情况】提取【其他股东是否放弃优先受让权】。理解内容并与系统字典值匹配\n优先定位申请书栏目：二、转让标的基本情况 / 标的企业基本情况 / 其他股东是否放弃优先购买权。",
+          "options": {
+            "0": "否",
+            "1": "是"
+          }
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:GLCCYSR",
+      "field_name": "GLCCYSR",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "GLCCYSR",
+          "label": "管理层是否参与受让",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【转让标的基本情况】提取【管理层是否参与受让】。理解内容并与系统字典值匹配\n优先定位申请书栏目：二、转让标的基本情况 / 标的企业基本情况 / 企业管理层是否参与受让。",
+          "options": {
+            "0": "否",
+            "1": "是"
+          }
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:SJZGAZ",
+      "field_name": "SJZGAZ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "SJZGAZ",
+          "label": "是否涉及职工安置",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【转让标的基本情况】提取【是否涉及职工安置】。理解内容并与系统字典值匹配\n优先定位申请书栏目：二、转让标的基本情况 / 标的企业基本情况 / 是否涉及职工安置。",
+          "options": {
+            "0": "否",
+            "1": "是"
+          }
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:ZGRS",
+      "field_name": "ZGRS",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "ZGRS",
+          "label": "职工人数",
+          "platform_type": "N10",
+          "logic": "仅在申请书的【转让标的基本情况】提取【职工人数】。提取内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 标的企业基本情况 / 职工人数。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:GYHBTD",
+      "field_name": "GYHBTD",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "GYHBTD",
+          "label": "是否含有国有划拨土地",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【转让标的基本情况】提取【是否含有国有划拨土地】。理解内容并与系统字典值匹配\n优先定位申请书栏目：二、转让标的基本情况 / 标的企业基本情况 / 是否含有国有划拨土地。",
+          "options": {
+            "0": "否",
+            "1": "是"
+          }
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:SFYQYQSHPCXG",
+      "field_name": "SFYQYQSHPCXG",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "SFYQYQSHPCXG",
+          "label": "是否与企业清算或破产相关",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【转让标的基本情况】提取【是否与企业清算或破产相关】。理解内容并与系统字典值匹配\n优先定位申请书栏目：二、转让标的基本情况 / 标的企业基本情况 / 是否与企业清算或破产相关。",
+          "options": {
+            "0": "否",
+            "1": "是"
+          }
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:NBSYQK",
+      "field_name": "NBSYQK",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "NBSYQK",
+          "label": "内部决策情况",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【转让标的基本情况】提取【内部决策情况】。理解内容并与系统字典值匹配\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 转让方决策文件类型。",
+          "options": {
+            "1": "股东会决议",
+            "2": "董事会决议",
+            "3": "总经理办公会议决议",
+            "4": "其他"
+          }
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:NBJCQKQTSM",
+      "field_name": "NBJCQKQTSM",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "NBJCQKQTSM",
+          "label": "内部决策情况其它说明",
+          "platform_type": "CLOB3000",
+          "logic": "仅在申请书的【转让标的基本情况】提取【内部决策情况其它说明】。理解内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 转让方决策文件类型。\n前置条件：“内部决策情况”选“其他”。条件不满足或无法确认时返回空。\n中台适用条件：内部决策情况==4（其他）时必填。没有证据时返回空。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:QTPLNR",
+      "field_name": "QTPLNR",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "QTPLNR",
+          "label": "其他披露的内容",
+          "platform_type": "CLOB4000",
+          "logic": "仅在申请书的【转让标的基本情况】提取【其他披露的内容】。提取内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 其他披露的内容。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:PGJG",
+      "field_name": "PGJG",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "PGJG",
+          "label": "评估机构",
+          "platform_type": "C200",
+          "logic": "仅在申请书的【资产评估情况】提取【评估机构】。提取内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 转让标的资产评估 / 资产评估机构。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:HZJG",
+      "field_name": "HZJG",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "HZJG",
+          "label": "核准（备案）机构",
+          "platform_type": "C200",
+          "logic": "仅在申请书的【资产评估情况】提取【核准（备案）机构】。提取内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 转让标的资产评估 / 资产评估核准或备案机构。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:核准备案",
+      "field_name": "核准备案",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "按中文字段名返回候选值。材料有明确依据时提取并提供原文锚点，否则留空。",
+      "disclosure_fields": [
+        {
+          "code": "核准备案",
+          "label": "核准备案",
+          "platform_type": "text",
+          "logic": "只从转让标的资产评估栏目判断该次资产评估采用核准还是备案。仅在原文明确写明或选中时输出“核准”或“备案”。仅出现核准（备案）机构、日期或其他事项备案时留空。",
+          "options": {
+            "核准": "核准",
+            "备案": "备案"
+          }
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:HZBARQ",
+      "field_name": "HZBARQ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "HZBARQ",
+          "label": "核准备案日期",
+          "platform_type": "DATE",
+          "logic": "仅在申请书的【资产评估情况】提取【核准备案日期】。提取内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 转让标的资产评估 / 资产评估核准或备案日期。日期输出YYYY-MM-DD。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:PGJZR",
+      "field_name": "PGJZR",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "PGJZR",
+          "label": "评估基准日",
+          "platform_type": "DATE",
+          "logic": "仅在申请书的【资产评估情况】提取【评估基准日】。提取内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 转让标的资产评估 / 评估基准日。日期输出YYYY-MM-DD。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:ZCZZM_YW",
+      "field_name": "ZCZZM_YW",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "ZCZZM_YW",
+          "label": "资产总计/账面价值（万元）业务无法提供",
+          "platform_type": "C300",
+          "options": {
+            "1": "业务无法提供"
+          },
+          "logic": "仅当【资产评估情况】中【资产总计/账面价值（万元）】所在单元格明确留空或写明业务无法提供，且能提供该单元格锚点时，输出1。未定位到栏目时留空。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:ZCZM",
+      "field_name": "ZCZM",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "ZCZM",
+          "label": "资产总计/账面价值（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【资产评估情况】提取【资产总计/账面价值（万元）】。提取内容并录入，若原文件内容为空则该字段录入为空，且“资产总计账面价值”选择“业务无法提供”\n优先定位申请书栏目：二、转让标的基本情况 / 转让标的资产评估 / 账面价值&&资产总计。\n中台适用条件：资产总计账面价值!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:ZCZ_YW",
+      "field_name": "ZCZ_YW",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "ZCZ_YW",
+          "label": "资产总计/评估价值（万元）业务无法提供",
+          "platform_type": "C300",
+          "options": {
+            "1": "业务无法提供"
+          },
+          "logic": "仅当【资产评估情况】中【资产总计/评估价值（万元）】所在单元格明确留空或写明业务无法提供，且能提供该单元格锚点时，输出1。未定位到栏目时留空。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:ZCPG",
+      "field_name": "ZCPG",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "ZCPG",
+          "label": "资产总计/评估价值（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【资产评估情况】提取【资产总计/评估价值（万元）】。提取内容并录入，若原文件内容为空则该字段录入为空，且“资产总计评估价值”选择“业务无法提供”\n优先定位申请书栏目：二、转让标的基本情况 / 转让标的资产评估 / 评估价值&&资产总计。\n中台适用条件：资产总计评估价值!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:FZZM_YW",
+      "field_name": "FZZM_YW",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "FZZM_YW",
+          "label": "负债总计/账面价值（万元）业务无法提供",
+          "platform_type": "C300",
+          "options": {
+            "1": "业务无法提供"
+          },
+          "logic": "仅当【资产评估情况】中【负债总计/账面价值（万元）】所在单元格明确留空或写明业务无法提供，且能提供该单元格锚点时，输出1。未定位到栏目时留空。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:FZZM",
+      "field_name": "FZZM",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "FZZM",
+          "label": "负债总计/账面价值（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【资产评估情况】提取【负债总计/账面价值（万元）】。提取内容并录入，若原文件内容为空则该字段录入为空，且“负债总计账面价值”选择“业务无法提供”\n优先定位申请书栏目：二、转让标的基本情况 / 转让标的资产评估 / 账面价值&&负债总计。\n中台适用条件：负债总计账面价值!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "FZZM_YW"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:FZ_YW",
+      "field_name": "FZ_YW",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "FZ_YW",
+          "label": "负债总计/评估价值（万元）业务无法提供",
+          "platform_type": "C300",
+          "options": {
+            "1": "业务无法提供"
+          },
+          "logic": "仅当【资产评估情况】中【负债总计/评估价值（万元）】所在单元格明确留空或写明业务无法提供，且能提供该单元格锚点时，输出1。未定位到栏目时留空。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:FZPG",
+      "field_name": "FZPG",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "FZPG",
+          "label": "负债总计/评估价值（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【资产评估情况】提取【负债总计/评估价值（万元）】。提取内容并录入，若原文件内容为空则该字段录入为空，且“负债总计评估价值”选择“业务无法提供”\n优先定位申请书栏目：二、转让标的基本情况 / 转让标的资产评估 / 评估价值&&负债总计。\n中台适用条件：资产总计评估价值!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:JZM_YW",
+      "field_name": "JZM_YW",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "JZM_YW",
+          "label": "净资产/账面价值（万元）业务无法提供",
+          "platform_type": "C300",
+          "options": {
+            "1": "业务无法提供"
+          },
+          "logic": "仅当【资产评估情况】中【净资产/账面价值（万元）】所在单元格明确留空或写明业务无法提供，且能提供该单元格锚点时，输出1。未定位到栏目时留空。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:JZM",
+      "field_name": "JZM",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "JZM",
+          "label": "净资产/账面价值（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【资产评估情况】提取【净资产/账面价值（万元）】。提取内容并录入，若原文件内容为空则该字段录入为空，且“净资产账面价值”选择“业务无法提供”\n优先定位申请书栏目：二、转让标的基本情况 / 转让标的资产评估 / 账面价值&&净资产。\n中台适用条件：净资产账面价值!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "JZM_YW"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:JPG_YW",
+      "field_name": "JPG_YW",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "JPG_YW",
+          "label": "净资产/评估价值（万元）业务无法提供",
+          "platform_type": "C300",
+          "options": {
+            "1": "业务无法提供"
+          },
+          "logic": "仅当【资产评估情况】中【净资产/评估价值（万元）】所在单元格明确留空或写明业务无法提供，且能提供该单元格锚点时，输出1。未定位到栏目时留空。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:JPG",
+      "field_name": "JPG",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "JPG",
+          "label": "净资产/评估价值（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【资产评估情况】提取【净资产/评估价值（万元）】。提取内容并录入，若原文件内容为空则该字段录入为空，且“净资产评估价值”选择“业务无法提供”\n优先定位申请书栏目：二、转让标的基本情况 / 转让标的资产评估 / 评估价值&&净资产。\n中台适用条件：净资产评估价值!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "JPG_YW"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:DWPGZ",
+      "field_name": "DWPGZ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "DWPGZ",
+          "label": "转让标的对应评估值（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【资产评估情况】提取【转让标的对应评估值（万元）】。提取内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 转让标的资产评估 / 转让标的对应评估值。按万元给出数值。仅在原文单位明确时换算。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:BDMC",
+      "field_name": "BDMC",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "BDMC",
+          "label": "标的名称",
+          "platform_type": "C400",
+          "logic": "仅在申请书的【交易条件与受让方资格条件】提取【标的名称】。提取内容并录入\n优先定位申请书栏目：四、交易条件与受让方资格条件 / 交易条件 / 标的名称。",
+          "cover_label": "标的名称"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:SFGQZQKBZRXM",
+      "field_name": "SFGQZQKBZRXM",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "SFGQZQKBZRXM",
+          "label": "是否股权、债权捆绑转让的项目",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【交易条件与受让方资格条件】提取【是否股权、债权捆绑转让的项目】。理解内容并与系统字典值匹配\n优先定位申请书栏目：四、交易条件与受让方资格条件 / 交易条件 / 是否包含债权。",
+          "options": {
+            "0": "否",
+            "1": "是"
+          }
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:ZRDJ",
+      "field_name": "ZRDJ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "ZRDJ",
+          "label": "转让底价（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【交易条件与受让方资格条件】提取【转让底价（万元）】。提取内容并录入\n优先定位申请书栏目：四、交易条件与受让方资格条件 / 交易条件 / 转让底价。按万元给出数值。仅在原文单位明确时换算。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:ZQJE",
+      "field_name": "ZQJE",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "ZQJE",
+          "label": "债权金额（万元）",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【交易条件与受让方资格条件】提取【债权金额（万元）】。理解内容并录入\n优先定位申请书栏目：四、交易条件与受让方资格条件 / 交易条件 / 是否包含债权-债权金额：            万元。按万元给出数值。仅在原文单位明确时换算。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:FKFS",
+      "field_name": "FKFS",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "FKFS",
+          "label": "交易价款付款方式",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【交易条件与受让方资格条件】提取【交易价款付款方式】。理解内容并与系统字典值匹配\n优先定位申请书栏目：四、交易条件与受让方资格条件 / 交易条件 / 价款支付方式。",
+          "options": {
+            "1": "一次性支付",
+            "2": "分期付款"
+          }
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:FQZFYQ",
+      "field_name": "FQZFYQ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "FQZFYQ",
+          "label": "分期支付要求",
+          "platform_type": "C1000",
+          "logic": "仅在申请书的【交易条件与受让方资格条件】提取【分期支付要求】。提取内容并录入\n优先定位申请书栏目：四、交易条件与受让方资格条件 / 交易条件 / 分期付款支付要求。\n前置条件：交易价款付款方式选分期付款。条件不满足或无法确认时返回空。\n中台适用条件：交易价款付款方式==2（分期支付）时必填。没有证据时返回空。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:QTTJ",
+      "field_name": "QTTJ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "QTTJ",
+          "label": "与转让相关的其他条件",
+          "platform_type": "COLB4000",
+          "logic": "仅在申请书的【交易条件与受让方资格条件】提取【与转让相关的其他条件】。提取内容并录入\n优先定位申请书栏目：四、交易条件与受让方资格条件 / 交易条件 / 与转让相关的其他条件。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:SRZGTJ",
+      "field_name": "SRZGTJ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "SRZGTJ",
+          "label": "受让资格条件",
+          "platform_type": "COLB4000",
+          "logic": "仅在申请书的【交易条件与受让方资格条件】提取【受让资格条件】。提取内容并录入\n优先定位申请书栏目：四、交易条件与受让方资格条件 / 受让方资格条件。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:BZJJE",
+      "field_name": "BZJJE",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "BZJJE",
+          "label": "保证金金额（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【交易条件与受让方资格条件】提取【保证金金额（万元）】。提取内容并录入\n优先定位申请书栏目：四、交易条件与受让方资格条件 / 保证金设定 / 交纳金额。\n中台适用条件：交纳保证金==1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:JNBZJ",
+      "field_name": "JNBZJ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "JNBZJ",
+          "label": "交纳保证金",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【交易条件与受让方资格条件】提取【交纳保证金】。理解内容并与系统字典值匹配\n优先定位申请书栏目：四、交易条件与受让方资格条件 / 保证金设定 / 交纳保证金。",
+          "options": {
+            "0": "否",
+            "1": "是"
+          }
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:JNSJ",
+      "field_name": "JNSJ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "JNSJ",
+          "label": "交纳时间",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【交易条件与受让方资格条件】提取【交纳时间】。理解内容并与系统字典值匹配\n优先定位申请书栏目：四、交易条件与受让方资格条件 / 保证金设定 / 交纳时间。\n前置条件：交纳保证金选是。条件不满足或无法确认时返回空。\n中台适用条件：交纳保证金==1（是）时必填\n1|意向受让方经资格确认后约定工作日内交纳；2|本项目选择动态报价方式，意向受让方在提交受让申请同时交纳保证金。没有证据时返回空。",
+          "options": {
+            "1": "意向受让方经资格确认后约定工作日内交纳",
+            "2": "本项目选择动态报价方式,意向受让方在提交受让申请同时交纳保证金"
+          }
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:JNSJ_GZR",
+      "field_name": "JNSJ_GZR",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "JNSJ_GZR",
+          "label": "工作日",
+          "platform_type": "N10",
+          "logic": "仅在申请书的【交易条件与受让方资格条件】提取【工作日】。理解内容并提取工作日信息录入系统\n优先定位申请书栏目：四、交易条件与受让方资格条件 / 保证金设定 / 交纳时间。\n前置条件：交纳保证金选是且交纳时间选择“意向受让方经资格确认后约定工作日内交纳”。条件不满足或无法确认时返回空。\n中台适用条件：交纳时间!=2 （本项目选择动态报价方式，意向受让方在提交受让申请同时交纳保证金）&& 交纳保证金!=0 （否）时必填。没有证据时返回空。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:PLGGQ",
+      "field_name": "PLGGQ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "PLGGQ",
+          "label": "披露公告期（工作日）",
+          "platform_type": "N10",
+          "logic": "仅在申请书的【信息披露规则】提取【披露公告期（工作日）】。提取内容并录入\n优先定位申请书栏目：五、信息披露期 / 信息披露\n公告期。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:WYXSRF",
+      "field_name": "WYXSRF",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "WYXSRF",
+          "label": "未征集到意向受让方选项",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【信息披露规则】提取【未征集到意向受让方选项】。理解内容并与系统字典值匹配\n优先定位申请书栏目：五、信息披露期 / 信息披露期满，如未征集到\n意向受让方。",
+          "options": {
+            "1": "信息发布终结",
+            "2": "按约定工作日为周期延期延长信息披露,直至征集到意向受让方",
+            "3": "按约定工作日为周期延长信息披露",
+            "4": "变更公告内容,重新挂牌"
+          }
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:YQGZR",
+      "field_name": "YQGZR",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "YQGZR",
+          "label": "延期约定工作日",
+          "platform_type": "N10",
+          "logic": "仅在申请书的【信息披露规则】提取【延期约定工作日】。理解文件内容，提取工作日信息录入系统\n优先定位申请书栏目：五、信息披露期 / 信息披露期满，如未征集到\n意向受让方。\n前置条件：“未征集到意向受让方选项”选择“按约定工作日为周期延期延长信息披露，直至征集到意向受让方”或“按约定工作日为周期延长信息披露”。条件不满足或无法确认时返回空。\n中台适用条件：未征集到意向受让方选项==2 （按约定工作日为周期延期延长信息披露，直至征集到意向受让方）|| 未征集到意向受让方选项 ==3（按约定工作日为周期延长信息披露）时必填。没有证据时返回空。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:YQZQ",
+      "field_name": "YQZQ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "YQZQ",
+          "label": "延期周期次数",
+          "platform_type": "N5",
+          "logic": "仅在申请书的【信息披露规则】提取【延期周期次数】。理解文件内容，提取最多延长周期信息录入系统\n优先定位申请书栏目：五、信息披露期 / 信息披露期满，如未征集到\n意向受让方。\n前置条件：“未征集到意向受让方选项”选择“按约定工作日为周期延长信息披露”。条件不满足或无法确认时返回空。\n中台适用条件：未征集到意向受让方选项 ==3（按约定工作日为周期延长信息披露）时必填。没有证据时返回空。"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:JYFS",
+      "field_name": "JYFS",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "先按申请书栏目和相邻字段标签查找直接值，需要理解时根据上下文判断。仅依据原文，值缺失或适用条件无法确认时返回空。提供原文锚点。",
+      "platform_interface": "CQZR_ZSPLXMLRJK",
+      "disclosure_fields": [
+        {
+          "code": "JYFS",
+          "label": "竞价方式",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【信息披露规则】提取【竞价方式】。理解内容并与系统字典值匹配\n优先定位申请书栏目：六、竞价方式 / 竞价方式。",
+          "dictionary": "property_bidding"
+        }
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:GQJG",
+      "field_name": "GQJG",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "只从【企业股权结构】提取。将该区块每条记录作为独立JSON对象，使用中台编码作键，将对象数组序列化成 extracted_value 字符串。按原文行序输出，逐行绑定同一主体或期间；提供覆盖各行的锚点。无对应区块时返回空。缺失的字段省略，只有规则明确要求时输出null。",
+      "platform_interface": "CQZR_QYGQJG",
+      "disclosure_rows": true,
+      "disclosure_fields": [
+        {
+          "code": "GDMC",
+          "label": "股东名称",
+          "platform_type": "C200",
+          "logic": "仅在申请书的【转让标的基本情况】中的【企业股权结构】提取【股东名称】。提取内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 标的企业基本情况 / 前十位股东名称。"
+        },
+        {
+          "code": "CGBL",
+          "label": "持股比例(%）",
+          "platform_type": "N11.6",
+          "logic": "仅在申请书的【转让标的基本情况】中的【企业股权结构】提取【持股比例(%）】。提取内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 标的企业基本情况 / 持有比例。按百分数给出数值（如40%输出40）。"
+        }
+      ],
+      "disclosure_row_keys": [
+        "GDMC"
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:SJBG",
+      "field_name": "SJBG",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "只从【年度审计报告】提取。将该区块每条记录作为独立JSON对象，使用中台编码作键，将对象数组序列化成 extracted_value 字符串。按原文行序输出，逐行绑定同一主体或期间；提供覆盖各行的锚点。无对应区块时返回空。缺失的字段省略，只有规则明确要求时输出null。",
+      "platform_interface": "CQZR_NDSJBG",
+      "disclosure_rows": true,
+      "disclosure_fields": [
+        {
+          "code": "ND",
+          "label": "年度",
+          "platform_type": "N4",
+          "logic": "仅在申请书的【转让标的基本情况】中的【年度审计报告】提取【年度】。理解内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 主要财务指标 / 年度审计报告数据。"
+        },
+        {
+          "code": "SJJG",
+          "label": "审计机构",
+          "platform_type": "C200",
+          "logic": "仅在申请书的【转让标的基本情况】中的【年度审计报告】提取【审计机构】。提取内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 主要财务指标 / 年度审计报告数据-审计机构。"
+        },
+        {
+          "code": "YYSR",
+          "label": "营业收入（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让标的基本情况】中的【年度审计报告】提取【营业收入（万元）】。提取内容并录入，若内容为空则选择“业务无法提供营业收入”选项\n优先定位申请书栏目：二、转让标的基本情况 / 主要财务指标 / 年度审计报告数据-营业收入。\n中台适用条件：业务无法提供营业收入!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "YYSR_YW"
+        },
+        {
+          "code": "YYLR",
+          "label": "营业利润（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让标的基本情况】中的【年度审计报告】提取【营业利润（万元）】。提取内容并录入，若内容为空则选择“业务无法提供营业利润”选项\n优先定位申请书栏目：二、转让标的基本情况 / 主要财务指标 / 年度审计报告数据-营业利润。\n中台适用条件：业务无法提供营业利润!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "YYLR_YW"
+        },
+        {
+          "code": "LRZE",
+          "label": "利润总额（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让标的基本情况】中的【年度审计报告】提取【利润总额（万元）】。提取内容并录入，若内容为空则选择“利润总额业务无法提供”选项\n优先定位申请书栏目：二、转让标的基本情况 / 主要财务指标 / 年度审计报告数据- 利润总额。\n中台适用条件：利润总额业务无法提供!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "LRZE_YW"
+        },
+        {
+          "code": "JLR",
+          "label": "净利润（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让标的基本情况】中的【年度审计报告】提取【净利润（万元）】。提取内容并录入，若内容为空则选择“业务无法提供净利润”选项\n优先定位申请书栏目：二、转让标的基本情况 / 主要财务指标 / 年度审计报告数据- 净利润。\n中台适用条件：业务无法提供净利润!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "JLR_YW"
+        },
+        {
+          "code": "ZCZJ",
+          "label": "资产总计（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让标的基本情况】中的【年度审计报告】提取【资产总计（万元）】。提取内容并录入，若内容为空则选择“业务无法提供资产总计”选项\n优先定位申请书栏目：二、转让标的基本情况 / 主要财务指标 / 年度审计报告数据-资产总计。\n中台适用条件：业务无法提供资产总计!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "ZCZJ_YW"
+        },
+        {
+          "code": "FZZJ",
+          "label": "负债总计（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让标的基本情况】中的【年度审计报告】提取【负债总计（万元）】。提取内容并录入，若内容为空则选择“业务无法提供负债总计”选项\n优先定位申请书栏目：二、转让标的基本情况 / 主要财务指标 / 年度审计报告数据-负债总计。\n中台适用条件：业务无法提供负债总计!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "FZZJ_YW"
+        },
+        {
+          "code": "SYZQY",
+          "label": "所有者权益（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让标的基本情况】中的【年度审计报告】提取【所有者权益（万元）】。提取内容并录入，若内容为空则选择“业务无法提供所有者权益”选项\n优先定位申请书栏目：二、转让标的基本情况 / 主要财务指标 / 年度审计报告数据-所有者权益。\n中台适用条件：业务无法提供所有者权益!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "SYZQY_YW"
+        }
+      ],
+      "disclosure_row_keys": [
+        "ND"
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:CWBB",
+      "field_name": "CWBB",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "只从【最近一期财务报表】提取。将该区块每条记录作为独立JSON对象，使用中台编码作键，将对象数组序列化成 extracted_value 字符串。按原文行序输出，逐行绑定同一主体或期间；提供覆盖各行的锚点。无对应区块时返回空。缺失的字段省略，只有规则明确要求时输出null。",
+      "platform_interface": "CQZR_CWBB",
+      "disclosure_rows": true,
+      "disclosure_fields": [
+        {
+          "code": "BBRQ",
+          "label": "报表日期",
+          "platform_type": "DATE",
+          "logic": "仅在申请书的【转让标的基本情况】中的【财务报表】提取【报表日期】。理解内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 主要财务指标 / 年   月   日财务报表。日期输出YYYY-MM-DD。"
+        },
+        {
+          "code": "YYSR",
+          "label": "营业收入（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让标的基本情况】中的【财务报表】提取【营业收入（万元）】。提取内容并录入，若内容为空则选择“业务无法提供营业收入”选项\n优先定位申请书栏目：二、转让标的基本情况 / 主要财务指标 / 年   月   日财务报表-营业收入。\n中台适用条件：业务无法提供营业收入!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "YYSR_YW"
+        },
+        {
+          "code": "YYLR",
+          "label": "营业利润（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让标的基本情况】中的【财务报表】提取【营业利润（万元）】。提取内容并录入，若内容为空则选择“业务无法提供营业利润”选项\n优先定位申请书栏目：二、转让标的基本情况 / 主要财务指标 / 年   月   日财务报表-营业利润。\n中台适用条件：业务无法提供营业利润!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "YYLR_YW"
+        },
+        {
+          "code": "LRZE",
+          "label": "利润总额（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让标的基本情况】中的【财务报表】提取【利润总额（万元）】。提取内容并录入，若内容为空则选择“利润总额业务无法提供”选项\n优先定位申请书栏目：二、转让标的基本情况 / 主要财务指标 / 年   月   日财务报表-利润总额。\n中台适用条件：利润总额业务无法提供!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "LRZE_YW"
+        },
+        {
+          "code": "JLR",
+          "label": "净利润（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让标的基本情况】中的【财务报表】提取【净利润（万元）】。提取内容并录入，若内容为空则选择“业务无法提供净利润”选项\n优先定位申请书栏目：二、转让标的基本情况 / 主要财务指标 / 年   月   日财务报表-利润总额。\n中台适用条件：业务无法提供净利润!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "JLR_YW"
+        },
+        {
+          "code": "ZCZJ",
+          "label": "资产总计（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让标的基本情况】中的【财务报表】提取【资产总计（万元）】。提取内容并录入，若内容为空则选择“业务无法提供资产总计”选项\n优先定位申请书栏目：二、转让标的基本情况 / 主要财务指标 / 年   月   日财务报表-资产总计。\n中台适用条件：业务无法提供资产总计!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "ZCZJ_YW"
+        },
+        {
+          "code": "FZZJ",
+          "label": "负债总计（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让标的基本情况】中的【财务报表】提取【负债总计（万元）】。提取内容并录入，若内容为空则选择“业务无法提供负债总计”选项\n优先定位申请书栏目：二、转让标的基本情况 / 主要财务指标 / 年   月   日财务报表-负债总计。\n中台适用条件：业务无法提供负债总计!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "FZZJ_YW"
+        },
+        {
+          "code": "SYZQY",
+          "label": "所有者权益（万元）",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让标的基本情况】中的【财务报表】提取【所有者权益（万元）】。提取内容并录入，若内容为空则选择“业务无法提供所有者权益”选项\n优先定位申请书栏目：二、转让标的基本情况 / 主要财务指标 / 年   月   日财务报表-所有者权益。\n中台适用条件：业务无法提供所有者权益!=1（是）时必填。没有证据时返回空。按万元给出数值。仅在原文单位明确时换算。只有看到该报表对应的单元格明确为空或标为业务无法提供时，返回该键且值为null。无法定位时省略该键。",
+          "missing_flag": "SYZQY_YW"
+        }
+      ],
+      "disclosure_row_keys": [
+        "BBRQ"
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:ZRF",
+      "field_name": "ZRF",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "只从【转让方基本情况及决策批准（每个转让方独立）】提取。将该区块每条记录作为独立JSON对象，使用中台编码作键，将对象数组序列化成 extracted_value 字符串。按原文行序输出，逐行绑定同一主体或期间；提供覆盖各行的锚点。无对应区块时返回空。缺失的字段省略，只有规则明确要求时输出null。",
+      "platform_interface": "CQZR_ZRFXX",
+      "disclosure_rows": true,
+      "disclosure_fields": [
+        {
+          "code": "GYZBCZLX",
+          "label": "国有资本出资类型",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【转让方基本情况】提取【国有资本出资类型】。根据国资监管机构判断\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 国资监管机构。\n前置条件：“国有/非国有类型”选择“国有”。条件不满足或无法确认时返回空。\n中台适用条件：国有/非国有类型==0（国有）且提交类型!=1（预披露）时必填\n1|金融企业国有资产（财政部金融司或地方财政部门监管）;2|其他。没有证据时返回空。",
+          "options": {
+            "1": "金融企业国有资产(财政部金融司或地方财政部门监管)",
+            "2": "其他"
+          }
+        },
+        {
+          "code": "ZRFMC",
+          "label": "转让方客户名称",
+          "platform_type": "C200",
+          "logic": "仅在申请书的【转让方基本情况】提取【转让方客户名称】。仅提取申请书中直接注明的转让方客户全称。开户查询和关联由中台处理。\n优先定位申请书栏目：三、转让方基本情况 / 基本情况 / 转让方名称。"
+        },
+        {
+          "code": "TYSHXYDM",
+          "label": "统一社会信用代码/组织机构码",
+          "platform_type": "C22",
+          "logic": "仅在申请书的【转让方基本情况】提取【统一社会信用代码/组织机构码】。提取内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 基本情况 / 统一社会信用代码或组织机构代码。"
+        },
+        {
+          "code": "PROVINCE",
+          "label": "省",
+          "platform_type": "C12",
+          "logic": "仅在申请书的【转让方基本情况】提取【省】。理解内容并提取省信息并与系统字典值匹配",
+          "dictionary": "province"
+        },
+        {
+          "code": "CITY",
+          "label": "市",
+          "platform_type": "C12",
+          "logic": "仅在申请书的【转让方基本情况】提取【市】。理解内容并提取市信息并与系统字典值匹配\n中台适用条件：省!='710000' && 省!='810000' && 省!='820000' && 省!='999999' && 省!='999998'时必填。没有证据时返回空。输出对应区划全称，并依据本主体住所，不能用其他主体或监管机构地址。",
+          "dictionary": "city"
+        },
+        {
+          "code": "QX",
+          "label": "区(县)",
+          "platform_type": "C12",
+          "logic": "仅在申请书的【转让方基本情况】提取【区(县)】。理解内容并提取区县信息并与系统字典值匹配输出对应区划全称，并依据本主体住所，不能用其他主体或监管机构地址。",
+          "dictionary": "district"
+        },
+        {
+          "code": "ZCD",
+          "label": "注册地（地址）",
+          "platform_type": "C400",
+          "logic": "仅在申请书的【转让方基本情况】提取【注册地（地址）】。提取内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 基本情况 / 注册地(住所)。"
+        },
+        {
+          "code": "FDDBR",
+          "label": "法定代表人",
+          "platform_type": "C200",
+          "logic": "仅在申请书的【转让方基本情况】提取【法定代表人】。提取内容并录入"
+        },
+        {
+          "code": "CLRQ",
+          "label": "成立日期",
+          "platform_type": "DATE",
+          "logic": "仅在申请书的【转让方基本情况】提取【成立日期】。提取内容并录入日期输出YYYY-MM-DD。"
+        },
+        {
+          "code": "ZCZB",
+          "label": "注册资本(万元)",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让方基本情况】提取【注册资本(万元)】。提取内容并录入按万元给出数值。仅在原文单位明确时换算。"
+        },
+        {
+          "code": "SSZB",
+          "label": "实收资本(万元)",
+          "platform_type": "N15.6",
+          "logic": "仅在申请书的【转让方基本情况】提取【实收资本(万元)】。与“注册资本（万元）”字段值一致按万元给出数值。仅在原文单位明确时换算。"
+        },
+        {
+          "code": "SSHYLX",
+          "label": "所属行业类型",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让方基本情况】提取【所属行业类型】。根据匹配到中台“所属行业”反向匹配“所属行业类型”",
+          "dictionary": "industry_group"
+        },
+        {
+          "code": "SSHY",
+          "label": "所属行业",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让方基本情况】提取【所属行业】。理解内容并与系统字典值匹配",
+          "dictionary": "property_industry"
+        },
+        {
+          "code": "QYLX",
+          "label": "企业类型",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让方基本情况】提取【企业类型】。理解内容并与系统字典值匹配",
+          "dictionary": "property_enterprise"
+        },
+        {
+          "code": "JYGM",
+          "label": "经营规模",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让方基本情况】提取【经营规模】。理解内容并与系统字典值匹配",
+          "options": {
+            "A04004": "微型",
+            "A04003": "小型",
+            "A04002": "中型",
+            "A04001": "大型"
+          }
+        },
+        {
+          "code": "JJLX",
+          "label": "经济类型",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让方基本情况】提取【经济类型】。理解内容并与系统字典值匹配",
+          "dictionary": "property_economy"
+        },
+        {
+          "code": "CCGQBL",
+          "label": "持有(产)股权比例(%)",
+          "platform_type": "N12.7",
+          "logic": "仅在申请书的【转让方基本情况】提取【持有(产)股权比例(%)】。提取内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 基本情况 / 持有产(股)权比例/股份数。按百分数给出数值（如40%输出40）。"
+        },
+        {
+          "code": "NZRCGQBL",
+          "label": "拟转让(产)股权比例(%)",
+          "platform_type": "N12.7",
+          "logic": "仅在申请书的【转让方基本情况】提取【拟转让(产)股权比例(%)】。提取内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 基本情况 / 拟转让产(股)权比例/股份数。按百分数给出数值（如40%输出40）。"
+        },
+        {
+          "code": "SFSYFZYTC",
+          "label": "是否属于非主业退出",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【转让方基本情况】提取【是否属于非主业退出】。理解内容并与系统字典值匹配\n优先定位申请书栏目：三、转让方基本情况 / 基本情况 / 是否属于非主业退出。\n中台适用条件：0｜否｜是\n提交类型==1（预披露）时必填。没有证据时返回空。",
+          "options": {
+            "0": "否"
+          },
+          "unconfirmed_options": [
+            "是"
+          ]
+        },
+        {
+          "code": "LXR",
+          "label": "联系人",
+          "platform_type": "C100",
+          "logic": "仅在申请书的【转让方基本情况】提取【联系人】。提取内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 基本情况 / 联系人。"
+        },
+        {
+          "code": "LXDH",
+          "label": "联系人手机号",
+          "platform_type": "C15",
+          "logic": "仅在申请书的【转让方基本情况】提取【联系人手机号】。提取内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 基本情况 / 电话。"
+        },
+        {
+          "code": "DXTZJSR",
+          "label": "短信通知接收人",
+          "platform_type": "C100",
+          "logic": "仅在申请书的【转让方基本情况】提取【短信通知接收人】。与“联系人”字段值一致"
+        },
+        {
+          "code": "DXTZJSRSJ",
+          "label": "短信通知接收人手机",
+          "platform_type": "C15",
+          "logic": "仅在申请书的【转让方基本情况】提取【短信通知接收人手机】。与“联系人手机号”字段值一致"
+        },
+        {
+          "code": "EMAIL",
+          "label": "邮箱",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让方基本情况】提取【邮箱】。提取内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 基本情况 / 邮箱。"
+        },
+        {
+          "code": "GZJGJG",
+          "label": "国资监管机构",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让方基本情况】提取【国资监管机构】。理解内容并与系统字典值匹配\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 国资监管机构。\n前置条件：国有/非国有类型选“国有”。条件不满足或无法确认时返回空。\n中台适用条件：国有/非国有类型!=1（非国有）  && 转让方类型=='A11001'（法人或其他经济组织） && 经济类型!='A05007'（非国有企业） && 经济类型!='A05008' （外资企业）&& 经济类型!='A05009'（其他）时必填\n参考字典：国资监管机构。没有证据时返回空。",
+          "dictionary": "property_regulator"
+        },
+        {
+          "code": "CZQY",
+          "label": "国家出资企业或主管部门",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让方基本情况】提取【国家出资企业或主管部门】。提取内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 国家出资企业或主管部门名称。\n前置条件：国资监管机构选择“财政部监管”“国务院国资委监管”。条件不满足或无法确认时返回空。\n中台适用条件：国有/非国有类型!=1(非国有) &&转让方类型!='A11002'（自然人） && 国资监管机构!='A02002'（中央其他部委监管） && 国资监管机构!='A02004'（省级其他部门监管） && 国资监管机构!='A02005'（市级国资委监管）&& 国资监管机构!='A02006'（市级其他部门监管）&& 国资监管机构!='A02006001'（市级财政部门或金融办监管） && 国资监管机构!='A02004001'（省级财政部门监管） &&!(国资监管机构=='A02003'（省级国资委监管） && 监管机构属地(省)=='110000'（北京市）) && 经济类型!='A05007'（非国有企业） && 经济类型!='A05008'（外资企业） && 经济类型!='A05009'（其他）时必填\n参考字典：国家出资企业或主管部门。没有证据时返回空。",
+          "dictionary": "enterprise_authority"
+        },
+        {
+          "code": "SSJT",
+          "label": "国家出资企业或主管部门名称",
+          "platform_type": "C150",
+          "logic": "仅在申请书的【转让方基本情况】提取【国家出资企业或主管部门名称】。提取内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 国家出资企业或主管部门名称。\n前置条件：国资监管机构或国资监管机构（非国有）选择“中央其他部委监管”“省级财政部门监管”“省级国资委监管”“省级其他部门监管”“市级财政部门或金融办监管”“市级国资委监管”“市级其他部门监管”。条件不满足或无法确认时返回空。\n中台适用条件：国有/非国有类型==0（国有）时：\n转让方类型!='A11002'（自然人） && 国资监管机构!='A02001'（国务院国资委监管） && 国资监管机构!='A02002001'（财政部监管） && !(国资监管机构=='A02003'（省级国资委监管） && 监管机构属地(省)=='110000'（北京市）) && 经济类型!='A05007'（非国有企业） && 经济类型!='A05008'（外资企业） && 经济类型!='A05009'（其他）时必填；\n国有/非国有类型==1时：\n转让方类型!='A11002'（自然人） && 国资监管机构(非国有)!='A02001' && 国资监管机构(非国有)!='A02002001'（财政部监管） && !(国资监管机构(非国有)=='A02003'（省级国资委监管） && 监管机构属地(省)=='110000'（北京市）) && 经济类型!='A05007'（非国有企业） && 经济类型!='A05008'（外资企业） && 经济类型!='A05009'（其他）&& 国资监管机构(非国有)!=''&& 国资监管机构(非国有)!=null时必填。没有证据时返回空。"
+        },
+        {
+          "code": "JGDQS",
+          "label": "监管机构属地(省)",
+          "platform_type": "C12",
+          "logic": "仅在申请书的【转让方基本情况】提取【监管机构属地(省)】。理解内容并提取省信息并与系统字典值匹配\n优先定位申请书栏目：三、转让方基本情况 / 基本情况 / 注册地(住所)。\n前置条件：国资监管机构或国资监管机构（非国有）选择“省级财政部门监管”“省级国资委监管”“省级其他部门监管”“市级财政部门或金融办监管”“市级国资委监管”“市级其他部门监管”。条件不满足或无法确认时返回空。\n中台适用条件：国有/非国有类型==0（国有）时：\n国资监管机构!='A02001'（国务院国资委监管） && 国资监管机构!='A02002'（中央其他部委监管） && 国资监管机构!='A02002001' （财政部监管）&& 国资监管机构!='' && 转让方类型!='A11002'（自然人） && 经济类型!='A05007'（非国有企业） && 经济类型!='A05008'（外资企业） && 经济类型!='A05009'（其他）时必填\n国有/非国有类型==1（非国有）时：\n国资监管机构(非国有)!='A02001'（国务院国资委监管） && 国资监管机构(非国有)!='A02002'（中央其他部委监管） && 国资监管机构(非国有)!='A02002001'（财政部监管） && 国资监管机构(非国有)!='' && 转让方类型!='A11002'（自然人） && 经济类型!='A05007'（非国有企业） && 经济类型!='A05008'（外资企业） && 经济类型!='A05009'（其他）时必填\n参考字典：行政事业区域代码-省。没有证据时返回空。",
+          "dictionary": "province"
+        },
+        {
+          "code": "JGDQSHI",
+          "label": "监管机构属地(市)",
+          "platform_type": "C12",
+          "logic": "仅在申请书的【转让方基本情况】提取【监管机构属地(市)】。理解内容并提取市信息并与系统字典值匹配\n优先定位申请书栏目：三、转让方基本情况 / 基本情况 / 注册地(住所)。\n前置条件：国资监管机构或国资监管机构（非国有）选择“市级财政部门或金融办监管”“市级国资委监管”“市级其他部门监管”。条件不满足或无法确认时返回空。\n中台适用条件：国有/非国有类型==0（国有）时：\n国资监管机构=='A02001'（国务院国资委监管） && 国资监管机构!='A02002'（中央其他部委监管） && 国资监管机构!='A02003'（省级国资委监管） && 国资监管机构!='A02004'（省级其他部门监管） && 国资监管机构!='A02002001' （财政部监管）&& 国资监管机构!='A02004001' （省级财政部门监管）&& 国资监管机构!='' && 转让方类型!='A11002'（自然人） && 经济类型!='A05007'（非国有企业） && 经济类型!='A05008'（外资企业） && 经济类型!='A05009'（其他）时必填\n国有/非国有类型==1（非国有）时：\n国资监管机构(非国有)!='A02001'（国务院国资委监管） && 国资监管机构(非国有)!='A02002'（中央其他部委监管） && 国资监管机构(非国有)!='A02002001'（财政部监管）&& 国资监管机构(非国有)!='A02003'（省级国资委监管）&& 国资监管机构(非国有)!='A02004'（省级其他部门监管）&& 国资监管机构(非国有)!='A02004001'（省级财政部门监管） && 国资监管机构(非国有)!='' && 转让方类型!='A11002'（自然人） && 经济类型!='A05007'（非国有企业） && 经济类型!='A05008'（外资企业） && 经济类型!='A05009'（其他）时必填。没有证据时返回空。输出对应区划全称，并依据本主体住所，不能用其他主体或监管机构地址。",
+          "dictionary": "city"
+        },
+        {
+          "code": "FGYGZJGJG",
+          "label": "国资监管机构(非国有)",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让方基本情况】提取【国资监管机构(非国有)】。理解内容并与系统字典值匹配\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 国资监管机构。\n前置条件：国有/非国有类型选非国有。条件不满足或无法确认时返回空。\n中台适用条件：国有/非国有类型!=0 && !(转让方类型=='A11002'（自然人） || 经济类型=='A05007'（非国有企业） || 经济类型=='A05008'（外资企业） || 经济类型=='A05009'（其他）)时显示\n参考字典：国资监管机构。没有证据时返回空。",
+          "dictionary": "property_regulator"
+        },
+        {
+          "code": "FGYSSJT",
+          "label": "国家出资企业或主管部门(非国有)",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让方基本情况】提取【国家出资企业或主管部门(非国有)】。提取内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 国家出资企业或主管部门名称。\n前置条件：国资监管机构(非国有)选择财政部监管/国务院国资委监管。条件不满足或无法确认时返回空。\n中台适用条件：国有/非国有类型!=0(国有) &&转让方类型!='A11002'（自然人） && 国资监管机构(非国有)!='A02002'（中央其他部委监管） && 国资监管机构(非国有)!='A02004'（省级其他部门监管） && 国资监管机构(非国有)!='A02005'（市级国资委监管）&& 国资监管机构(非国有)!='A02006'（市级其他部门监管）&& 国资监管机构(非国有)!='A02006001'（市级财政部门或金融办监管） && 国资监管机构(非国有)!='A02004001'（省级财政部门监管） &&!(国资监管机构(非国有)=='A02003'（省级国资委监管） && 监管机构属地(省)=='110000'（北京市）) && 经济类型!='A05007'（非国有企业） && 经济类型!='A05008'（外资企业） && 经济类型!='A05009'（其他）时必填\n参考字典：国家出资企业或主管部门。没有证据时返回空。",
+          "dictionary": "enterprise_authority"
+        },
+        {
+          "code": "NBSYQK",
+          "label": "转让方决策文件类型",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【转让方基本情况】提取【转让方决策文件类型】。理解内容并与系统字典值匹配\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 转让方决策文件类型。\n前置条件：-。条件不满足或无法确认时返回空。",
+          "dictionary": "decision"
+        },
+        {
+          "code": "QTSM",
+          "label": "转让方决策文件类型其他说明",
+          "platform_type": "CLOB4000",
+          "logic": "仅在申请书的【转让方基本情况】提取【转让方决策文件类型其他说明】。理解内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 转让方决策文件类型-其他。\n前置条件：“转让方决策文件类型”选择“其他”。条件不满足或无法确认时返回空。"
+        },
+        {
+          "code": "PZDWMC",
+          "label": "批准单位名称",
+          "platform_type": "C200",
+          "logic": "仅在申请书的【转让方基本情况】提取【批准单位名称】。提取内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 批准单位名称。\n前置条件：国有/非国有类型选“国有”。条件不满足或无法确认时返回空。\n中台适用条件：国有/非国有类型==0（国有） && (提交类型==2（正式披露）|| 提交类型==3（非公开）|| （提交类型==1（预披露）&& 是否已取得有权批准单位批准 ==1 （是））)时必填。没有证据时返回空。"
+        },
+        {
+          "code": "PZRQ",
+          "label": "批准日期",
+          "platform_type": "DATE",
+          "logic": "仅在申请书的【转让方基本情况】提取【批准日期】。提取内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 批准日期。\n中台适用条件：国有/非国有类型==0（国有）&& (提交类型==2（正式披露）|| 提交类型==3（非公开）|| （提交类型==1（预披露）&& 是否已取得有权批准单位批准 ==1 （是））)时必填。没有证据时返回空。日期输出YYYY-MM-DD。"
+        },
+        {
+          "code": "PZLX",
+          "label": "批准单位决议文件类型",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让方基本情况】提取【批准单位决议文件类型】。理解内容并与系统字典值匹配\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 批准单位决议文件类型。\n中台适用条件：国有/非国有类型==0（国有）&& (提交类型==2（正式披露）|| 提交类型==3（非公开）|| （提交类型==1（预披露）&& 是否已取得有权批准单位批准 ==1 （是））)时必填\nA07001|文件；A07002|董事会决议；A07003|股东会议决议；A07004|批复；A07005|总经理办公会决议；A07006|其他。没有证据时返回空。",
+          "options": {
+            "A07001": "文件",
+            "A07002": "董事会决议",
+            "A07003": "股东会议决议",
+            "A07004": "批复",
+            "A07005": "总经理办公会决议",
+            "A07006": "其他"
+          }
+        },
+        {
+          "code": "PZWJHJY",
+          "label": "决议文件名称",
+          "platform_type": "C200",
+          "logic": "仅在申请书的【转让方基本情况】提取【决议文件名称】。提取内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 决议文件名称。\n中台适用条件：国有/非国有类型==0时（国有）&& (提交类型==2（正式披露）|| 提交类型==3（非公开）|| （提交类型==1（预披露）&& 是否已取得有权批准单位批准 ==1 （是））)时必填。没有证据时返回空。"
+        },
+        {
+          "code": "FGYPZDWMC",
+          "label": "批准单位名称(非国有）",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让方基本情况】提取【批准单位名称(非国有）】。提取内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 批准单位名称。\n前置条件：国有/非国有类型选“非国有”。条件不满足或无法确认时返回空。"
+        },
+        {
+          "code": "FGYPZRQ",
+          "label": "批准日期(非国有)",
+          "platform_type": "DATE",
+          "logic": "仅在申请书的【转让方基本情况】提取【批准日期(非国有)】。提取内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 批准日期。日期输出YYYY-MM-DD。"
+        },
+        {
+          "code": "FGYPZLX",
+          "label": "批准单位决议文件类型(非国有)",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【转让方基本情况】提取【批准单位决议文件类型(非国有)】。理解内容并与系统字典值匹配\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 批准单位决议文件类型。",
+          "options": {
+            "A07001": "文件",
+            "A07002": "董事会决议",
+            "A07003": "股东会议决议",
+            "A07004": "批复",
+            "A07005": "总经理办公会决议",
+            "A07006": "其他"
+          }
+        },
+        {
+          "code": "FGYXYWJMC",
+          "label": "决议文件名称(非国有)",
+          "platform_type": "C200",
+          "logic": "仅在申请书的【转让方基本情况】提取【决议文件名称(非国有)】。提取内容并录入\n优先定位申请书栏目：三、转让方基本情况 / 产权转让行为决策及批准情况 / 决议文件名称。"
+        }
+      ],
+      "disclosure_row_keys": [
+        "ZRFMC"
+      ]
+    },
+    {
+      "id": "CQZR_ZSPLXMLRJK:GLCNSRGYCQ",
+      "field_name": "GLCNSRGYCQ",
+      "reference_materials": [
+        "《信息披露申请书》"
+      ],
+      "extraction_logic": "只从【管理层拟受让国有产权情况】提取。将该区块每条记录作为独立JSON对象，使用中台编码作键，将对象数组序列化成 extracted_value 字符串。按原文行序输出，逐行绑定同一主体或期间；提供覆盖各行的锚点。无对应区块时返回空。缺失的字段省略，只有规则明确要求时输出null。",
+      "platform_interface": "CQZR_GLCNSRGYCQQK",
+      "disclosure_rows": true,
+      "disclosure_fields": [
+        {
+          "code": "GLCLX",
+          "label": "管理层类型",
+          "platform_type": "N12",
+          "logic": "仅在申请书的【管理层拟受让国有产权情况】提取【管理层类型】。理解内容，根据管理层姓名判断属于自然人还是法人或其他经济组织，与系统字典纸匹配\n优先定位申请书栏目：二、转让标的基本情况 / 标的企业基本情况 / 管理层姓名。\n前置条件：转让标的基本情况-管理层是否参与受让-选择“是”。条件不满足或无法确认时返回空。",
+          "options": {
+            "A11001": "法人或其他经济组织",
+            "A11002": "自然人"
+          }
+        },
+        {
+          "code": "SZDW",
+          "label": "所在单位",
+          "platform_type": "C100",
+          "logic": "仅在申请书的【管理层拟受让国有产权情况】提取【所在单位】。提取内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 标的企业基本情况 / 单位。"
+        },
+        {
+          "code": "ZW",
+          "label": "职务",
+          "platform_type": "C30",
+          "logic": "仅在申请书的【管理层拟受让国有产权情况】提取【职务】。提取内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 标的企业基本情况 / 职务。"
+        },
+        {
+          "code": "GSMC",
+          "label": "公司名称",
+          "platform_type": "C100",
+          "logic": "仅在申请书的【管理层拟受让国有产权情况】提取【公司名称】。提取内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 标的企业基本情况 / 管理层姓名。\n前置条件：转让标的基本情况-管理层是否参与受让-选择“是”且管理层类型选择为“法人或其他经济组织”。条件不满足或无法确认时返回空。"
+        },
+        {
+          "code": "XM",
+          "label": "姓名",
+          "platform_type": "C100",
+          "logic": "仅在申请书的【管理层拟受让国有产权情况】提取【姓名】。提取内容并录入\n优先定位申请书栏目：二、转让标的基本情况 / 标的企业基本情况 / 管理层姓名。\n前置条件：转让标的基本情况-管理层是否参与受让-选择“是”且管理层类型选择为“自然人”。条件不满足或无法确认时返回空。"
+        }
+      ],
+      "disclosure_row_keys": [
+        "XM",
+        "GSMC"
+      ]
+    }
+  ],
+  "version": "1.0.0",
+  "enabled": true,
+  "created_at": "2026-11-04T00:00:00.000000",
+  "updated_at": "2026-11-10T02:30:00.000000"
+}
