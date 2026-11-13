@@ -1,0 +1,92 @@
+schema_version: "1.0"
+environment: test
+service:
+  workspace_root: "${REPO_ROOT}/.runtime/report-agent-workspaces"
+  skill_roots:
+    - "${REPO_ROOT}/apps/report_agent/skills"
+  workspace_max_mb: 2048
+  dev_ui_enabled: true
+  max_upload_mb: 100
+  dev_trace_max_chars: 12000
+  one_pager_checkpoints: true
+  one_pager_checkpoint_database_env: REPORT_AGENT_CHECKPOINT_DATABASE
+institution_workbook:
+  enabled: true
+  auto_after_report: true
+  allowed_skills: [investment-report, one-pager]
+  selection:
+    max_selected_tags: 5
+model:
+  provider: openai_compatible
+  base_url: {env: LLM_BASE_URL}
+  api_key: {env: LLM_API_KEY}
+  model: {env: LLM_MODEL}
+  multimodal_model: {env: MULTIMODAL_MODEL}
+  timeout_seconds: 600
+  max_retries: 2
+harness:
+  # 200 = 单轮软中断线：到线后本轮暂停、状态保留，用户回一句话接着做（不是失败）。
+  # 与 prod/uat 保持一致，避免本地宽松、上线才发现行为不同。
+  max_model_calls: 200
+  run_timeout_seconds: 1800
+  tool_argument_repair_attempts: 2
+context:
+  model_context_tokens: {env: LLM_MAX_CONTEXT_TOKENS}
+  hard_stop_ratio: 0.9
+  inline_tool_output_chars: 10000
+  compression_trigger_ratio: 0.75
+  compression_keep_recent: 6
+sandbox:
+  backend: filesystem
+  network_mode: isolated
+  runtime_image: bjs-report-agent-runtime:0.3.0
+  cpu_limit: 1.0
+  memory_mb: 2048
+  process_limit: 64
+  command_timeout_seconds: 120
+data_mcp:
+  transport: streamable-http
+  url: http://127.0.0.1:8001/mcp
+  contracts_dir: "${REPO_ROOT}/contracts/mcp"
+  required: true
+  tool_timeout_seconds: 600
+  enabled_tools: &data_mcp_tools
+    - extract_project_profile
+    - query_track_labels
+    - query_comparable_valuation
+    - match_listed_peers
+    - match_investors
+    # 主干 2026-10-26 合并进来的补充型工具
+    - query_company_registry
+    - search_company_web
+    - query_cbex_listing_financials
+document_processing:
+  paddle_ocr_url: {env: PADDLE_OCR_URL}
+  paddle_ocr_token: {env: PADDLE_OCR_TOKEN}
+  gotenberg_url: {env: GOTENBERG_URL}
+  tika_url: {env: TIKA_URL}
+  request_timeout_seconds: 300
+  mixed_pdf_requires_explicit_routing: true
+  visual_review_required: false
+  vision_concurrency: 4
+persistence:
+  mysql:
+    host: {env: MYSQL_HOST}
+    port: {env: MYSQL_PORT}
+    database: {env: MYSQL_DATABASE}
+    user: {env: MYSQL_USER}
+    password: {env: MYSQL_PASSWORD}
+    charset: {env: MYSQL_CHARSET}
+  redis:
+    host: {env: REDIS_HOST}
+    port: {env: REDIS_PORT}
+    password: {env: REDIS_PASSWORD}
+    database: {env: REDIS_DB}
+  minio:
+    endpoint: {env: MINIO_ENDPOINT}
+    access_key: {env: MINIO_ACCESS_KEY}
+    secret_key: {env: MINIO_SECRET_KEY}
+    bucket: {env: MINIO_BUCKET}
+    secure: {env: MINIO_SECURE}
+    object_prefix: reports
+    presigned_url_expiry_seconds: 3600

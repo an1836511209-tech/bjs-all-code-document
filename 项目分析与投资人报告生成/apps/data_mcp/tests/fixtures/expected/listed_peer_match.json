@@ -1,0 +1,69 @@
+{
+  "query": {
+    "tags": ["科技金融", "普惠金融"],
+    "summary": "面向小微的数字化信贷"
+  },
+  "weights_used": {
+    "industry_chain_position": 0.375,
+    "products_services": 0.375,
+    "track_tags": 0.12,
+    "target_customers": 0.08,
+    "profit_model": 0.05
+  },
+  "peers": [
+    {
+      "证券代码": "000001.SZ",
+      "证券名称": "平安银行",
+      "公司中文名称": "平安银行股份有限公司",
+      "PE": 5.1291,
+      "PB(LF)": 0.5227,
+      "PS(TTM)": 1.5969,
+      "营业收入": 131442000000.0,
+      "净利润": 42633000000.0,
+      "industry": "金融业",
+      "track_tags": [
+        "银行业",
+        "零售银行",
+        "科技金融",
+        "绿色金融",
+        "普惠金融",
+        "养老金融",
+        "数字金融"
+      ],
+      "score": 0.556267,
+      "rerank_score": null,
+      "final_score": 0.01613,
+      "match_category": "clue",
+      "assessment_status": "not_assessed",
+      "retrieval_channels": {
+        "summary": {"rank": 1, "similarity": 0.556267},
+        "tags": {"rank": 1, "similarity": 0.556267}
+      },
+      "confidence": "low",
+      "field_scores": {
+        "industry_chain_position": 0.522737,
+        "products_services": 0.58951,
+        "track_tags": 0.586197,
+        "target_customers": 0.575517,
+        "profit_model": 0.455791
+      },
+      "missing_fields": [],
+      "evidence": {
+        "industry_chain_position": "处于金融产业链核心环节，上游连接个人与企业客户存款、同业资金、资本市场融资等资金来源，下游通过贷款、投资、理财、支付结算等服务支持实体经济发展。",
+        "products_services": "吸收公众存款；发放短期、中期和长期贷款；办理国内外结算。",
+        "matched_business_terms": "小微、信贷"
+      }
+    }
+  ],
+  "meta": {
+    "matching_version": "retrieval_v2",
+    "assessment_status": "not_assessed",
+    "score_kind": "reciprocal_rank_fusion",
+    "corpus_size": 1,
+    "recall_k": 1,
+    "rerank_enabled": false,
+    "data_dir": "../../resources/reference_data/data_mcp/listed_peers",
+    "source_files": ["(已补全)2024上市公司商业模式2 - 文字版.xlsx"],
+    "embedding_backend": "hash"
+  }
+}

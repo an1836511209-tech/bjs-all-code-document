@@ -1,0 +1,78 @@
+/* ===== topbar ===== */
+.topbar {
+  flex-shrink: 0; display: flex; align-items: center; gap: 12px;
+  padding: 10px 18px; border-bottom: 1px solid var(--line);
+  background: color-mix(in oklch, var(--surface) 86%, transparent);
+  backdrop-filter: blur(12px); z-index: 30; min-height: 56px;
+}
+.brand { display: flex; align-items: center; gap: 9px; }
+.brand-mark {
+  width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center;
+  background: linear-gradient(140deg, var(--accent), oklch(60% 0.16 300));
+  color: #fff; box-shadow: var(--shadow-sm);
+}
+.brand-mark svg { width: 16px; height: 16px; }
+.brand-name { font-weight: 650; font-size: 14px; letter-spacing: .2px; white-space: nowrap; }
+.brand-sub { font-size: 10px; color: var(--ink-3); white-space: nowrap; margin-top: -2px; }
+.top-sep { width: 1px; height: 22px; background: var(--line); }
+
+.run-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 27px; padding: 0 10px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--surface);
+  font-size: 11px; font-weight: 650; white-space: nowrap;
+}
+.run-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-3); }
+.run-pill.running .dot { background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); animation: breath 1.6s infinite; }
+.run-pill.waiting .dot { background: var(--warn); box-shadow: 0 0 0 3px var(--warn-soft); animation: breath 1.6s infinite; }
+.run-pill.completed .dot { background: var(--ok); box-shadow: 0 0 0 3px var(--ok-soft); }
+.run-pill.failed .dot { background: var(--danger); box-shadow: 0 0 0 3px var(--danger-soft); }
+@keyframes breath { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+
+.timer { font-family: var(--mono); font-size: 11.5px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.skill-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  height: 25px; padding: 0 9px; border-radius: 7px;
+  background: var(--accent-soft); color: var(--accent);
+  font-size: 10.5px; font-weight: 650; white-space: nowrap;
+  border: 1px solid var(--accent-line);
+}
+.top-spacer { flex: 1; }
+.mode-switch { display: flex; background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 2px; }
+.mode-switch button {
+  height: 23px; padding: 0 9px; border-radius: 6px; border: 0;
+  background: transparent; color: var(--ink-3); font-size: 10.5px; font-weight: 600;
+  transition: background .15s, color .15s;
+}
+.mode-switch button.on { background: var(--surface); color: var(--ink); box-shadow: var(--shadow-sm); }
+.icon-btn {
+  width: 31px; height: 31px; border-radius: 8px; border: 1px solid transparent;
+  display: grid; place-items: center; background: transparent; color: var(--ink-2);
+  transition: background .15s, color .15s;
+}
+.icon-btn:hover { background: var(--surface-2); color: var(--ink); }
+.icon-btn svg { width: 15px; height: 15px; }
+
+/* 上下文占用环 */
+.ctx-ring {
+  position: relative; width: 22px; height: 22px; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.ctx-ring[hidden] { display: none; }
+.ctx-ring svg { width: 22px; height: 22px; transform: rotate(-90deg); }
+.ctx-ring-track {
+  fill: none; stroke: var(--line-2, #e3e6ec); stroke-width: 3.5;
+}
+.ctx-ring-fill {
+  fill: none; stroke: var(--ok, #2f9e6d); stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-dasharray: 94.25;      /* 2πr, r=15 */
+  stroke-dashoffset: 94.25;     /* 空环 */
+  transition: stroke-dashoffset .3s ease, stroke .3s ease;
+}
+.ctx-ring.is-warn .ctx-ring-fill { stroke: var(--warn, #d99a00); }
+.ctx-ring.is-danger .ctx-ring-fill { stroke: var(--danger, #d0453a); }
+.ctx-ring-label {
+  position: absolute; font-size: 8px; font-weight: 700;
+  color: var(--ink-2); font-variant-numeric: tabular-nums;
+}

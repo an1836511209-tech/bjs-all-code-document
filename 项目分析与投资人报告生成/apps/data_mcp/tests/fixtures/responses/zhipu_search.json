@@ -1,0 +1,14 @@
+{
+  "created": 1748261757,
+  "id": "mock-zhipu-search-001",
+  "request_id": "mock-zhipu-search-001",
+  "search_result": [
+    {
+      "title": "星河智贷科技有限公司 主营业务介绍",
+      "link": "https://example.com/news/1",
+      "content": "星河智贷科技有限公司专注于数字化信贷平台，服务小微企业。",
+      "media": "示例新闻",
+      "publish_date": "2025-05-23"
+    }
+  ]
+}

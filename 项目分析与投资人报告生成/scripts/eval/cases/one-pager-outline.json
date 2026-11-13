@@ -1,0 +1,21 @@
+{
+  "id": "one-pager-outline",
+  "description": "一页纸：大纲与渲染一次通过，不得反复重试 check_one_pager_outline / render_one_pager",
+  "skill": "one-pager",
+  "message": "帮我根据当前材料，生成一页纸推介文档",
+  "materials": [
+    "scripts/eval/materials/01-明泰微电子_项目简介.docx"
+  ],
+  "timeout_seconds": 2400,
+  "assertions": {
+    "max_model_calls": 60,
+    "max_tool_calls": 90,
+    "max_edit_file_calls": 4,
+    "max_batch_edit_calls": 4,
+    "max_write_todos_calls": 3,
+    "max_context_peak": 80,
+    "max_wall_seconds": 1500,
+    "required_tools": ["check_one_pager_outline", "render_one_pager"],
+    "forbidden_tools": []
+  }
+}

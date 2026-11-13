@@ -1,0 +1,59 @@
+__pycache__/
+*.py[cod]
+*.whl
+*.egg-info/
+.coverage
+htmlcov/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.venv/
+build/
+dist/
+# Local runtime artifacts (report-agent workspaces, listed-peer embedding index)
+.runtime/
+
+# Explicit anchors for top-level local artifacts
+# (DSH sandbox \$TMP mount, uv venv, ruff cache — see deploy/environments/ for prod)
+/.venv/
+/.ruff_cache/
+/.runtime/
+
+# Test-generated listed-peer embedding index
+apps/data_mcp/tests/fixtures/data/listed_peers/.index/
+
+# Local tooling / workspace (not part of the product)
+.codegraph/
+.superpowers/
+.trae/
+
+# Local runtime secrets and machine-specific config
+apps/data_mcp/config.yaml
+
+# Host-mounted task workspaces (runtime data)
+workspaces/
+
+# Local agent debug logs
+logs/
+
+# Evaluation artifacts (scripts/eval output: traces, metric reports)
+/artifacts/
+
+# Local debug artifacts
+tmp/
+
+# This is a private deployment repository. Environment configuration is
+# intentionally versioned so a fresh clone contains the complete runtime setup.
+!deploy/environments/
+!deploy/environments/**/
+!deploy/environments/**/*.env
+!deploy/environments/**/*.yaml
+
+# Legacy leftover; prefer deploy/environments/test/runtime.env
+deploy/environments/test.env
+
+# Docker image tarballs
+*.tar
+
+# Word/WPS 打开文档时生成的锁文件
+~$*

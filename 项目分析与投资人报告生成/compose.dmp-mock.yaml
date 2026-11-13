@@ -1,0 +1,73 @@
+# Non-production overlay. Always use --profile dmp-mock and APP_ENV=test/uat.
+services:
+  dmp-mock:
+    profiles: [dmp-mock]
+    build:
+      context: .
+      dockerfile: scripts/dmp_mock/Dockerfile
+    image: bjs-dmp-mock:0.1.0
+    environment:
+      APP_ENV: ${APP_ENV:-test}
+    command: ["--host", "0.0.0.0", "--environment", "${APP_ENV:-test}",
+              "--institutions", "${DMP_MOCK_INSTITUTIONS:-10000}",
+              "--individuals", "${DMP_MOCK_INDIVIDUALS:-50000}",
+              "--labels", "${DMP_MOCK_LABELS:-3000}",
+              "--wrapper", "${DMP_MOCK_WRAPPER:-direct}",
+              "--report-scenario", "${DMP_MOCK_REPORT_SCENARIO:-normal}",
+              "--export-scenario", "${DMP_MOCK_EXPORT_SCENARIO:-normal}"]
+    read_only: true
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 64
+    # No public listener: business clients use the internal Compose network.
+    ports: ["127.0.0.1:${DMP_MOCK_PORT:-8025}:8025"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8025/health',timeout=2).close()"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  data-mcp:
+    environment:
+      APP_ENV: ${APP_ENV:-test}
+      DMP_MOCK_BASE_URL: http://dmp-mock:8025
+    volumes:
+      - ./deploy/environments/${APP_ENV:-test}/data-mcp.yaml:/app/deploy/environments/${APP_ENV:-test}/data-mcp.yaml:ro
+    depends_on:
+      dmp-mock:
+        condition: service_healthy
+
+  report-agent:
+    volumes:
+      - ./workspaces/${APP_ENV:-test}:/var/lib/report-agent/workspaces
+      - ./deploy/environments/${APP_ENV:-test}/report-agent.yaml:/app/deploy/environments/${APP_ENV:-test}/report-agent.yaml:ro
+
+  institution-workbook-worker:
+    profiles: [dmp-mock]
+    build:
+      context: .
+      dockerfile: apps/report_agent/Dockerfile.runtime
+    image: bjs-report-agent:0.1.0
+    restart: unless-stopped
+    env_file:
+      - ${BJS_ENV_FILE:-deploy/environments/test/runtime.env}
+    environment:
+      REPORT_AGENT_CONFIG: /app/deploy/environments/${APP_ENV:-test}/report-agent.yaml
+    command: ["python", "-m", "report_agent.entrypoints.institution_workbook_worker"]
+    read_only: true
+    tmpfs: ["/tmp:rw,noexec,nosuid,size=64m"]
+    volumes:
+      - ./workspaces/${APP_ENV:-test}:/var/lib/report-agent/workspaces
+      - ./deploy/environments/${APP_ENV:-test}/report-agent.yaml:/app/deploy/environments/${APP_ENV:-test}/report-agent.yaml:ro
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 64
+    depends_on:
+      data-mcp:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import json;from datetime import datetime,timezone;from pathlib import Path;t=json.loads(Path('/var/lib/report-agent/workspaces/.institution-worker/state/heartbeat.json').read_text())['at'];assert (datetime.now(timezone.utc)-datetime.fromisoformat(t)).total_seconds()<20"]
+      interval: 10s
+      timeout: 3s
+      start_period: 20s
+      retries: 3

@@ -1,0 +1,5 @@
+[tool.uv.workspace]
+members = ["apps/data_mcp", "apps/report_agent"]
+
+[tool.uv]
+package = false

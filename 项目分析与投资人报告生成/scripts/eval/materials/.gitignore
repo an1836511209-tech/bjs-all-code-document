@@ -1,0 +1,10 @@
+# Evaluation material fixtures.
+#
+# Small .docx samples are committed so every case can run out of the box.
+# Large binaries (PDF / PPTX / XLSX) are ignored: drop them here locally to
+# run a case against your own material without polluting the repository.
+*.pdf
+*.pptx
+*.xlsx
+*.ppt
+*.xls

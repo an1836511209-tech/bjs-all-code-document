@@ -1,0 +1,96 @@
+# 容器内「本地文件沙箱」配置
+#
+# 与 report-agent.yaml 的唯一实质差异：
+#   sandbox.backend: bubblewrap  →  filesystem
+#
+# 用途：在没有 bubblewrap 能力（Docker Desktop、受限内核、CI）的环境里跑容器，
+# 或者只想验证业务流程而不需要进程隔离。
+#
+# 注意：filesystem 后端下 agent 执行的 shell 命令没有沙箱隔离，也不禁网，
+#       network_mode 不生效。仅用于本地/测试，不要用于生产。
+#
+# 用法（放在 compose.yaml 同目录，需显式指定，不会自动叠加）：
+#   docker compose -f compose.yaml -f compose.dockerlocal.yaml up -d
+schema_version: "1.0"
+environment: test
+service:
+  workspace_root: /var/lib/report-agent/workspaces
+  skill_roots: [/app/apps/report_agent/skills]
+  workspace_max_mb: 2048
+  dev_ui_enabled: true
+  max_upload_mb: 100
+  dev_trace_max_chars: 12000
+model:
+  provider: openai_compatible
+  base_url: {env: LLM_BASE_URL}
+  api_key: {env: LLM_API_KEY}
+  model: {env: LLM_MODEL}
+  multimodal_model: {env: MULTIMODAL_MODEL}
+  timeout_seconds: 600
+  max_retries: 2
+harness:
+  max_model_calls: 200
+  run_timeout_seconds: 1800
+  tool_argument_repair_attempts: 2
+context:
+  model_context_tokens: {env: LLM_MAX_CONTEXT_TOKENS}
+  hard_stop_ratio: 0.9
+  inline_tool_output_chars: 10000
+  compression_trigger_ratio: 0.75
+  compression_keep_recent: 6
+sandbox:
+  # 关键差异：不启用 bubblewrap，命令直接在容器内以当前用户执行
+  backend: filesystem
+  # 以下两项在 filesystem 后端下不生效，保留仅为与 schema 对齐
+  network_mode: isolated
+  runtime_image: bjs-report-agent-runtime:0.1.0
+  cpu_limit: 1.0
+  memory_mb: 2048
+  process_limit: 64
+  command_timeout_seconds: 120
+data_mcp:
+  transport: streamable-http
+  # 容器网络内用服务名，不是 127.0.0.1
+  url: http://data-mcp:8001/mcp
+  contracts_dir: /app/contracts/mcp
+  required: true
+  tool_timeout_seconds: 600
+  enabled_tools: &data_mcp_tools
+    - extract_project_profile
+    - query_track_labels
+    - query_comparable_valuation
+    - match_listed_peers
+    - match_investors
+    - query_company_registry
+    - search_company_web
+    - query_cbex_listing_financials
+document_processing:
+  paddle_ocr_url: {env: PADDLE_OCR_URL}
+  paddle_ocr_token: {env: PADDLE_OCR_TOKEN}
+  gotenberg_url: {env: GOTENBERG_URL}
+  tika_url: {env: TIKA_URL}
+  request_timeout_seconds: 300
+  mixed_pdf_requires_explicit_routing: true
+  visual_review_required: false
+  vision_concurrency: 4
+persistence:
+  mysql:
+    host: {env: MYSQL_HOST}
+    port: {env: MYSQL_PORT}
+    database: {env: MYSQL_DATABASE}
+    user: {env: MYSQL_USER}
+    password: {env: MYSQL_PASSWORD}
+    charset: {env: MYSQL_CHARSET}
+  redis:
+    host: {env: REDIS_HOST}
+    port: {env: REDIS_PORT}
+    password: {env: REDIS_PASSWORD}
+    database: {env: REDIS_DB}
+  minio:
+    endpoint: {env: MINIO_ENDPOINT}
+    access_key: {env: MINIO_ACCESS_KEY}
+    secret_key: {env: MINIO_SECRET_KEY}
+    bucket: {env: MINIO_BUCKET}
+    secure: {env: MINIO_SECURE}
+    object_prefix: reports
+    presigned_url_expiry_seconds: 3600

@@ -1,0 +1,4 @@
+interface:
+  display_name: "投资人匹配报告"
+  short_description: "基于 Data MCP 证据生成带来源批注的 Word 报告"
+  default_prompt: "请根据工作区材料和 Data MCP 证据生成投资人匹配报告。"

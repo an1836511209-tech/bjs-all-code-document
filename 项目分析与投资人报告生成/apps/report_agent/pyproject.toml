@@ -1,0 +1,80 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "bjs-report-agent"
+version = "0.1.0"
+description = "Sandboxed document-writing agent for BJS investment reports"
+readme = "README.md"
+requires-python = ">=3.11,<3.15"
+dependencies = [
+  "deepagents>=0.5.4,<0.6",
+  "fastapi>=0.116,<1",
+  "httpx>=0.28,<1",
+  "jsonschema>=4.25,<5",
+  "langchain-openai>=1.1,<2",
+  "langgraph-checkpoint-mysql[pymysql]>=3.0,<4",
+  "lxml>=5,<7",
+  "mcp>=2.0,<3",
+  "minio>=7.2,<8",
+  "openpyxl>=3.1,<4",
+  "pydantic>=2.12,<3",
+  "pydantic-settings>=2.12,<3",
+  "pymupdf>=1.26,<2",
+  "python-multipart>=0.0.20,<1",
+  "python-docx>=1.2,<2",
+  "python-pptx>=1.0,<2",
+  "pyyaml>=6.0.3,<7",
+  "xlrd>=2.0,<3",
+  "uvicorn>=0.35,<1",
+]
+
+[project.scripts]
+report-agent-api = "report_agent.entrypoints.api:main"
+report-agent-db-migrate = "report_agent.entrypoints.db_migrate:main"
+report-agent-spike = "report_agent.entrypoints.cli:main"
+report-agent-sandbox-smoke = "report_agent.entrypoints.sandbox_smoke:main"
+
+[dependency-groups]
+test = [
+  "pytest>=8,<10",
+  "pytest-asyncio>=1,<2",
+]
+lint = [
+  "mypy>=1.18,<2",
+  "ruff>=0.13,<1",
+  "types-pyyaml>=6.0,<7",
+  "types-jsonschema>=4.25,<5",
+  "types-pymysql>=1.1,<2",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/report_agent"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"skills/one-pager/assets" = "report_agent/resources/one_pager"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+packages = ["report_agent"]
+warn_unused_configs = true
+check_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = ["openpyxl", "openpyxl.*", "xlrd", "xlrd.*"]
+ignore_missing_imports = true

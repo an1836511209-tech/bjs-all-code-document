@@ -1,0 +1,60 @@
+{
+  "Status": "200",
+  "Message": "【有效请求】查询成功",
+  "Result": {
+    "Name": "星河智贷科技有限公司",
+    "CreditCode": "91110000MA01234567",
+    "OperName": "张三",
+    "StartDate": "2018-01-01 00:00:00",
+    "Status": "存续（在营、开业、在册）",
+    "RegistCapi": "1000 万元",
+    "RegisteredCapital": "1000",
+    "RegisteredCapitalUnit": "万",
+    "RegisteredCapitalCCY": "CNY",
+    "RecCap": "1000 万元",
+    "PaidUpCapital": "1000",
+    "PaidUpCapitalUnit": "万",
+    "PaidUpCapitalCCY": "CNY",
+    "EconKind": "有限责任公司",
+    "Address": "北京市海淀区示例路 1 号",
+    "Scope": "软件开发；信息技术服务",
+    "PersonScope": "100-199 人",
+    "InsuredCount": "120",
+    "IsOnStock": "0",
+    "StockNumber": null,
+    "StockType": null,
+    "Industry": {
+      "IndustryCode": "I",
+      "Industry": "信息传输、软件和信息技术服务业",
+      "SubIndustryCode": "65",
+      "SubIndustry": "软件和信息技术服务业",
+      "MiddleCategoryCode": null,
+      "MiddleCategory": null,
+      "SmallCategoryCode": null,
+      "SmallCategory": null
+    },
+    "TagList": [
+      {"Type": "903", "Name": "存续"},
+      {"Type": "108", "Name": "高新技术企业"}
+    ],
+    "Partners": [
+      {"StockName": "红杉资本中国有限公司", "StockPercent": "10%", "StockType": "企业法人"},
+      {"StockName": "张三", "StockPercent": "5%", "StockType": "自然人股东"}
+    ],
+    "Employees": [
+      {"Name": "张三", "Job": "执行董事"},
+      {"Name": "李四", "Job": "监事"}
+    ],
+    "ChangeRecords": [
+      {
+        "ProjectName": "注册资本变更",
+        "BeforeContent": "500 万元",
+        "AfterContent": "1000 万元",
+        "ChangeDate": "2020-01-01"
+      }
+    ],
+    "Branches": [],
+    "ContactInfo": {"PhoneNumber": "010-12345678", "Email": "a@b.com"},
+    "ImageUrl": "https://example.com/logo.png"
+  }
+}

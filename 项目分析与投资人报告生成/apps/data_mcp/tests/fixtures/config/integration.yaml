@@ -1,0 +1,315 @@
+# stdio 集成测试专用配置（由 tests/test_mcp_stdio_integration.py 通过 DATA_MCP_CONFIG 加载）
+
+current_env: dev
+
+http_retry:
+  max_retries: 1
+  backoff_base_seconds: 0.1
+  backoff_max_seconds: 1.0
+
+historical_valuation:
+  path: "/openapi/agents/chat/completions/v1"
+  dev:
+    host: "http://127.0.0.1:0/mock-lowcode"
+    token: "test-token"
+    agent_id: "test-agent"
+    chat_id: null
+    button_key: null
+    debug: true
+    timeout_seconds: 10
+  uat:
+    host: "http://127.0.0.1:0/mock-lowcode"
+    token: "test-token"
+    agent_id: "test-agent"
+    chat_id: null
+    button_key: null
+    debug: false
+    timeout_seconds: 10
+  prod:
+    host: "http://127.0.0.1:0/mock-lowcode"
+    token: "test-token"
+    agent_id: "test-agent"
+    chat_id: null
+    button_key: null
+    debug: false
+    timeout_seconds: 10
+
+listed_peer_match:
+  data_dir: "tests/fixtures/data/listed_peers"
+  index_dir: "../../.runtime/data_mcp/listed_peer_index"
+  field_weights:
+    industry_chain_position: 0.375
+    products_services: 0.375
+    track_tags: 0.12
+    target_customers: 0.08
+    profit_model: 0.05
+  constraints:
+    require_sum_approx: 1.0
+    sum_tolerance: 0.001
+    require_chain_plus_products_min: 0.75
+  top_k_recall: 80
+  top_n_return: 10
+  enable_rerank: false
+  score_threshold:
+    high: 0.72
+    medium: 0.55
+  embedding:
+    dev:
+      backend: hash
+      url: "https://qwen3emb.agentspro.cn/v1/embeddings"
+      api_key: test-api-key
+      model: "Qwen3-Embedding-0.6B"
+      timeout_seconds: 60
+      batch_size: 32
+    uat:
+      backend: hash
+      url: "http://10.224.98.172/v1/embeddings"
+      api_key: test-api-key
+      model: "Qwen3-Embedding-0.6B"
+      timeout_seconds: 60
+    prod:
+      backend: hash
+      url: ""
+      api_key: test-api-key
+      model: ""
+      timeout_seconds: 60
+  rerank:
+    dev:
+      url: "https://qwen3rerank.agentspro.cn/v1/rerank"
+      api_key: test-api-key
+      model: "Qwen3-Reranker-0.6B"
+      timeout_seconds: 60
+    uat:
+      url: "http://10.224.98.172/v1/rerank"
+      api_key: test-api-key
+      model: "Qwen3-Reranker-0.6B"
+      timeout_seconds: 60
+    prod:
+      url: ""
+      api_key: test-api-key
+      model: ""
+      timeout_seconds: 60
+
+investor_match:
+  internal_top_n: 10
+  network_top_n: 5
+  weight_ratio:
+    lbl_wgt: 1
+    pref_wgt: 1
+    smy_wgt: 1
+  dmp:
+    dev:
+      base_url: ""
+      path: "/v3/API_DMP_DMP_APEX_InquiryInvestorProfileMatchingSrv"
+      method: "POST"
+      x_gw_token: ""
+      timeout_seconds: 5
+    uat:
+      base_url: ""
+      path: "/v3/API_DMP_DMP_APEX_InquiryInvestorProfileMatchingSrv"
+      method: "POST"
+      x_gw_token: ""
+      timeout_seconds: 5
+    prod:
+      base_url: ""
+      path: "/v3/API_DMP_DMP_APEX_InquiryInvestorProfileMatchingSrv"
+      method: "POST"
+      x_gw_token: ""
+      timeout_seconds: 5
+  database:
+    dev:
+      host: ""
+      port: 3306
+      user: ""
+      password: ""
+      database: "touziren"
+      weight_table: "投资人权重"
+      info_table: "投资人信息全量"
+      driver: "mysql"
+    uat:
+      host: ""
+      port: 3306
+      user: ""
+      password: ""
+      database: "touziren"
+      weight_table: "投资人权重"
+      info_table: "投资人信息全量"
+      driver: "mysql"
+    prod:
+      host: ""
+      port: 3306
+      user: ""
+      password: ""
+      database: "touziren"
+      weight_table: "投资人权重"
+      info_table: "投资人信息全量"
+      driver: "mysql"
+  qichacha:
+    dev:
+      key: "test-qichacha-key"
+      secret_key: "test-qichacha-secret"
+      base_url: "https://api.qichacha.com"
+      path: "/ECIInfoVerify/GetInfo"
+      timeout_seconds: 5
+    uat:
+      key: "test-qichacha-key"
+      secret_key: "test-qichacha-secret"
+      base_url: "https://api.qichacha.com"
+      path: "/ECIInfoVerify/GetInfo"
+      timeout_seconds: 5
+    prod:
+      key: "test-qichacha-key"
+      secret_key: "test-qichacha-secret"
+      base_url: "https://api.qichacha.com"
+      path: "/ECIInfoVerify/GetInfo"
+      timeout_seconds: 5
+
+investor_network:
+  path: "/openapi/agents/chat/completions/v1"
+  dev:
+    host: "http://127.0.0.1:0/mock-lowcode"
+    token: "test-token"
+    agent_id: "test-agent"
+    chat_id: null
+    button_key: null
+    debug: true
+    timeout_seconds: 10
+  uat:
+    host: "http://127.0.0.1:0/mock-lowcode"
+    token: "test-token"
+    agent_id: "test-agent"
+    chat_id: null
+    button_key: null
+    debug: false
+    timeout_seconds: 10
+  prod:
+    host: "http://127.0.0.1:0/mock-lowcode"
+    token: "test-token"
+    agent_id: "test-agent"
+    chat_id: null
+    button_key: null
+    debug: false
+    timeout_seconds: 10
+
+project_profile:
+  path: "/openapi/agents/chat/completions/v1"
+  dev:
+    host: "http://127.0.0.1:0/mock-lowcode"
+    token: "test-token"
+    agent_id: "test-agent"
+    chat_id: null
+    button_key: null
+    debug: true
+    timeout_seconds: 10
+  uat:
+    host: "http://127.0.0.1:0/mock-lowcode"
+    token: "test-token"
+    agent_id: "test-agent"
+    chat_id: null
+    button_key: null
+    debug: false
+    timeout_seconds: 10
+  prod:
+    host: "http://127.0.0.1:0/mock-lowcode"
+    token: "test-token"
+    agent_id: "test-agent"
+    chat_id: null
+    button_key: null
+    debug: false
+    timeout_seconds: 10
+  qichacha:
+    dev:
+      key: "test-qichacha-key"
+      secret_key: "test-qichacha-secret"
+      base_url: "https://api.qichacha.com"
+      path: "/ECIInfoVerify/GetInfo"
+      timeout_seconds: 5
+    uat:
+      key: "test-qichacha-key"
+      secret_key: "test-qichacha-secret"
+      base_url: "https://api.qichacha.com"
+      path: "/ECIInfoVerify/GetInfo"
+      timeout_seconds: 5
+    prod:
+      key: "test-qichacha-key"
+      secret_key: "test-qichacha-secret"
+      base_url: "https://api.qichacha.com"
+      path: "/ECIInfoVerify/GetInfo"
+      timeout_seconds: 5
+  zhipu:
+    dev:
+      api_key: test-api-key
+      base_url: "https://open.bigmodel.cn"
+      path: "/api/paas/v4/web_search"
+      search_engine: "search_pro"
+      count: 2
+      timeout_seconds: 5
+      query_templates:
+        - "{company_name} 主营业务 产品"
+        - "{company_name} 行业 赛道"
+    uat:
+      api_key: test-api-key
+      base_url: "https://open.bigmodel.cn"
+      path: "/api/paas/v4/web_search"
+      search_engine: "search_pro"
+      count: 2
+      timeout_seconds: 5
+    prod:
+      api_key: test-api-key
+      base_url: "https://open.bigmodel.cn"
+      path: "/api/paas/v4/web_search"
+      search_engine: "search_pro"
+      count: 2
+      timeout_seconds: 5
+
+track_labels:
+  api:
+    dev:
+      base_url: ""
+      path: "/api/foreign/get/track/labels"
+      method: "POST"
+      secret_key: ""
+      timeout_seconds: 5
+    uat:
+      base_url: ""
+      path: "/api/foreign/get/track/labels"
+      method: "POST"
+      secret_key: ""
+      timeout_seconds: 5
+    prod:
+      base_url: ""
+      path: "/api/foreign/get/track/labels"
+      method: "POST"
+      secret_key: ""
+      timeout_seconds: 5
+  retry:
+    max_attempts: 2
+    interval_seconds: 20
+  fallback:
+    taxonomy_path: "../../resources/reference_data/data_mcp/taxonomy/track_labels_v202402.xlsx"
+  hiagent:
+    path: "/openapi/agents/chat/completions/v1"
+    dev:
+      host: "https://example.com"
+      token: "test-token"
+      agent_id: "test-track-label-agent"
+      chat_id: null
+      button_key: null
+      debug: true
+      timeout_seconds: 5
+    uat:
+      host: "https://example.com"
+      token: "test-token"
+      agent_id: "test-track-label-agent"
+      chat_id: null
+      button_key: null
+      debug: false
+      timeout_seconds: 5
+    prod:
+      host: "https://example.com"
+      token: "test-token"
+      agent_id: "test-track-label-agent"
+      chat_id: null
+      button_key: null
+      debug: false
+      timeout_seconds: 5

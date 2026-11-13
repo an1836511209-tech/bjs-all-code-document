@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "tool": "match_investors",
+  "description": "匹配潜在投资机构，去除重复视图和内部原始字段后返回统一外壳。",
+  "input_schema": {"type": "object", "additionalProperties": false, "required": ["company_name", "track_tags", "project_profile"], "properties": {
+    "company_name": {"type": "string", "minLength": 1}, "track_tags": {"oneOf": [{"type": "string", "minLength": 1}, {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}]},
+    "project_profile": {"oneOf": [{"type": "string", "minLength": 1}, {"type": "object", "minProperties": 1}]}, "label_type": {"type": "string"}
+  }},
+  "output_schema": {
+    "type": "object", "additionalProperties": false, "required": ["schema_version", "tool", "status", "summary", "data", "sources", "warnings"],
+    "properties": {
+      "schema_version": {"const": "1.0"}, "tool": {"const": "match_investors"}, "status": {"enum": ["success", "partial", "empty", "failed"]}, "summary": {"type": "string"},
+"data": {"type": "object", "additionalProperties": false, "properties": {
+        "candidates": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["name", "investor_type", "source", "match_reason", "citations"], "properties": {
+          "name": {"type": "string"}, "investor_type": {"type": "string"}, "source": {"type": "string"}, "score": {"type": ["number", "null"]}, "match_reason": {"type": "string"},
+          "citations": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/citation"}}
+        }}},
+        "counts": {"type": "object"}, "shareholder_filter_applied": {"type": "boolean"}
+      }},
+      "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}}, "warnings": {"type": "array", "items": {"$ref": "#/$defs/warning"}}
+    },
+    "$defs": {
+      "citation": {"type": "object", "additionalProperties": false, "required": ["source_type", "source_name", "source_url", "quote"], "properties": {
+        "source_type": {"type": "string", "minLength": 1}, "source_name": {"type": "string", "minLength": 1}, "source_url": {"type": "string"}, "quote": {"type": "string"}
+      }},
+      "source": {"type": "object", "additionalProperties": false, "required": ["name", "status"], "properties": {"name": {"type": "string"}, "status": {"type": "string"}}},
+      "warning": {"type": "object", "additionalProperties": false, "required": ["code", "message", "retryable"], "properties": {"code": {"type": "string"}, "message": {"type": "string"}, "retryable": {"type": "boolean"}}}
+    }
+  }
+}

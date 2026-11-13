@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>投研 Agent · 对话工作台</title>
+<script>
+/* Keep address bar free of the nginx-only opaque prefix; APIs still use it. */
+(function () {
+  var prefix = '/m4Kp9Qx2Lv7Nc1Rd8Ws3Tf6Yb0Hz';
+  var path = location.pathname;
+  var consolePath = '/v1/ai-service/console';
+  if (path === prefix + consolePath || path.indexOf(prefix + consolePath + '/') === 0) {
+    sessionStorage.setItem('bjsConsolePrefix', prefix);
+    history.replaceState(null, '', consolePath + '/' + location.search + location.hash);
+  }
+})();
+</script>
+    <!-- 样式按层叠顺序加载：tokens 必须最先，overrides 最后 -->
+    <link rel="stylesheet" href="assets/styles/00-tokens-base.css?v=20261106-stop" />
+    <link rel="stylesheet" href="assets/styles/01-topbar.css?v=20261106-stop" />
+    <link rel="stylesheet" href="assets/styles/02-layout.css?v=20261106-stop" />
+    <link rel="stylesheet" href="assets/styles/03-sidebar.css?v=20261106-stop" />
+    <link rel="stylesheet" href="assets/styles/03b-convo-files.css?v=20261106-stop" />
+    <link rel="stylesheet" href="assets/styles/04-chat.css?v=20261106-stop" />
+    <link rel="stylesheet" href="assets/styles/04b-inline-cards.css?v=20261106-stop" />
+    <link rel="stylesheet" href="assets/styles/05-approval.css?v=20261106-stop" />
+    <link rel="stylesheet" href="assets/styles/06-composer.css?v=20261109-preview" />
+    <link rel="stylesheet" href="assets/styles/07-preview.css?v=20261109-preview" />
+    <link rel="stylesheet" href="assets/styles/08-footer.css?v=20261106-stop" />
+    <link rel="stylesheet" href="assets/styles/09-responsive.css?v=20261106-stop" />
+    <link rel="stylesheet" href="assets/styles/10-plan.css?v=20261106-stop" />
+    <link rel="stylesheet" href="assets/styles/11-tools.css?v=20261106-stop" />
+    <link rel="stylesheet" href="assets/styles/12-overrides.css?v=20261106-stop" />
+</head>
+<body>
+<div class="app">
+
+  <!-- ===== topbar ===== -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Z"/><path d="M19 15.5l.6 1.9 1.9.6-1.9.6L19 20.5l-.6-1.9-1.9-.6 1.9-.6.6-1.9Z"/></svg>
+      </span>
+      <div>
+        <div class="brand-name">投研 Agent</div>
+        <div class="brand-sub">一页纸 BP / 投资报告</div>
+      </div>
+    </div>
+
+    <div class="top-sep"></div>
+
+    <span class="run-pill" id="runPill">
+      <span class="dot"></span>
+      <span id="runStatus">空闲</span>
+    </span>
+    <span class="timer" id="timer">00:00</span>
+    <!-- 上下文占用环：轮次限制移除后，这是唯一的自动管理依据。
+         内圈百分比 = 当前 token 占模型窗口的比例，达到触发线会变红。 -->
+    <span class="ctx-ring" id="ctxRing" hidden>
+      <svg viewBox="0 0 36 36" aria-hidden="true">
+        <circle class="ctx-ring-track" cx="18" cy="18" r="15"></circle>
+        <circle class="ctx-ring-fill" id="ctxRingFill" cx="18" cy="18" r="15"></circle>
+      </svg>
+      <span class="ctx-ring-label" id="ctxRingLabel">0%</span>
+    </span>
+    <span class="skill-badge" id="skillBadge" style="display:none;">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Z"/></svg>
+      <span id="skillName">one-pager</span>
+    </span>
+
+    <div class="top-spacer"></div>
+
+    <button class="icon-btn" id="themeBtn" aria-label="切换主题">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </header>
+
+  <div class="shell" id="shell">
+
+    <!-- ===== project folders ===== -->
+    <aside class="convos" id="convos">
+      <button class="new-project" id="newProject">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        新建项目
+      </button>
+      <div class="project-list" id="projectList"></div>
+
+      <!-- 当前对话的文件：上传材料 + 已生成产物 -->
+      <section class="convo-files" id="convoFiles" hidden>
+        <header class="convo-files-head">
+          <span id="convoFilesTitle">本对话文件</span>
+          <button class="mini-btn" id="refreshFiles" aria-label="刷新文件" title="刷新文件">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg>
+          </button>
+        </header>
+        <div class="convo-files-body" id="convoFilesBody"></div>
+      </section>
+
+      <div class="side-foot">对话记录保存在本地浏览器</div>
+    </aside>
+
+    <!-- ===== chat ===== -->
+    <section class="chat">
+      <div class="chat-head">
+        <button class="mini-btn icon-only sidebar-toggle" id="convosToggle"
+                aria-label="打开项目列表" aria-expanded="false" aria-controls="convos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div style="min-width:0;">
+          <div class="chat-title" id="chatTitle">新对话</div>
+          <div class="chat-sub" id="chatSub">描述需求开始</div>
+        </div>
+        <span class="grow"></span>
+        <button class="mini-btn" id="previewToggle" title="打开文件预览">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>
+          文件预览
+        </button>
+      </div>
+
+      <section class="task-panel" id="taskPanel" hidden>
+        <button type="button" class="task-head" id="taskHead" aria-expanded="true">
+          <span class="task-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </span>
+          <span class="task-title">执行计划</span>
+          <span class="task-progress" id="taskProgress">0 / 0</span>
+          <span class="task-chev">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </span>
+        </button>
+        <div class="task-body" id="taskBody"></div>
+      </section>
+
+      <div class="messages" id="messages">
+        <div class="thread" id="thread"></div>
+      </div>
+
+      <div class="composer-wrap">
+        <div class="quick-chips" id="quickChips">
+          <button class="chip" data-prompt="帮我根据当前材料，生成一页纸推介文档" data-skill="one-pager">生成一页纸 BP</button>
+          <button class="chip" data-prompt="帮我根据当前材料，生成投资人匹配报告" data-skill="investment-report">生成投资报告</button>
+        </div>
+
+        <div class="attach-row" id="attachRow"></div>
+        <div class="url-box" id="urlBox" hidden>
+          <textarea id="urlsInput" rows="2" placeholder="每行一个 http/https 材料地址"></textarea>
+        </div>
+
+        <div class="composer">
+          <textarea id="input" rows="1" placeholder="描述你的需求，或直接说「帮我生成一页纸 BP」…"></textarea>
+          <div class="composer-bar">
+            <div class="composer-tools">
+              <select id="skillSelect" class="skill-select" aria-label="选择 Skill">
+                <option value="one-pager" selected>一页纸 BP</option>
+                <option value="investment-report">投资报告</option>
+                <option value="chat">普通对话</option>
+              </select>
+              <!-- 调试用：模型与思考模式。候选来自 GET /api/models，拉不到就整组隐藏。 -->
+              <select id="modelSelect" class="skill-select" aria-label="选择模型" hidden></select>
+              <select id="thinkingSelect" class="skill-select" aria-label="思考模式" hidden>
+                <option value="auto" selected>思考：自动</option>
+                <option value="on">思考：开</option>
+                <option value="off">思考：关</option>
+              </select>
+              <button type="button" class="tool-chip" id="attachBtn"
+                      title="上传材料文件
+支持 PDF / Word / PPT / Excel / 文本 / 图片
+单个文件 ≤ 100MB，最多 5 个">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.4 11.6l-8.5 8.5a5 5 0 0 1-7-7l8.5-8.5a3.2 3.2 0 0 1 4.5 4.5l-8.5 8.5a1.5 1.5 0 0 1-2.1-2l7.8-7.9"/></svg>
+                附件
+              </button>
+              <button type="button" class="tool-chip" id="urlBtn" title="添加材料 URL" hidden>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
+                URL
+              </button>
+              <label class="tool-chip workbook-toggle" title="报告完成后，独立生成首批最多 200 家投资机构的 Excel 匹配表">
+                <input type="checkbox" id="institutionWorkbook" aria-describedby="workbookStatus" />
+                附带投资机构匹配表
+              </label>
+              <!-- Not `hidden`: iOS Safari refuses to open the picker for a
+                   display:none file input, which is what made multi-select
+                   upload impossible on Apple devices. -->
+              <input type="file" id="fileInput" multiple class="file-input-offscreen"
+                     accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.md,.png,.jpg,.jpeg"
+                     aria-describedby="attachBtn" />
+            </div>
+            <span class="composer-hint">Enter 发送</span>
+            <button class="send-btn" id="sendBtn" aria-label="发送">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg>
+              发送
+            </button>
+          </div>
+        </div>
+        <div id="workbookStatus" class="workbook-status" hidden aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ===== preview ===== -->
+    <aside class="preview" id="preview">
+      <div class="preview-head">
+        <div style="min-width:0; flex:1;">
+          <div class="preview-title" id="previewTitle">一页纸 BP</div>
+          <div class="preview-sub" id="previewSub">Word 文档 · 1 页</div>
+        </div>
+        <div class="preview-actions">
+          <button class="mini-btn" id="closePreview" aria-label="关闭预览">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+      <div id="artifactTabs" class="artifact-tabs" hidden></div>
+      <div class="doc-scroll"><article class="paper" id="paper"></article></div>
+    </aside>
+
+    <!-- 窄屏（≤1023px）侧栏收起时的遮罩；宽屏常显，不需要 -->
+    <div class="scrim" id="scrim" hidden></div>
+  </div>
+
+  <!-- ===== footer ===== -->
+  <div class="footer">
+    <b>投研 Agent</b>
+    <span>材料与对话仅保存在本地浏览器</span>
+    <span class="grow"></span>
+    <span id="footerHint"></span>
+  </div>
+</div>
+
+<!-- ===== input dialog ===== -->
+<div class="modal-backdrop" id="modalBackdrop" hidden>
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-title" id="modalTitle">新建项目</div>
+    <input class="modal-input" id="modalInput" placeholder="项目名称" maxlength="40" />
+    <div class="modal-actions">
+      <button class="modal-btn" id="modalCancel">取消</button>
+      <button class="modal-btn primary" id="modalOk">创建</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/mock-events.js"></script>
+<!-- 模块按编号顺序加载；顺序由 modules.order.json 约束 -->
+<script src="assets/modules/00-util.js?v=20261106-stop"></script>
+<script src="assets/modules/01-config.js?v=20261106-stop"></script>
+<script src="assets/modules/02-dom.js?v=20261106-stop"></script>
+<script src="assets/modules/03-state.js?v=20261106-stop"></script>
+<script src="assets/modules/04-plan.js?v=20261106-stop"></script>
+<script src="assets/modules/05-tools.js?v=20261106-stop"></script>
+<script src="assets/modules/06-approval.js?v=20261106-stop"></script>
+<script src="assets/modules/07-message.js?v=20261106-stop"></script>
+<script src="assets/modules/08-files.js?v=20261110-pdf-preview"></script>
+<script src="assets/modules/09-document.js?v=20261110-pdf-preview"></script>
+<script src="assets/modules/10-run.js?v=20261106-stop"></script>
+<!-- 客户端文档渲染：Word 产物走后端 preview.pdf + pdf.js；上传材料仍可用 docx-preview -->
+<script src="assets/vendor/jszip.min.js?v=20261106-stop"></script>
+<script src="assets/vendor/docx-preview.min.js?v=20261106-stop"></script>
+<script src="assets/vendor/xlsx.full.min.js?v=20261106-stop"></script>
+<script src="assets/vendor/pdf.min.js?v=20261106-stop"></script>
+<script src="assets/modules/16-office-preview.js?v=20261109-preview"></script>
+<script src="assets/modules/11-workbook.js?v=20261106-stop"></script>
+<script src="assets/modules/12-sidebar.js?v=20261106-stop"></script>
+<script src="assets/modules/13-composer.js?v=20261106-stop"></script>
+<script src="assets/modules/14-session.js?v=20261106-stop"></script>
+<script src="assets/modules/99-boot.js?v=20261106-stop"></script>
+</body>
+</html>

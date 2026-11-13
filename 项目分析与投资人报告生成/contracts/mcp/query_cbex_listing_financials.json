@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "tool": "query_cbex_listing_financials",
+  "description": "在用户确认当前项目是北交互联挂牌项目后，按挂牌项目全称检索北京产权交易所官网并提取主要财务指标。金额单位为万元。不返回页面原文。",
+  "input_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["project_name"],
+    "properties": {
+      "project_name": {
+        "type": "string",
+        "minLength": 1,
+        "description": "北交互联挂牌项目全称。用户确认是挂牌项目后，从材料或用户答复中取得，不得猜测简称。"
+      },
+      "detail_url": {
+        "type": "string",
+        "minLength": 1,
+        "description": "可选。用户从候选中选定的官网项目详情页，必须是 https://otc.cbex.com 的详情地址。"
+      },
+      "category": {
+        "type": "string",
+        "enum": ["all", "zz_gz", "zz_fgz", "cq_gz", "cq_fgz"],
+        "description": "可选挂牌类型。不传时搜索全部：企业增资国资/非国资、产权转让国资/非国资。"
+      }
+    }
+  },
+  "output_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["schema_version", "tool", "status", "summary", "data", "sources", "warnings"],
+    "properties": {
+      "schema_version": {"const": "1.0"},
+      "tool": {"const": "query_cbex_listing_financials"},
+      "status": {"enum": ["success", "partial", "empty", "failed"]},
+      "summary": {"type": "string"},
+      "data": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "project_name": {"type": "string"},
+          "matched_project_name": {"type": "string"},
+          "detail_url": {"type": "string"},
+          "project_type": {"type": "string"},
+          "match_score": {"type": ["integer", "null"]},
+          "quality_status": {"type": "string"},
+          "unit": {"const": "万元"},
+          "annual": {"type": "array", "items": {"$ref": "#/$defs/statement"}},
+          "latest": {"type": "array", "items": {"$ref": "#/$defs/statement"}},
+          "candidates": {"type": "array", "items": {"$ref": "#/$defs/candidate"}}
+        }
+      },
+      "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}},
+      "warnings": {"type": "array", "items": {"$ref": "#/$defs/warning"}}
+    },
+    "$defs": {
+      "statement": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "period", "values", "missing_core_fields"],
+        "properties": {
+          "kind": {"enum": ["annual", "latest"]},
+          "period": {"type": "string"},
+          "values": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "total_assets": {"type": ["string", "null"]},
+              "total_liabilities": {"type": ["string", "null"]},
+              "owners_equity": {"type": ["string", "null"]},
+              "revenue": {"type": ["string", "null"]},
+              "net_profit": {"type": ["string", "null"]},
+              "total_profit": {"type": ["string", "null"]},
+              "operating_profit": {"type": ["string", "null"]}
+            }
+          },
+          "missing_core_fields": {"type": "array", "items": {"type": "string"}}
+        }
+      },
+      "candidate": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["project_name", "detail_url", "project_type", "match_score"],
+        "properties": {
+          "project_name": {"type": "string"},
+          "detail_url": {"type": "string"},
+          "project_type": {"type": "string"},
+          "disclosure_end_date": {"type": "string", "description": "候选项目的信息披露截止日期，YYYY-MM-DD；列表未披露时为空。"},
+          "match_score": {"type": "integer"}
+        }
+      },
+      "source": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "status"],
+        "properties": {"name": {"type": "string"}, "status": {"type": "string"}}
+      },
+      "warning": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "message", "retryable"],
+        "properties": {
+          "code": {"type": "string"},
+          "message": {"type": "string"},
+          "retryable": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

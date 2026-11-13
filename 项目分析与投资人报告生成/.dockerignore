@@ -1,0 +1,44 @@
+# Python / 构建产物
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# 运行时工作区：容器里用 volume 挂载，绝不能进镜像
+.runtime/
+workspaces/
+frontend/.preview/
+
+# 版本库与本地配置
+.git/
+.gitignore
+.gitattributes
+
+# 前端开发期产物（构建后不需要的）
+frontend/node_modules/
+
+# 编辑器 / 系统文件
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# 文档与测试素材不必进运行时镜像
+docs/
+tests/
+*.md
+!README.md
+!apps/data_mcp/README.md
+!apps/report_agent/README.md
+!apps/report_agent/skills/**/*.md
+!contracts/**/*.md
+
+# 大体积参考数据按需保留：
+# listed_peer_index 的 vectors.bin 约 117 MB，首次启动会重建（数十分钟）。
+# 如果镜像体积可接受，删掉下面这行以省去冷启动重建。
+resources/reference_data/data_mcp/listed_peer_index/vectors.bin

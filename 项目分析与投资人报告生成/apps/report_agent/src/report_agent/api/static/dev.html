@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script>
+    (function(){
+      var publicPath='/v1/ai-service/investment';
+      if(location.pathname.endsWith(publicPath) && location.pathname!==publicPath){
+        sessionStorage.setItem('bjsInvestmentPrefix', location.pathname.slice(0, -publicPath.length));
+        history.replaceState(null,'', publicPath+location.search+location.hash);
+      }
+    })();
+  </script>
+  <title>投资报告 Agent 调试台</title>
+  <style>
+    :root{font-family:Inter,"Microsoft YaHei",sans-serif;color:#18212f;background:#f4f6f8}body{margin:0}.wrap{max-width:1100px;margin:32px auto;padding:0 20px}.card{background:#fff;border:1px solid #dfe4ea;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 3px 12px #14213d0d}h1{margin:0 0 6px;font-size:24px}h2{margin:0 0 8px;font-size:18px}h3{margin:10px 0 4px;font-size:14px;color:#3a4252}p{color:#647184}textarea{width:100%;min-height:120px;box-sizing:border-box;padding:12px;border:1px solid #cbd3dc;border-radius:8px;resize:vertical}input{margin:14px 0}button{background:#155eef;color:#fff;border:0;border-radius:8px;padding:10px 18px;cursor:pointer}button:disabled{opacity:.55}.status{font-size:13px;color:#647184;margin-left:10px}.trace{border-top:1px solid #edf0f3;padding:12px 0}.trace:first-child{border:0}.badge{display:inline-block;background:#eef4ff;color:#155eef;border-radius:99px;padding:2px 8px;font-size:12px}.badge.tool{background:#eef5ee;color:#1a7f37}.badge.model{background:#fff1d6;color:#8a5300}.badge.error{background:#fde7e7;color:#a02020}.badge.completed{background:#eef5ee;color:#1a7f37}pre{white-space:pre-wrap;word-break:break-word;background:#f7f8fa;padding:10px;border-radius:6px;max-height:480px;overflow:auto}.hidden{display:none}a{color:#155eef}details{border-top:1px solid #edf0f3;padding:12px 0}summary{cursor:pointer;color:#155eef;font-size:13px;user-select:none}summary:focus{outline:none}.pill{display:inline-block;background:#eef4ff;color:#155eef;border-radius:99px;padding:1px 6px;font-size:11px;margin-right:6px}.log-empty{color:#9aa3b2;font-size:13px}</style>
+</head>
+<body><main class="wrap">
+  <section class="card"><h1>投资报告 Agent 调试台</h1><p class="dev-only">异步提交：POST 立即返回 task/run id，页面轮询状态直到完成。用于测试材料上传、MCP/工具调用和 Word 结果。</p>
+    <form id="form"><textarea id="message" placeholder="例如：请根据上传材料生成某某公司的投资人匹配报告"></textarea><br><h3>本轮 Skill</h3><select id="selectedSkill"><option value="">自动（按部署默认 / 消息关键词）</option><option value="investment-report">投资匹配报告（investment-report）</option><option value="one-pager">一页纸 BP（one-pager）</option></select><br><input id="files" type="file" multiple><br><h3>材料 URL（每行一个，http/https）</h3><textarea id="urls" placeholder="https://example.com/material.pdf&#10;https://example.com/report.docx" style="min-height:60px"></textarea><br><button id="submit" type="submit">执行 Agent</button><span id="status" class="status"></span></form>
+  </section>
+  <section id="answerCard" class="card hidden"><h2>Agent 输出<span id="skillBadge" class="badge"></span></h2><pre id="answer"></pre><div id="artifacts"></div></section>
+  <section id="traceCard" class="card hidden dev-only"><h2>工具 / MCP 调用</h2><div id="trace"></div></section>
+  <section id="logCard" class="card hidden dev-only"><h2>模型 / 工具明细日志</h2><p>按 Agent 实际调用顺序记录的模型输入输出和工具入参出参。敏感字段名会被替换为 [REDACTED]。</p><div id="logEmpty" class="log-empty">等待任务结束后拉取日志…</div><div id="logBody"></div></section>
+</main><script>
+const form=document.querySelector('#form'),button=document.querySelector('#submit'),statusEl=document.querySelector('#status');
+const publicView=location.pathname.endsWith('/v1/ai-service/investment');
+const apiPrefix=publicView?(sessionStorage.getItem('bjsInvestmentPrefix')||''):'';
+if(publicView){
+  document.title='投资报告';
+  const heading=document.querySelector('h1');
+  if(heading)heading.textContent='投资报告';
+  const answerHeading=document.querySelector('#answerCard h2');
+  if(answerHeading)answerHeading.textContent='生成结果';
+  button.textContent='生成报告';
+  document.querySelectorAll('.dev-only').forEach(node=>node.remove());
+}
+const publicStatus=status=>({running:'生成中…',completed:'已完成',failed:'生成失败',needs_input:'需要补充信息'})[status]||status;
+const POLL_MS=5000,POLL_RETRY_MS=30000,POLL_MAX_MS=40*60*1000;
+const TERMINAL=new Set(['completed','failed','needs_input']);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmtJSON=o=>{try{return JSON.stringify(o,null,2)}catch(e){return String(o)}};
+const safeJSON=o=>esc(fmtJSON(o));
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function badgeFor(entry){
+  if(entry.kind==='session_start')return 'badge';
+  if(entry.kind==='model_call')return entry.status==='error'?'badge model error':`badge model ${entry.status||''}`;
+  if(entry.kind==='tool_call')return entry.status==='error'?'badge tool error':`badge tool ${entry.status||''}`;
+  return 'badge';
+}
+function summarizeInput(entry){
+  if(entry.kind==='session_start'){
+    const tools=(entry.tools||[]).map(t=>t.name);
+    return `system_prompt: ${entry.system_prompt_chars||0} chars · tools: ${tools.length||0}${tools.length?(' ('+tools.slice(0,5).join(', ')+(tools.length>5?`… +${tools.length-5}`:'')+')'):''}`;
+  }
+  if(entry.kind==='model_call'){
+    const newMsgs=entry.input?.new_messages||[];
+    const lastUser=[...newMsgs].reverse().find(m=>m.type==='human'||m.type==='user');
+    const lastTool=[...newMsgs].reverse().find(m=>m.type==='tool');
+    const parts=['messages: '+entry.input?.messages_count,'new: '+newMsgs.length,'tools: '+(entry.input?.tools_count||0)];
+    if(lastUser)parts.push('last user: '+String(lastUser.content).slice(0,200));
+    if(lastTool)parts.push('last tool: '+lastTool.name+' / '+String(lastTool.content).slice(0,120));
+    return parts.join(' · ');
+  }
+  if(entry.kind==='tool_call'){
+    return `${entry.input?.tool||''} · args ${(entry.input?.args?JSON.stringify(entry.input.args):'{}').length} chars`;
+  }
+  return '';
+}
+function summarizeOutput(entry){
+  if(entry.kind==='model_call'){
+    const msgs=entry.output?.messages||[];
+    const ai=msgs.find(m=>m.type==='ai');
+    if(!ai)return '(no response)';
+    const text=ai.content?String(ai.content):'';
+    const calls=ai.tool_calls||[];
+    const parts=[];
+    parts.push('stop: '+(entry.output?.stop_reason||'(unknown)'));
+    if(text)parts.push('text: '+text.slice(0,200)+(text.length>200?'…':''));
+    if(calls.length)parts.push('tool_calls: '+calls.map(c=>c.name).join(', '));
+    const usage=ai.usage_metadata;
+    if(usage)parts.push(`tokens: in=${usage.input_tokens||0} out=${usage.output_tokens||0}`);
+    return parts.join(' · ');
+  }
+  if(entry.kind==='tool_call'){
+    const out=entry.output||{};
+    if(out.error_type)return `${out.error_type}: ${String(out.error).slice(0,200)}`;
+    return `${out.type||''} · ${out.status||''} · ${(out.content?JSON.stringify(out.content):'{}').length} chars`;
+  }
+  return '';
+}
+function renderLogEntry(entry,idx){
+  const cls=badgeFor(entry);
+  const summaryIn=summarizeInput(entry);
+  const summaryOut=summarizeOutput(entry);
+  if(entry.kind==='session_start'){
+    return `<details class="trace" open><summary><span class="${cls}">#${idx} ${esc(entry.kind||'')} · system_prompt ${entry.system_prompt_chars||0} chars · ${entry.tools_count||0} tools</span><br><small style="color:#647184">IN: ${esc(summaryIn)}</small></summary><h3>started_at</h3><pre>${esc(entry.started_at||'')}</pre><h3>system_prompt</h3><pre>${esc(entry.system_prompt||'')}</pre><h3>tools</h3><pre>${safeJSON(entry.tools||[])}</pre><h3>fingerprints</h3><pre>system_prompt_sha256: ${esc(entry.system_prompt_sha256||'')}\ntools_sha256: ${esc(entry.tools_sha256||'')}</pre></details>`;
+  }
+  return `<details class="trace"><summary><span class="${cls}">#${idx} ${esc(entry.kind||'')} · ${esc(entry.status||'')} · ${esc((entry.elapsed_seconds??0).toFixed(3))}s</span><br><small style="color:#647184">IN: ${esc(summaryIn)}</small><br><small style="color:#647184">OUT: ${esc(summaryOut)}</small></summary><h3>started_at</h3><pre>${esc(entry.started_at||'')}</pre><h3>input</h3><pre>${safeJSON(entry.input)}</pre><h3>output</h3><pre>${safeJSON(entry.output)}</pre></details>`;
+}
+let renderedLogCount=0;
+function resetLogs(waitingText){
+  renderedLogCount=0;
+  const logBody=document.querySelector('#logBody'),logEmpty=document.querySelector('#logEmpty');
+  logBody.innerHTML='';
+  logEmpty.textContent=waitingText;
+  logEmpty.classList.remove('hidden');
+}
+async function loadLogs(apiBase,taskId,{quietMissing=false}={}){
+  const logBody=document.querySelector('#logBody'),logEmpty=document.querySelector('#logEmpty');
+  try{
+    const res=await fetch(`${apiBase}/api/dev/runs/${encodeURIComponent(taskId)}/logs`);
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok){
+      if(quietMissing && res.status===404){
+        if(renderedLogCount===0){
+          logEmpty.textContent='等待任务写入日志…';
+          logEmpty.classList.remove('hidden');
+        }
+        return;
+      }
+      throw new Error(typeof data.detail==='object'?(data.detail.message||fmtJSON(data.detail)):data.detail||'拉取日志失败');
+    }
+    const entries=data.entries||[];
+    if(entries.length===0){
+      if(renderedLogCount===0){
+        logEmpty.textContent='日志为空。';
+        logEmpty.classList.remove('hidden');
+      }
+      return;
+    }
+    if(entries.length<=renderedLogCount)return;
+    const nearBottom=(window.innerHeight+window.scrollY)>=(document.body.scrollHeight-80);
+    const fragment=document.createDocumentFragment();
+    const wrap=document.createElement('div');
+    for(let i=renderedLogCount;i<entries.length;i++){
+      wrap.insertAdjacentHTML('beforeend',renderLogEntry(entries[i],i+1));
+    }
+    while(wrap.firstChild)fragment.appendChild(wrap.firstChild);
+    logEmpty.classList.add('hidden');
+    logBody.appendChild(fragment);
+    renderedLogCount=entries.length;
+    if(nearBottom)window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+  }catch(err){
+    if(renderedLogCount===0){
+      logEmpty.textContent=err.message;
+      logEmpty.classList.remove('hidden');
+    }
+  }
+}
+function renderResult(data){
+  document.querySelector('#answer').textContent=data.assistant_text||'(无文本输出)';
+  const skillBadge=document.querySelector('#skillBadge');
+  if(skillBadge){
+    const name=data.skill_name||'(未决定)';
+    const route=data.skill_route||'—';
+    skillBadge.textContent=`Skill: ${name} · 路由: ${route}`;
+    skillBadge.title=`selected_skill: ${data.skill_name?'已显式/默认命中':'按关键词或兜底'}`;
+  }
+  document.querySelector('#artifacts').innerHTML=(data.artifacts||[]).map(a=>{
+    const href=publicView?`${apiPrefix}/api/artifacts/${encodeURIComponent(a.artifact_id)}/content`:a.download_url;
+    const link=`<a href="${esc(href)}">下载 ${esc(a.filename)}</a>`;
+    if(publicView)return `<p>${link}</p>`;
+    return `<p>${link} · ${a.size} bytes · SHA-256 ${esc(a.sha256)}<br><small>Artifact: ${esc(a.artifact_id)} · 链接过期时间：${esc(a.expires_at)}</small></p>`;
+  }).join('')||`<p>${publicView?'本轮未生成报告文件。':'本轮未生成已发布 Word。'}</p>`;
+  document.querySelector('#answerCard').classList.remove('hidden');
+  if(!publicView){
+    document.querySelector('#trace').innerHTML=(data.trace||[]).map(t=>`<article class="trace"><span class="badge">${t.sequence}. ${esc(t.tool)} · ${esc(t.status)}</span><h3>输入</h3><pre>${esc(JSON.stringify(t.input,null,2))}</pre><h3>输出</h3><pre>${esc(JSON.stringify(t.output,null,2))}</pre></article>`).join('')||'<p>本轮没有工具调用。</p>';
+    document.querySelector('#traceCard').classList.remove('hidden');
+  }
+}
+async function pollRun(apiBase,runId,taskId){
+  const started=Date.now();
+  while(Date.now()-started<POLL_MAX_MS){
+    try{
+      const res=await fetch(`${apiBase}${apiPrefix}/api/runs/${encodeURIComponent(runId)}`);
+      const raw=await res.text();
+      let data;try{data=raw?JSON.parse(raw):{}}catch(e){data={detail:raw||`HTTP ${res.status}`}}
+      if(!res.ok){
+        statusEl.textContent=publicView?'状态查询暂时失败，30秒后继续查询…':`${res.status} · ${taskId} · 查询失败，30秒后继续轮询…`;
+        await sleep(POLL_RETRY_MS);
+        continue;
+      }
+      statusEl.textContent=publicView?publicStatus(data.status):`${data.status} · ${taskId} · 轮询中…`;
+      if(!publicView)await loadLogs(apiBase,taskId,{quietMissing:true});
+      if(TERMINAL.has(data.status))return data;
+    }catch(err){
+      statusEl.textContent=publicView?'状态查询暂时失败，30秒后继续查询…':`${taskId} · ${err.message} · 30秒后继续轮询…`;
+      await sleep(POLL_RETRY_MS);
+      continue;
+    }
+    await sleep(POLL_MS);
+  }
+  throw new Error(publicView?'生成超时，请稍后重试':'轮询超时：任务仍在 running，请用 task_id / run_id 继续查询');
+}
+form.addEventListener('submit',async e=>{e.preventDefault();button.disabled=true;statusEl.textContent='提交中…';document.querySelector('#answerCard').classList.add('hidden');if(!publicView){document.querySelector('#traceCard').classList.add('hidden');document.querySelector('#logCard').classList.remove('hidden');resetLogs('任务已提交，等待执行…');}
+  const typedMessage=document.querySelector('#message').value.trim();const selectedFiles=document.querySelector('#files').files;const typedUrls=document.querySelector('#urls').value.trim();const selectedSkill=document.querySelector('#selectedSkill')?.value||'';
+  if(!typedMessage && selectedFiles.length===0 && !typedUrls){statusEl.textContent='请输入任务内容或选择至少一个文件或填写 URL';button.disabled=false;return;}
+  const apiBase=location.protocol==='file:'?'http://127.0.0.1:8000':'';
+  const body=new FormData();body.append('message',typedMessage);for(const f of selectedFiles)body.append('files_',f);if(typedUrls)body.append('urls',typedUrls);if(selectedSkill)body.append('selected_skill',selectedSkill);
+  try{
+    const res=await fetch(`${apiBase}${apiPrefix}/api/dev/runs`,{method:'POST',body});
+    const raw=await res.text();
+    let accepted;try{accepted=raw?JSON.parse(raw):{}}catch(parseError){accepted={detail:raw||`HTTP ${res.status}`}}
+    if(!res.ok){
+      const detail=typeof accepted.detail==='object'?(accepted.detail.message||fmtJSON(accepted.detail)):accepted.detail;
+      throw new Error(detail||'提交失败');
+    }
+    statusEl.textContent=publicView?'已提交，正在生成…':`accepted · ${accepted.task_id} · 已受理，开始轮询…`;
+    const data=await pollRun(apiBase,accepted.run_id,accepted.task_id);
+    renderResult(data);
+    statusEl.textContent=publicView?publicStatus(data.status):`${data.status} · ${accepted.task_id}`;
+    if(!publicView)await loadLogs(apiBase,accepted.task_id);
+  }catch(err){statusEl.textContent=err.message;if(!publicView)document.querySelector('#logCard').classList.add('hidden');}
+  finally{button.disabled=false;}
+});
+</script></body></html>

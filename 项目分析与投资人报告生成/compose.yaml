@@ -1,0 +1,108 @@
+name: bjs-investment-report
+
+services:
+  data-mcp:
+    build:
+      context: .
+      dockerfile: apps/data_mcp/Dockerfile
+    image: bjs-data-mcp:0.1.0
+    restart: unless-stopped
+    env_file:
+      - ${BJS_ENV_FILE:-deploy/environments/test/runtime.env}
+    environment:
+      DATA_MCP_CONFIG: /app/deploy/environments/${APP_ENV:-test}/data-mcp.yaml
+      DATA_MCP_CONTRACTS_DIR: /app/contracts/mcp
+    volumes:
+      - ./resources:/app/resources
+      # APP_ENV=test|uat|prod selects which host YAML overlays the image copy
+      - ./deploy/environments/${APP_ENV:-test}/data-mcp.yaml:/app/deploy/environments/${APP_ENV:-test}/data-mcp.yaml:ro
+    ports:
+      - "${DATA_MCP_PORT:-5128}:8001"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket;s=socket.create_connection(('127.0.0.1',8001),2);s.close()"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  report-agent:
+    build:
+      context: .
+      dockerfile: apps/report_agent/Dockerfile.runtime
+    image: bjs-report-agent:0.1.0
+    restart: unless-stopped
+    env_file:
+      - ${BJS_ENV_FILE:-deploy/environments/test/runtime.env}
+    environment:
+      REPORT_AGENT_CONFIG: /app/deploy/environments/${APP_ENV:-test}/report-agent.yaml
+    command: ["report-agent-api", "--host", "0.0.0.0", "--port", "8000"]
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=128m
+    volumes:
+      - ./workspaces:/var/lib/report-agent/workspaces
+      - ./deploy/environments/${APP_ENV:-test}/report-agent.yaml:/app/deploy/environments/${APP_ENV:-test}/report-agent.yaml:ro
+      # installed package resolves templates under site-packages parent; bind host assets there
+      - ./apps/report_agent/skills/one-pager/assets:/app/.venv/lib/python3.12/skills/one-pager/assets:ro
+    security_opt:
+      # bwrap needs mount() with MS_SLAVE/MS_REC; the docker-default
+      # AppArmor profile denies it even with CAP_SYS_ADMIN granted.
+      # (seccomp=unconfined alone does not affect AppArmor.)
+      - seccomp=unconfined
+      - apparmor=unconfined
+      # bwrap (--unshare-user) mounts a fresh procfs inside a new user
+      # namespace. The kernel only allows that when an existing proc
+      # instance is "fully visible"; runc's masked paths (tmpfs over
+      # /proc/kcore, /proc/keys, ...) are MNT_LOCKED child mounts and make
+      # the container's /proc NOT fully visible, so bwrap dies with
+      # "Can't mount proc on /newroot/proc: Operation not permitted".
+      # systempaths=unconfined drops the masked paths to fix that.
+      - systempaths=unconfined
+    cap_add:
+      # setuid bwrap narrows its capabilities to REQUIRED_CAPS_0 via
+      # capset(): SYS_ADMIN, SYS_CHROOT, NET_ADMIN, SETUID, SETGID,
+      # SYS_PTRACE. Any of those missing from the bounding set makes
+      # capset() fail with EPERM ("capset failed"). Docker's default
+      # set lacks SYS_ADMIN, NET_ADMIN and SYS_PTRACE.
+      - SYS_ADMIN
+      - NET_ADMIN
+      - SYS_PTRACE
+    pids_limit: 256
+    mem_limit: 4g
+    cpus: 2.0
+    depends_on:
+      data-mcp:
+        condition: service_healthy
+    ports:
+      - "${REPORT_AGENT_PORT:-5129}:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8000/health',timeout=2)"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+  workbook-worker:
+    # Same runtime image as report-agent; no separate build/tag.
+    image: bjs-report-agent:0.1.0
+    restart: unless-stopped
+    env_file:
+      - ${BJS_ENV_FILE:-deploy/environments/test/runtime.env}
+    environment:
+      REPORT_AGENT_CONFIG: /app/deploy/environments/${APP_ENV:-test}/report-agent.yaml
+    command: ["python", "-m", "report_agent.entrypoints.institution_workbook_worker"]
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=128m
+    volumes:
+      - ./workspaces:/var/lib/report-agent/workspaces
+      - ./deploy/environments/${APP_ENV:-test}/report-agent.yaml:/app/deploy/environments/${APP_ENV:-test}/report-agent.yaml:ro
+    depends_on:
+      data-mcp:
+        condition: service_healthy
+    pids_limit: 128
+    mem_limit: 2g
+    cpus: 1.0
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "${BJS_DOCKER_SUBNET:-10.201.0.0/24}"

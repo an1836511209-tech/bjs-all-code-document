@@ -1,0 +1,21 @@
+{
+  "id": "investment-report-cites",
+  "description": "投资报告：审查返回的缺 cite 问题必须用 batch_edit 一次改完，不得逐段 edit_file",
+  "skill": "investment-report",
+  "message": "帮我根据当前材料，生成投资人匹配报告",
+  "materials": [
+    "scripts/eval/materials/01-明泰微电子_项目简介.docx"
+  ],
+  "timeout_seconds": 2400,
+  "assertions": {
+    "max_model_calls": 60,
+    "max_tool_calls": 90,
+    "max_edit_file_calls": 3,
+    "min_batch_edit_calls": 1,
+    "max_write_todos_calls": 3,
+    "max_context_peak": 80,
+    "max_wall_seconds": 1500,
+    "required_tools": ["check_citation", "create_word_from_md"],
+    "forbidden_tools": []
+  }
+}

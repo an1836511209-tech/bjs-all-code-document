@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "tool": "query_track_labels",
+  "description": "查询企业赛道标签，向 Agent 返回精简的统一外壳。",
+  "input_schema": {"type": "object", "additionalProperties": false, "required": ["company_name", "project_profile"], "properties": {
+    "company_name": {"type": "string", "minLength": 1},
+    "project_profile": {"oneOf": [{"type": "string", "minLength": 1}, {"type": "object", "minProperties": 1}]}
+  }},
+  "output_schema": {
+    "type": "object", "additionalProperties": false, "required": ["schema_version", "tool", "status", "summary", "data", "sources", "warnings"],
+    "properties": {
+      "schema_version": {"const": "1.0"}, "tool": {"const": "query_track_labels"},
+      "status": {"enum": ["success", "partial", "empty", "failed"]}, "summary": {"type": "string"},
+"data": {"type": "object", "additionalProperties": false, "properties": {"tags": {"type": "array", "items": {"type": "string"}}}},
+      "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}}, "warnings": {"type": "array", "items": {"$ref": "#/$defs/warning"}}
+    },
+    "$defs": {
+      "source": {"type": "object", "additionalProperties": false, "required": ["name", "status"], "properties": {"name": {"type": "string"}, "status": {"type": "string"}}},
+      "warning": {"type": "object", "additionalProperties": false, "required": ["code", "message", "retryable"], "properties": {"code": {"type": "string"}, "message": {"type": "string"}, "retryable": {"type": "boolean"}}}
+    }
+  }
+}

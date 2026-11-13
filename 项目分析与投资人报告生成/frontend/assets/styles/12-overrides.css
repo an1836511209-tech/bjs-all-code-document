@@ -1,0 +1,28 @@
+/* ===== 窄屏侧栏开关（P0：≤1023px 时侧栏移出屏幕，必须有入口拉回来） ===== */
+.sidebar-toggle {
+  display: none;                 /* 宽屏侧栏常显，按钮不需要 */
+  flex: 0 0 auto;
+  padding: 0 7px;
+}
+.sidebar-toggle svg { width: 14px; height: 14px; }
+
+.scrim {
+  position: fixed; inset: 0; z-index: 40;
+  background: rgba(16, 24, 40, .38);
+  animation: scrimIn .18s ease-out;
+}
+.scrim[hidden] { display: none; }
+@keyframes scrimIn { from { opacity: 0; } to { opacity: 1; } }
+
+@media (max-width: 1023px) {
+  .sidebar-toggle { display: inline-flex; }
+}
+
+/* ===== 键盘焦点（P0：此前 outline:0 全局裸奔，键盘用户看不到焦点） ===== */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+/* 鼠标点击不显示焦点环，只有键盘导航才显示 */
+:focus:not(:focus-visible) { outline: none; }

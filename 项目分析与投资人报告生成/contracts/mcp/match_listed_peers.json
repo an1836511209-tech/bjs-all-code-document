@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "tool": "match_listed_peers",
+  "description": "匹配上市公司可比标的，返回精简的统一外壳。retrieval_v2 结果仅为待核验线索，final_score 是 RRF 排名分而非可比概率。",
+  "input_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["tags"],
+    "properties": {
+      "tags": {
+        "oneOf": [
+          { "type": "string", "minLength": 1 },
+          {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        ]
+      },
+      "summary": { "type": "string" },
+      "top_n": { "type": "integer", "minimum": 1 },
+      "field_weights": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "通常省略并使用服务端默认权重。仅在明确需要覆盖时提供全部五项；五项之和必须等于 1.0，且 industry_chain_position + products_services 必须大于等于 0.75。",
+        "required": ["industry_chain_position", "products_services", "track_tags", "target_customers", "profit_model"],
+        "properties": {
+          "industry_chain_position": { "type": "number", "minimum": 0, "maximum": 1 },
+          "products_services": { "type": "number", "minimum": 0, "maximum": 1 },
+          "track_tags": { "type": "number", "minimum": 0, "maximum": 1 },
+          "target_customers": { "type": "number", "minimum": 0, "maximum": 1 },
+          "profit_model": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    }
+  },
+  "output_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["schema_version", "tool", "status", "summary", "data", "sources", "warnings"],
+    "properties": {
+      "schema_version": { "const": "1.0" },
+      "tool": { "const": "match_listed_peers" },
+      "status": { "enum": ["success", "partial", "empty", "failed"] },
+      "summary": { "type": "string" },
+      "data": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "query": { "type": "object" },
+          "weights_used": { "type": "object" },
+          "peers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "证券代码",
+                "证券名称",
+                "公司中文名称",
+                "PE",
+                "PB(LF)",
+                "PS(TTM)",
+                "营业收入",
+                "净利润",
+                "industry",
+                "track_tags",
+                "score",
+                "rerank_score",
+                "final_score",
+                "confidence",
+                "field_scores",
+                "missing_fields",
+                "evidence",
+                "citations"
+              ],
+              "properties": {
+                "证券代码": { "type": "string" },
+                "证券名称": { "type": "string" },
+                "公司中文名称": { "type": "string" },
+                "PE": { "type": ["number", "null"] },
+                "PB(LF)": { "type": ["number", "null"] },
+                "PS(TTM)": { "type": ["number", "null"] },
+                "营业收入": { "type": ["number", "null"] },
+                "净利润": { "type": ["number", "null"] },
+                "industry": { "type": "string" },
+                "track_tags": { "type": "array", "items": { "type": "string" } },
+                "score": { "type": "number" },
+                "rerank_score": { "type": ["number", "null"] },
+                "final_score": {
+                  "type": "number",
+                  "description": "RRF 排名融合分，不是概率，不可与旧版相似度阈值比较"
+                },
+                "match_category": { "const": "clue" },
+                "assessment_status": { "const": "not_assessed" },
+                "retrieval_channels": { "type": "object" },
+                "confidence": { "type": "string", "enum": ["high", "medium", "low"] },
+                "field_scores": { "type": "object" },
+                "missing_fields": { "type": "array", "items": { "type": "string" } },
+                "evidence": { "type": "object" },
+                "citations": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": { "$ref": "#/$defs/citation" }
+                }
+              }
+            }
+          },
+          "meta": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "matching_version": { "const": "retrieval_v2" },
+              "assessment_status": { "const": "not_assessed" },
+              "score_kind": { "const": "reciprocal_rank_fusion" },
+              "corpus_size": { "type": "integer", "minimum": 0 },
+              "recall_k": { "type": "integer", "minimum": 0 },
+              "rerank_enabled": { "type": "boolean" },
+              "embedding_backend": { "type": "string" }
+            }
+          }
+        }
+      },
+      "sources": { "type": "array", "items": { "$ref": "#/$defs/source" } },
+      "warnings": { "type": "array", "items": { "$ref": "#/$defs/warning" } }
+    },
+    "$defs": {
+      "citation": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_type", "source_name", "source_url", "quote"],
+        "properties": {
+          "source_type": { "type": "string", "minLength": 1 },
+          "source_name": { "type": "string", "minLength": 1 },
+          "source_url": { "type": "string" },
+          "quote": { "type": "string" }
+        }
+      },
+      "source": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "status"],
+        "properties": {
+          "name": { "type": "string" },
+          "status": { "type": "string" }
+        }
+      },
+      "warning": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "message", "retryable"],
+        "properties": {
+          "code": { "type": "string" },
+          "message": { "type": "string" },
+          "retryable": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

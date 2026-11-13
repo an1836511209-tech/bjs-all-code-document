@@ -1,0 +1,10 @@
+{
+  "Status": "200",
+  "Message": "【有效请求】查询成功",
+  "Result": {
+    "Partners": [
+      {"StockName": "红杉资本中国有限公司", "StockPercent": "10%"},
+      {"StockName": "张三", "StockPercent": "5%"}
+    ]
+  }
+}

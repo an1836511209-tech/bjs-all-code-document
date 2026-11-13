@@ -1,0 +1,24 @@
+version: "test-1"
+categories:
+  - id: cat_a
+    label: 测试类别A
+    items:
+      - rule_id: T1
+        pattern: "错误A"
+        suggestion: "正确A"
+        severity: block
+  - id: cat_b
+    label: 测试类别B
+    items:
+      - rule_id: T2
+        pattern: "错误B|错误C"
+        suggestion: "正确B"
+        severity: block
+  - id: cat_c
+    label: 测试类别C
+    items:
+      - rule_id: T3
+        pattern: "\\d+年"
+        suggestion: "含数字年份"
+        severity: block
+        notes: "测试正则命中"

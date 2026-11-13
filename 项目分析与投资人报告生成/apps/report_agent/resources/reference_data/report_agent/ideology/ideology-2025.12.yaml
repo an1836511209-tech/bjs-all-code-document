@@ -1,0 +1,357 @@
+# 意识形态与表述规范词表（2025.12）
+# 来源：表述勘误表2025.12.docx
+# 范围：R1–R80（政治表述 + 固定搭配 + 法律法规全称）
+# 不包含：R81–R100（敏感词 + 错别字），留待 ADR-0004 硬档实施。
+
+version: "2025.12"
+source: "表述勘误表2025.12.docx"
+
+categories:
+  - id: political_expression
+    label: 涉重要表述
+    items:
+      - rule_id: R1
+        pattern: "习总书记|习主席"
+        suggestion: "习近平总书记 / 习近平主席"
+        severity: block
+        notes: "领导人姓名专称"
+      - rule_id: R2
+        pattern: "习近平总书记的讲话"
+        suggestion: "习近平总书记重要讲话"
+        severity: block
+      - rule_id: R3
+        pattern: "习近平总书记的指示批示精神"
+        suggestion: "习近平总书记的重要指示批示精神"
+        severity: block
+      - rule_id: R4
+        pattern: "以习近平总书记为核心的党中央"
+        suggestion: "以习近平同志为核心的党中央"
+        severity: block
+      - rule_id: R5
+        pattern: "新时代中国特色社会主义思想"
+        suggestion: "习近平新时代中国特色社会主义思想"
+        severity: block
+      - rule_id: R6
+        pattern: "习近平新时代中国特色主题教育"
+        suggestion: "学习贯彻习近平新时代中国特色社会主义思想主题教育"
+        severity: block
+      - rule_id: R7
+        pattern: "习近平法制思想|习近平总书记法治思想"
+        suggestion: "习近平法治思想"
+        severity: block
+
+  - id: policy_route
+    label: 涉党的路线方针政策
+    items:
+      - rule_id: R8
+        pattern: "党中央权威和统一领导"
+        suggestion: "党中央权威和集中统一领导"
+        severity: block
+      - rule_id: R9
+        pattern: "人民群众日益增长的美好生活需要"
+        suggestion: "人民日益增长的美好生活需要"
+        severity: block
+      - rule_id: R10
+        pattern: "中华民族伟大的复兴梦"
+        suggestion: "中华民族伟大复兴中国梦"
+        severity: block
+      - rule_id: R11
+        pattern: "开启全面建设社会主义现代化国家征程"
+        suggestion: "开启全面建设社会主义现代化国家新征程"
+        severity: block
+      - rule_id: R12
+        pattern: "全面建设社会主义现代化强国"
+        suggestion: "全面建设社会主义现代化国家 / 全面建成社会主义现代化强国"
+        severity: block
+        notes: "依上下文选择"
+      - rule_id: R13
+        pattern: "实现第二个百年目标"
+        suggestion: "实现第二个百年奋斗目标"
+        severity: block
+      - rule_id: R14
+        pattern: "“十四五”战略规划|十四五发展规划|十四五战略规划"
+        suggestion: "“十四五”规划"
+        severity: block
+      - rule_id: R15
+        pattern: "国家总体安全观|总体国家观"
+        suggestion: "总体国家安全观"
+        severity: block
+      - rule_id: R16
+        pattern: "人才兴国战略"
+        suggestion: "人才强国战略"
+        severity: block
+      - rule_id: R17
+        pattern: "健全完善全面从严治党体系"
+        suggestion: "健全全面从严治党体系"
+        severity: block
+      - rule_id: R18
+        pattern: "“一带一路”战略|一带一路战略|“一带一路”倡导|一带一路倡议"
+        suggestion: "“一带一路”倡议"
+        severity: block
+      - rule_id: R19
+        pattern: "不敢腐、不能腐、不易腐"
+        suggestion: "不敢腐、不能腐、不想腐"
+        severity: block
+      - rule_id: R20
+        pattern: "八项规定"
+        suggestion: "中央八项规定"
+        severity: block
+      - rule_id: R21
+        pattern: "全面解决从严治党"
+        suggestion: "解决全面从严治党"
+        severity: block
+
+  - id: major_events
+    label: 涉重要会议、重大活动表述
+    items:
+      - rule_id: R22
+        pattern: "建国×周年"
+        suggestion: "新中国成立×周年"
+        severity: block
+      - rule_id: R23
+        pattern: "纪念改革开放|纪念建党|纪念改革开放×周年|纪念建党×周年"
+        suggestion: "庆祝改革开放×周年 / 庆祝建党×周年"
+        severity: block
+        notes: "纪念 → 庆祝"
+      - rule_id: R24
+        pattern: "中国共产党二十大"
+        suggestion: "中国共产党第二十次全国代表大会 / 党的二十大"
+        severity: block
+      - rule_id: R25
+        pattern: "十八大|十九大|二十大|二十届三中全会|二十届四中全会"
+        suggestion: "党的十八大 / 十九大 / 二十大 / 二十届三中全会 / 二十届四中全会"
+        severity: block
+        notes: "首次出现需加「党的」前缀"
+      - rule_id: R26
+        pattern: "市十三次党代会"
+        suggestion: "市第十三次党代会"
+        severity: block
+      - rule_id: R27
+        pattern: "中国共产党成立100年"
+        suggestion: "中国共产党成立100周年"
+        severity: block
+      - rule_id: R28
+        pattern: "解放前|解放后"
+        suggestion: "中华人民共和国成立前 / 中华人民共和国成立后"
+        severity: block
+      - rule_id: R29
+        pattern: "改革开放和社会主义现代化建设时期"
+        suggestion: "改革开放和社会主义现代化建设新时期"
+        severity: block
+      - rule_id: R30
+        pattern: "党史学习活动|主题教育活动"
+        suggestion: "党史学习教育 / 主题教育"
+        severity: block
+
+  - id: political_collocations
+    label: 涉政治用语固定搭配
+    items:
+      - rule_id: R31
+        pattern: "思想建党、纪律强党、制度治党"
+        suggestion: "思想建党、理论强党、制度治党"
+        severity: block
+      - rule_id: R32
+        pattern: "知敬畏、有戒惧、守底线"
+        suggestion: "知敬畏、存戒惧、守底线"
+        severity: block
+      - rule_id: R33
+        pattern: "从严治党"
+        suggestion: "全面从严治党"
+        severity: block
+      - rule_id: R34
+        pattern: "基层党的建设"
+        suggestion: "基层党组织建设"
+        severity: block
+      - rule_id: R35
+        pattern: "供给侧结构改革"
+        suggestion: "供给侧结构性改革"
+        severity: block
+      - rule_id: R36
+        pattern: "共商、共享、共建"
+        suggestion: "共商、共建、共享"
+        severity: block
+      - rule_id: R37
+        pattern: "听党话、感恩党、跟党走"
+        suggestion: "听党话、感党恩、跟党走"
+        severity: block
+      - rule_id: R38
+        pattern: "依法依规依纪"
+        suggestion: "依规依纪依法"
+        severity: block
+      - rule_id: R39
+        pattern: "四个危险"
+        suggestion: "四种危险"
+        severity: block
+      - rule_id: R40
+        pattern: "坚持以政治建设为统领"
+        suggestion: "坚持以党的政治建设为统领"
+        severity: block
+      - rule_id: R41
+        pattern: "中央民族工作会议精神|中央经济工作会议精神|中央金融工作会议精神"
+        suggestion: "中央民族/经济/金融工作会议精神"
+        severity: block
+      - rule_id: R42
+        pattern: "说老实话、做老实人、办老实事"
+        suggestion: "说老实话、办老实事、做老实人"
+        severity: block
+      - rule_id: R43
+        pattern: "发挥党员先锋模范带头作用"
+        suggestion: "发挥党员先锋模范作用"
+        severity: block
+      - rule_id: R44
+        pattern: "筑牢“四个意识”，坚定“四个自信”"
+        suggestion: "增强“四个意识”，坚定“四个自信”"
+        severity: block
+      - rule_id: R45
+        pattern: "前苏联"
+        suggestion: "苏联"
+        severity: block
+
+  - id: admin_division
+    label: 涉民族及行政固定表述
+    items:
+      - rule_id: R46
+        pattern: "内蒙|维族|广西自治区|宁夏自治区|大理白族自治区"
+        suggestion: "内蒙古 / 维吾尔族 / 广西壮族自治区 / 宁夏回族自治区 / 大理白族自治州"
+        severity: block
+      - rule_id: R47
+        pattern: "新疆建设兵团"
+        suggestion: "新疆生产建设兵团"
+        severity: block
+      - rule_id: R48
+        pattern: "北京市城市副中心"
+        suggestion: "北京城市副中心"
+        severity: block
+      - rule_id: R49
+        pattern: "坚持以首都发展为统领"
+        suggestion: "坚持以新时代首都发展为统领"
+        severity: block
+      - rule_id: R50
+        pattern: "省、市、自治区"
+        suggestion: "省、自治区、直辖市 / 省（自治区、直辖市） / 省、区、市 / 省（区、市） / 省区市"
+        severity: block
+        notes: "依上下文选择"
+      - rule_id: R51
+        pattern: "×{2,}省省委书记|×{2,}市市委书记"
+        suggestion: "××省委书记 / ××市委书记"
+        severity: block
+      - rule_id: R52
+        pattern: "×{2,}省长|×{2,}市长"
+        suggestion: "××省省长 / ××市市长"
+        severity: block
+      - rule_id: R53
+        pattern: "市纪委市监委"
+        suggestion: "市纪委监委"
+        severity: block
+      - rule_id: R54
+        pattern: "市组织部|市政法委|县组织部|县政法委"
+        suggestion: "市委组织部 / 市委政法委 / 县委组织部 / 县委政法委"
+        severity: block
+      - rule_id: R55
+        pattern: "国家发展和改革委"
+        suggestion: "国家发展改革委"
+        severity: block
+      - rule_id: R56
+        pattern: "国家商务部"
+        suggestion: "商务部"
+        severity: block
+      - rule_id: R57
+        pattern: "国家密码局"
+        suggestion: "国家密码管理局"
+        severity: block
+      - rule_id: R58
+        pattern: "体育总局"
+        suggestion: "国家体育总局"
+        severity: block
+      - rule_id: R59
+        pattern: "生态环保部|生态环境保护部"
+        suggestion: "生态环境部"
+        severity: block
+      - rule_id: R60
+        pattern: "国家卫计委"
+        suggestion: "国家卫健委"
+        severity: block
+      - rule_id: R61
+        pattern: "中国红十字总会"
+        suggestion: "中国红十字会总会"
+        severity: block
+      - rule_id: R62
+        pattern: "中残联"
+        suggestion: "中国残联"
+        severity: block
+      - rule_id: R63
+        pattern: "香港政府"
+        suggestion: "香港特区政府"
+        severity: block
+      - rule_id: R64
+        pattern: "弘扬中华传统文化"
+        suggestion: "弘扬中华优秀传统文化"
+        severity: block
+      - rule_id: R65
+        pattern: "全国温室气体资源减排交易市场"
+        suggestion: "全国温室气体自愿减排交易市场"
+        severity: block
+
+  - id: common_collocations
+    label: 涉常用性固定表述
+    items:
+      - rule_id: R66
+        pattern: "习近平总书记关于国企改革发展和党的建设重要论述"
+        suggestion: "习近平总书记关于国有企业改革发展和党的建设的重要论述"
+        severity: block
+      - rule_id: R67
+        pattern: "《习近平谈治国理政（五卷）》|习近平谈治国理政（五卷）"
+        suggestion: "《习近平谈治国理政》五卷"
+        severity: block
+      - rule_id: R68
+        pattern: "《习近平文化思想纲要》|《习近平新时代中国特色社会主义思想问答》|《习近平总书记关于加强党的作风建设论述摘编》"
+        suggestion: "《习近平文化思想学习纲要》 / 《习近平新时代中国特色社会主义思想学习问答》 / 《习近平关于加强党的作风建设论述摘编》"
+        severity: block
+      - rule_id: R69
+        pattern: "坚决打赢反腐败斗争攻坚战、持久战、总体战"
+        suggestion: "坚决打好反腐败斗争攻坚战、持久战、总体战"
+        severity: block
+      - rule_id: R70
+        pattern: "《中华人民共和国固体废弃物污染环境防治法》"
+        suggestion: "《中华人民共和国固体废物污染环境防治法》"
+        severity: block
+      - rule_id: R71
+        pattern: "《最高院<担保制度解释>理解与适用》"
+        suggestion: "《最高人民法院关于适用〈中华人民共和国民法典〉有关担保制度的解释》"
+        severity: block
+      - rule_id: R72
+        pattern: "《中华人民共和国招投标法》"
+        suggestion: "《中华人民共和国招标投标法》"
+        severity: block
+      - rule_id: R73
+        pattern: "《建设项目环境保护管理办法》"
+        suggestion: "《建设项目环境保护管理条例》"
+        severity: block
+      - rule_id: R74
+        pattern: "理论中心组"
+        suggestion: "理论学习中心组"
+        severity: block
+      - rule_id: R75
+        pattern: "公民身份证"
+        suggestion: "居民身份证"
+        severity: block
+      - rule_id: R76
+        pattern: "“专精特新”小巨人企业"
+        suggestion: "专精特新“小巨人”企业"
+        severity: block
+      - rule_id: R77
+        pattern: "世界无烟草日"
+        suggestion: "世界无烟日"
+        severity: block
+      - rule_id: R78
+        pattern: "启动紧急响应机制"
+        suggestion: "启动应急响应机制"
+        severity: block
+      - rule_id: R79
+        pattern: "社会统一信用代码"
+        suggestion: "统一社会信用代码"
+        severity: block
+      - rule_id: R80
+        pattern: "国家经济稳中向好"
+        suggestion: "国民经济稳中向好"
+        severity: block

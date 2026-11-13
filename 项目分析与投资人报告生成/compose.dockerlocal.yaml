@@ -1,0 +1,51 @@
+# 容器内「本地文件沙箱」叠加文件
+#
+# 与 compose.yaml 配合使用（必须显式指定，不会被 docker compose up 自动叠加）：
+#
+#   docker compose -f compose.yaml -f compose.dockerlocal.yaml up -d
+#
+# 作用：
+#   1. 启动命令换成 inmem_server.py（内存版 run 记录，不依赖 MySQL）
+#   2. 配置指向 report-agent.dockerlocal.yaml（sandbox 用 filesystem）
+#   3. 去掉 bubblewrap 需要的特权（cap_add / security_opt）
+#   4. 关闭只读根文件系统，避免第三方库写缓存时失败
+#
+# 如果需要验证真实部署形态（MySQL + bubblewrap），不要用本文件，
+# 直接 `docker compose up -d` 即可。
+#
+# ------------------------------------------------------------------
+# 变体：要跑 report-agent-api（MySQL 持久化）时，把下面 command 换成
+#
+#   command: ["report-agent-api", "--host", "0.0.0.0", "--port", "8000"]
+#
+# 并在首次启动前建表：
+#
+#   docker compose -f compose.yaml -f compose.dockerlocal.yaml \
+#     run --rm report-agent report-agent-db-migrate --apply
+#
+# 前提：runtime.env 里的 MYSQL_HOST 在容器网络内可达。
+# ------------------------------------------------------------------
+services:
+  report-agent:
+    command:
+      - python
+      - apps/report_agent/scripts/inmem_server.py
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8000"
+
+    environment:
+      REPORT_AGENT_CONFIG: /app/deploy/environments/test/report-agent.dockerlocal.yaml
+
+    # filesystem 沙箱不需要这些，去掉可让 Docker Desktop / 受限内核也能起
+    cap_add: []
+    security_opt: []
+
+    # 关闭只读根文件系统：
+    # 没有 bwrap 时会以容器用户直接执行命令，部分库（tokenizer 缓存、字体缓存等）
+    # 会尝试写入 home 或 /app 下，只读会直接失败。
+    read_only: false
+
+    volumes:
+      - ./workspaces:/var/lib/report-agent/workspaces

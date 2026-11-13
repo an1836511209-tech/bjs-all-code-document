@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "tool": "extract_project_profile",
+  "description": "生成带字段证据的项目画像，原始企查查、智谱和 HiAgent 响应不返回给 Agent。",
+  "input_schema": {"type": "object", "additionalProperties": false, "required": ["company_name"], "anyOf": [{"required": ["material_url"]}, {"required": ["file_info"]}], "properties": {
+    "company_name": {"type": "string", "minLength": 1, "description": "从用户材料确认的标的企业全称。"}, "material_url": {"type": "string", "description": "服务侧生成且 Data MCP 可下载的材料 Markdown URL；不得传本地路径。"}, "file_info": {"type": "string", "description": "由材料解析工具读取并合并的正文文本；不得传 material_id、文件路径或 project_profile。"},
+    "user_chat_input": {"type": "string"}, "search_keywords": {"oneOf": [{"type": "string"}, {"type": "array", "items": {"type": "string", "minLength": 1}}]}
+  }},
+  "output_schema": {
+    "type": "object", "additionalProperties": false, "required": ["schema_version", "tool", "status", "summary", "data", "sources", "warnings"],
+    "properties": {
+      "schema_version": {"const": "1.0"}, "tool": {"const": "extract_project_profile"},
+      "status": {"enum": ["success", "partial", "empty", "failed"]}, "summary": {"type": "string"},
+"data": {"type": "object", "additionalProperties": false, "properties": {
+        "profile": {"type": ["object", "null"]}, "field_details": {"type": "object"}, "conflicts": {"type": "array"}
+      }},
+      "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}}, "warnings": {"type": "array", "items": {"$ref": "#/$defs/warning"}}
+    },
+    "$defs": {
+      "source": {"type": "object", "additionalProperties": false, "required": ["name", "status"], "properties": {"name": {"type": "string"}, "status": {"type": "string"}}},
+      "warning": {"type": "object", "additionalProperties": false, "required": ["code", "message", "retryable"], "properties": {"code": {"type": "string"}, "message": {"type": "string"}, "retryable": {"type": "boolean"}}}
+    }
+  }
+}

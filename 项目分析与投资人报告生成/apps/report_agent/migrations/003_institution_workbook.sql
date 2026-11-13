@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS report_agent_auxiliary_jobs (
+  job_id VARCHAR(64) PRIMARY KEY,
+  task_id VARCHAR(64) NOT NULL,
+  origin_run_id VARCHAR(64) NOT NULL,
+  source_docx_artifact_id VARCHAR(64) NULL,
+  job_type VARCHAR(64) NOT NULL DEFAULT 'institution_workbook',
+  idempotency_key CHAR(64) NOT NULL UNIQUE,
+  context_fingerprint CHAR(64) NOT NULL,
+  status VARCHAR(24) NOT NULL,
+  stage VARCHAR(32) NOT NULL,
+  claim_token VARCHAR(64) NULL,
+  deadline DATETIME(6) NULL,
+  artifact_id VARCHAR(64) NULL,
+  job_json JSON NOT NULL,
+  created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  INDEX idx_auxiliary_queue (status, created_at),
+  INDEX idx_auxiliary_task (task_id, created_at),
+  CONSTRAINT fk_auxiliary_task FOREIGN KEY (task_id) REFERENCES report_agent_tasks(task_id),
+  CONSTRAINT fk_auxiliary_run FOREIGN KEY (origin_run_id) REFERENCES report_agent_runs(run_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

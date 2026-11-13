@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "tool": "query_company_registry",
+  "description": "按企业全称查询企查查工商摘要。不返回供应商原始响应、联系方式和密钥。",
+  "input_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["company_name"],
+    "properties": {
+      "company_name": {
+        "type": "string",
+        "minLength": 1,
+        "description": "标的企业全称。"
+      }
+    }
+  },
+  "output_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["schema_version", "tool", "status", "summary", "data", "sources", "warnings"],
+    "properties": {
+      "schema_version": {"const": "1.0"},
+      "tool": {"const": "query_company_registry"},
+      "status": {"enum": ["success", "partial", "empty", "failed"]},
+      "summary": {"type": "string"},
+      "data": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "company": {
+            "type": ["object", "null"],
+            "additionalProperties": false,
+            "properties": {
+              "name": {"type": "string"},
+              "credit_code": {"type": "string"},
+              "legal_representative": {"type": "string"},
+              "established_on": {"type": "string"},
+              "registration_status": {"type": "string"},
+              "registered_capital": {"type": "string"},
+              "paid_in_capital": {"type": "string"},
+              "company_type": {"type": "string"},
+              "address": {"type": "string"},
+              "business_scope": {"type": "string"},
+              "staff_range": {"type": "string"},
+              "insured_count": {"type": "string"},
+              "listed": {"type": "string"},
+              "stock_code": {"type": "string"},
+              "listing_type": {"type": "string"},
+              "industry": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "industry": {"type": "string"},
+                  "sub_industry": {"type": "string"},
+                  "middle_category": {"type": "string"},
+                  "small_category": {"type": "string"}
+                }
+              },
+              "tags": {"type": "array", "items": {"type": "string"}},
+              "shareholders": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["name"],
+                  "properties": {
+                    "name": {"type": "string"},
+                    "percent": {"type": "string"},
+                    "holder_type": {"type": "string"}
+                  }
+                }
+              },
+              "executives": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["name"],
+                  "properties": {
+                    "name": {"type": "string"},
+                    "title": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}},
+      "warnings": {"type": "array", "items": {"$ref": "#/$defs/warning"}}
+    },
+    "$defs": {
+      "source": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "status"],
+        "properties": {"name": {"type": "string"}, "status": {"type": "string"}}
+      },
+      "warning": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "message", "retryable"],
+        "properties": {
+          "code": {"type": "string"},
+          "message": {"type": "string"},
+          "retryable": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

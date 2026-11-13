@@ -1,0 +1,25 @@
+/* ===== conversations ===== */
+.convos {
+  display: flex; flex-direction: column; min-height: 0;
+  border-right: 1px solid var(--line); background: var(--surface-2);
+  padding: 12px 9px; gap: 10px;
+}
+.new-convo {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  height: 34px; border-radius: 9px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink-2); font-size: 12px; font-weight: 600;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.new-convo:hover { border-color: var(--accent-line); color: var(--accent); background: var(--accent-soft); }
+.new-convo svg { width: 14px; height: 14px; }
+.new-project {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  height: 34px; border-radius: 9px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink-2); font-size: 12px; font-weight: 600;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.new-project:hover { border-color: var(--accent-line); color: var(--accent); background: var(--accent-soft); }
+.new-project svg { width: 14px; height: 14px; }
+
+.project-list { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+.project-list::-webkit-scrollbar { width: 0; }
