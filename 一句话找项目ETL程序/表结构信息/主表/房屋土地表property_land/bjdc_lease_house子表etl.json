@@ -1,0 +1,170 @@
+[
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "项目ID",
+        "子表字段": "projectCode",
+        "主表名": "property_land",
+        "主表字段中文名": "项目编号",
+        "主表字段": "project_code"
+    },
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "资产分类名称",
+        "子表字段": "assetCls",
+        "主表名": "property_land",
+        "主表字段中文名": "资产分类名称",
+        "主表字段": "asset_category_name"
+    },
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "房源标签",
+        "子表字段": "houseLabelCode",
+        "主表名": "property_land",
+        "主表字段中文名": "房源标签",
+        "主表字段": "house_label_code"
+    },
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "所属小区",
+        "子表字段": "community",
+        "主表名": "property_land",
+        "主表字段中文名": "所属小区",
+        "主表字段": "community_name"
+    },
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "房源户型",
+        "子表字段": "houseType",
+        "主表名": "property_land",
+        "主表字段中文名": "房源户型",
+        "主表字段": "house_layout"
+    },
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "所在楼层",
+        "子表字段": "floor",
+        "主表名": "property_land",
+        "主表字段中文名": "所在楼层",
+        "主表字段": "floor_number"
+    },
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "总楼层",
+        "子表字段": "allFloor",
+        "主表名": "property_land",
+        "主表字段中文名": "总楼层",
+        "主表字段": "total_floors"
+    },
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "房源朝向",
+        "子表字段": "houseTowardName",
+        "主表名": "property_land",
+        "主表字段中文名": "房源朝向",
+        "主表字段": "house_orientation"
+    },
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "装修情况",
+        "子表字段": "decoration",
+        "主表名": "property_land",
+        "主表字段中文名": "装修情况",
+        "主表字段": "decoration_status"
+    },
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "配备电梯",
+        "子表字段": "isElevator",
+        "主表名": "property_land",
+        "主表字段中文名": "配备电梯",
+        "主表字段": "has_elevator"
+    },
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "供暖方式",
+        "子表字段": "heatingMethod",
+        "主表名": "property_land",
+        "主表字段中文名": "供暖方式",
+        "主表字段": "heating_method"
+    },
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "房源特色",
+        "子表字段": "houseFeatures",
+        "主表名": "property_land",
+        "主表字段中文名": "房源特色",
+        "主表字段": "house_features"
+    },
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "电梯类型",
+        "子表字段": "elevatorType",
+        "主表名": "property_land",
+        "主表字段中文名": "电梯类型",
+        "主表字段": "elevator_type"
+    },
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "停车场",
+        "子表字段": "parking",
+        "主表名": "property_land",
+        "主表字段中文名": "停车场",
+        "主表字段": "has_parking"
+    },
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "车位类型",
+        "子表字段": "carSpaceType",
+        "主表名": "property_land",
+        "主表字段中文名": "车位类型",
+        "主表字段": "parking_space_type"
+    },
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "充电桩",
+        "子表字段": "chargingStation",
+        "主表名": "property_land",
+        "主表字段中文名": "充电桩",
+        "主表字段": "has_charging_station"
+    },
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "项目状态",
+        "子表字段": "project_state",
+        "主表名": "property_land",
+        "主表字段中文名": "项目状态",
+        "主表字段": "project_status"
+    },
+    {
+        "子表名": "bjdc_lease_house",
+        "子表字段中文名": "项目类型",
+        "子表字段": "project_type",
+        "主表名": "property_land",
+        "主表字段中文名": "项目类型",
+        "主表字段": "project_type"
+    },
+    {
+      "子表名": "bjdc_lease_house",
+      "子表字段中文名": "赛道标签",
+      "子表字段": "track_tags",
+      "主表名": "property_land",
+      "主表字段中文名": "赛道标签",
+      "主表字段": "track_tags"
+    },
+    {
+      "子表名": "bjdc_lease_house",
+      "子表字段中文名": "热点标签",
+      "子表字段": "trending_tags",
+      "主表名": "property_land",
+      "主表字段中文名": "热点标签",
+      "主表字段": "trending_tags"
+    },
+    {
+      "子表名": "bjdc_lease_house",
+      "子表字段中文名": "挂牌标签",
+      "子表字段": "listed_tags",
+      "主表名": "property_land",
+      "主表字段中文名": "挂牌标签",
+      "主表字段": "listed_tags"
+    }
+]

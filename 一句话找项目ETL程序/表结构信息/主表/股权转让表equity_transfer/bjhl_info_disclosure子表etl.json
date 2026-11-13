@@ -1,0 +1,226 @@
+[
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "项目状态",
+        "子表字段": "project_state",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "项目状态",
+        "主表字段": "project_status"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "项目名称",
+        "子表字段": "project_name",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "项目名称",
+        "主表字段": "project_name"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "项目编号",
+        "子表字段": "project_code",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "项目编号",
+        "主表字段": "project_code"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "项目亮点",
+        "子表字段": "lightspot",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "项目亮点",
+        "主表字段": "project_highlights"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "所在地区",
+        "子表字段": "SZSFMC",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "所在地区",
+        "主表字段": "region"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "年度审计报告年度",
+        "子表字段": "audityear",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "年度审计报告年度",
+        "主表字段": "audit_year"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "年度审计报告营业收入",
+        "子表字段": "auditearning",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "年度审计报告营业收入",
+        "主表字段": "audit_revenue"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "年度审计报告营业利润",
+        "子表字段": "auditprofit",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "年度审计报告营业利润",
+        "主表字段": "audit_operating_profit"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "年度审计报告净利润",
+        "子表字段": "auditnetprofit",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "年度审计报告净利润",
+        "主表字段": "audit_net_profit"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "年度审计报告资产总计",
+        "子表字段": "auditasset",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "年度审计报告资产总计",
+        "主表字段": "audit_total_assets"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "年度审计报告负债总计",
+        "子表字段": "auditdebt",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "年度审计报告负债总计",
+        "主表字段": "audit_total_liabilities"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "年度审计报告所有者权益",
+        "子表字段": "auditequity",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "年度审计报告所有者权益",
+        "主表字段": "audit_equity"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "年度审计报告审计机构",
+        "子表字段": "auditunit",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "年度审计报告审计机构",
+        "主表字段": "audit_agency"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "近期财务报表报表日期",
+        "子表字段": "stmtdate",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "近期财务报表报表日期",
+        "主表字段": "recent_fs_date"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "近期财务报表营业收入",
+        "子表字段": "stmtearning",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "近期财务报表营业收入",
+        "主表字段": "recent_fs_revenue"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "近期财务报表营业利润",
+        "子表字段": "stmtprofit",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "近期财务报表营业利润",
+        "主表字段": "recent_fs_operating_profit"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "近期财务报表净利润",
+        "子表字段": "stmtnetprofit",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "近期财务报表净利润",
+        "主表字段": "recent_fs_net_profit"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "近期财务报表资产总计",
+        "子表字段": "stmtasset",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "近期财务报表资产总计",
+        "主表字段": "recent_fs_total_assets"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "近期财务报表负债总计",
+        "子表字段": "stmtdebt",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "近期财务报表负债总计",
+        "主表字段": "recent_fs_total_liabilities"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "近期财务报表所有者权益",
+        "子表字段": "stmtequity",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "近期财务报表所有者权益",
+        "主表字段": "recent_fs_equity"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "参考价格",
+        "子表字段": "GPJG",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "参考价格",
+        "主表字段": "reference_price"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "转让方/融资方（招商主体）",
+        "子表字段": "ZRF",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "转让方/融资方（招商主体）",
+        "主表字段": "transferor_or_financier"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "项目基本信息",
+        "子表字段": "BDJBXX",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "项目基本信息",
+        "主表字段": "project_basic_info"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "赛道标签",
+        "子表字段": "track_tags",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "赛道标签",
+        "主表字段": "track_tags"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "热点标签",
+        "子表字段": "trending_tags",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "热点标签",
+        "主表字段": "trending_tags"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "挂牌标签",
+        "子表字段": "listed_tags",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "挂牌标签",
+        "主表字段": "listed_tags"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "项目类型",
+        "子表字段": "project_type",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "项目类型",
+        "主表字段": "project_type"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "所属行业",
+        "子表字段": "SSHYMC",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "所属行业",
+        "主表字段": "target_company_industry"
+    }
+]

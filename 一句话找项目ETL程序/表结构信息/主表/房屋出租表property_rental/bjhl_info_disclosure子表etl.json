@@ -1,0 +1,98 @@
+[
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "项目名称",
+        "子表字段": "project_name",
+        "主表名": "property_rental",
+        "主表字段中文名": "项目名称",
+        "主表字段": "project_name"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "项目编号",
+        "子表字段": "project_code",
+        "主表名": "property_rental",
+        "主表字段中文名": "项目编号",
+        "主表字段": "project_code"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "项目亮点",
+        "子表字段": "lightspot",
+        "主表名": "property_rental",
+        "主表字段中文名": "项目亮点",
+        "主表字段": "project_highlights"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "转让方/融资方（招商主体）",
+        "子表字段": "ZRF",
+        "主表名": "property_rental",
+        "主表字段中文名": "转让方/融资方（招商主体）",
+        "主表字段": "transfer_or_financing_party"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "参考价格",
+        "子表字段": "GPJG",
+        "主表名": "property_rental",
+        "主表字段中文名": "参考价格",
+        "主表字段": "reference_price"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "所在地区",
+        "子表字段": "SZSFMC",
+        "主表名": "property_rental",
+        "主表字段中文名": "所在地区",
+        "主表字段": "location_name"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "项目基本信息",
+        "子表字段": "BDJBXX",
+        "主表名": "property_rental",
+        "主表字段中文名": "项目基本信息",
+        "主表字段": "project_basic_info"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "项目类型",
+        "子表字段": "project_type",
+        "主表名": "property_rental",
+        "主表字段中文名": "项目类型",
+        "主表字段": "project_type"
+    },
+    {
+        "子表名": "bjhl_info_disclosure",
+        "子表字段中文名": "项目状态",
+        "子表字段": "project_state",
+        "主表名": "property_rental",
+        "主表字段中文名": "项目状态",
+        "主表字段": "project_status"
+    },
+    {
+      "子表名": "bjhl_info_disclosure",
+      "子表字段中文名": "赛道标签",
+      "子表字段": "track_tags",
+      "主表名": "property_rental",
+      "主表字段中文名": "赛道标签",
+      "主表字段": "track_tags"
+    },
+    {
+      "子表名": "bjhl_info_disclosure",
+      "子表字段中文名": "热点标签",
+      "子表字段": "trending_tags",
+      "主表名": "property_rental",
+      "主表字段中文名": "热点标签",
+      "主表字段": "trending_tags"
+    },
+    {
+      "子表名": "bjhl_info_disclosure",
+      "子表字段中文名": "挂牌标签",
+      "子表字段": "listed_tags",
+      "主表名": "property_rental",
+      "主表字段中文名": "挂牌标签",
+      "主表字段": "listed_tags"
+    }
+]

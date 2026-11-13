@@ -1,0 +1,178 @@
+[
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "项目名称",
+      "子表字段": "project_name",
+      "主表名": "property_rental",
+      "主表字段中文名": "项目名称",
+      "主表字段": "project_name"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "项目编号",
+      "子表字段": "project_code",
+      "主表名": "property_rental",
+      "主表字段中文名": "项目编号",
+      "主表字段": "project_code"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "项目亮点",
+      "子表字段": "lightspot",
+      "主表名": "property_rental",
+      "主表字段中文名": "项目亮点",
+      "主表字段": "project_highlights"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "出租方名称",
+      "子表字段": "LESSOR_NAME",
+      "主表名": "property_rental",
+      "主表字段中文名": "出租方名称",
+      "主表字段": "lessor_name"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "挂牌价格",
+      "子表字段": "PROJECT_PRICE",
+      "主表名": "property_rental",
+      "主表字段中文名": "挂牌价格",
+      "主表字段": "listing_price_cny"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "出租面积",
+      "子表字段": "RENT_AREA",
+      "主表名": "property_rental",
+      "主表字段中文名": "出租面积",
+      "主表字段": "rent_area_sqm"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "出租房屋基本情况_坐落位置",
+      "子表字段": "house_ZLWZ",
+      "主表名": "property_rental",
+      "主表字段中文名": "出租房屋基本情况_坐落位置",
+      "主表字段": "house_location"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "房屋使用现状",
+      "子表字段": "FWSYXZ",
+      "主表名": "property_rental",
+      "主表字段中文名": "房屋使用现状",
+      "主表字段": "house_current_status"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "建筑面积（平方米）",
+      "子表字段": "JZMJ",
+      "主表名": "property_rental",
+      "主表字段中文名": "建筑面积（平方米）",
+      "主表字段": "building_area_sqm"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "是否存在优先承租权",
+      "子表字段": "IS_PRIORITY_INHERITANCE",
+      "主表名": "property_rental",
+      "主表字段中文名": "是否存在优先承租权",
+      "主表字段": "has_priority_lease_right"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "出租土地基本情况_坐落位置",
+      "子表字段": "land_ZLWZ",
+      "主表名": "property_rental",
+      "主表字段中文名": "出租土地基本情况_坐落位置",
+      "主表字段": "land_location"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "土地证号",
+      "子表字段": "TDZH",
+      "主表名": "property_rental",
+      "主表字段中文名": "土地证号",
+      "主表字段": "land_certificate_number"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "土地面积（平方米）",
+      "子表字段": "TDMJ",
+      "主表名": "property_rental",
+      "主表字段中文名": "土地面积（平方米）",
+      "主表字段": "land_area_sqm"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "用途",
+      "子表字段": "YT",
+      "主表名": "property_rental",
+      "主表字段中文名": "用途",
+      "主表字段": "usage"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "类型",
+      "子表字段": "LX",
+      "主表名": "property_rental",
+      "主表字段中文名": "类型",
+      "主表字段": "type"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "使用年限",
+      "子表字段": "SYNX",
+      "主表名": "property_rental",
+      "主表字段中文名": "使用年限",
+      "主表字段": "service_life_years"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "拟出租面积（平方米）",
+      "子表字段": "PREP_RENT_AREA_SQM",
+      "主表名": "property_rental",
+      "主表字段中文名": "拟出租面积（平方米）",
+      "主表字段": "intended_rent_area_sqm"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "项目类型",
+      "子表字段": "project_type",
+      "主表名": "property_rental",
+      "主表字段中文名": "项目类型",
+      "主表字段": "project_type"
+    },
+    {
+        "子表名": "bjhl_house_rent",
+        "子表字段中文名": "项目状态",
+        "子表字段": "project_status",
+        "主表名": "property_rental",
+        "主表字段中文名": "项目状态",
+        "主表字段": "project_status"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "赛道标签",
+      "子表字段": "track_tags",
+      "主表名": "property_rental",
+      "主表字段中文名": "赛道标签",
+      "主表字段": "track_tags"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "热点标签",
+      "子表字段": "trending_tags",
+      "主表名": "property_rental",
+      "主表字段中文名": "热点标签",
+      "主表字段": "trending_tags"
+    },
+    {
+      "子表名": "bjhl_house_rent",
+      "子表字段中文名": "挂牌标签",
+      "子表字段": "listed_tags",
+      "主表名": "property_rental",
+      "主表字段中文名": "挂牌标签",
+      "主表字段": "listed_tags"
+    }
+  ]

@@ -1,0 +1,322 @@
+[
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "项目状态",
+        "子表字段": "project_state",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "项目状态",
+        "主表字段": "project_status"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "项目名称",
+        "子表字段": "project_name",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "项目名称",
+        "主表字段": "project_name"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "项目编号",
+        "子表字段": "project_code",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "项目编号",
+        "主表字段": "project_code"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "项目亮点",
+        "子表字段": "lightspot",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "项目亮点",
+        "主表字段": "project_highlights"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "标的企业名称",
+        "子表字段": "object_name",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "标的企业名称",
+        "主表字段": "target_company_name"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "转让方名称",
+        "子表字段": "transferor_name",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "转让方名称",
+        "主表字段": "transferor_name"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "拟转让比例",
+        "子表字段": "transfer_ratio",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "拟转让比例",
+        "主表字段": "intended_transfer_ratio"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "注册地（住所）",
+        "子表字段": "registration_place",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "注册地（住所）",
+        "主表字段": "registered_location"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "注册资本",
+        "子表字段": "registered_capital",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "注册资本",
+        "主表字段": "registered_capital"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "经济类型",
+        "子表字段": "economic_type",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "经济类型",
+        "主表字段": "economic_type"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "经营范围",
+        "子表字段": "business_scope",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "经营范围",
+        "主表字段": "business_scope"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "导致标的企业的实际控制权发生转移",
+        "子表字段": "control_transfer",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "导致标的企业的实际控制权发生转移",
+        "主表字段": "control_right_transfer"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "年度审计报告年度",
+        "子表字段": "audityear",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "年度审计报告年度",
+        "主表字段": "audit_year"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "年度审计报告营业收入",
+        "子表字段": "auditearning",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "年度审计报告营业收入",
+        "主表字段": "audit_revenue"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "年度审计报告营业利润",
+        "子表字段": "auditprofit",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "年度审计报告营业利润",
+        "主表字段": "audit_operating_profit"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "年度审计报告净利润",
+        "子表字段": "auditnetprofit",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "年度审计报告净利润",
+        "主表字段": "audit_net_profit"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "年度审计报告资产总计",
+        "子表字段": "auditasset",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "年度审计报告资产总计",
+        "主表字段": "audit_total_assets"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "年度审计报告负债总计",
+        "子表字段": "auditdebt",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "年度审计报告负债总计",
+        "主表字段": "audit_total_liabilities"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "年度审计报告所有者权益",
+        "子表字段": "auditequity",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "年度审计报告所有者权益",
+        "主表字段": "audit_equity"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "年度审计报告审计机构",
+        "子表字段": "auditunit",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "年度审计报告审计机构",
+        "主表字段": "audit_agency"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "近期财务报表报表日期",
+        "子表字段": "stmtdate",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "近期财务报表报表日期",
+        "主表字段": "recent_fs_date"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "近期财务报表营业收入",
+        "子表字段": "stmtearning",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "近期财务报表营业收入",
+        "主表字段": "recent_fs_revenue"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "近期财务报表营业利润",
+        "子表字段": "stmtprofit",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "近期财务报表营业利润",
+        "主表字段": "recent_fs_operating_profit"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "近期财务报表净利润",
+        "子表字段": "stmtnetprofit",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "近期财务报表净利润",
+        "主表字段": "recent_fs_net_profit"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "近期财务报表资产总计",
+        "子表字段": "stmtasset",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "近期财务报表资产总计",
+        "主表字段": "recent_fs_total_assets"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "近期财务报表负债总计",
+        "子表字段": "stmtdebt",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "近期财务报表负债总计",
+        "主表字段": "recent_fs_total_liabilities"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "近期财务报表所有者权益",
+        "子表字段": "stmtequity",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "近期财务报表所有者权益",
+        "主表字段": "recent_fs_equity"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "持有产（股）权比例",
+        "子表字段": "shareholding_ratio",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "持有产（股）权比例",
+        "主表字段": "ownership_ratio"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "拟转让产（股）权比例",
+        "子表字段": "share_transfer_ratio",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "拟转让产（股）权比例",
+        "主表字段": "intended_ownership_transfer_ratio"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "国家出资企业或主管部门名称",
+        "子表字段": "ratify_competent_department",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "国家出资企业或主管部门名称",
+        "主表字段": "competent_department_name"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "转让底价",
+        "子表字段": "transfer_pricing",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "转让底价",
+        "主表字段": "transfer_base_price"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "价款支付方式",
+        "子表字段": "mode_payment",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "价款支付方式",
+        "主表字段": "payment_method"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "与转让相关的其他条件",
+        "子表字段": "other_condition",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "与转让相关的其他条件",
+        "主表字段": "other_transfer_conditions"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "受让方资格条件",
+        "子表字段": "prerequisites",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "受让方资格条件",
+        "主表字段": "transferee_qualification"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "赛道标签",
+        "子表字段": "track_tags",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "赛道标签",
+        "主表字段": "track_tags"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "热点标签",
+        "子表字段": "trending_tags",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "热点标签",
+        "主表字段": "trending_tags"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "挂牌标签",
+        "子表字段": "listed_tags",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "挂牌标签",
+        "主表字段": "listed_tags"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "项目类型",
+        "子表字段": "project_type",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "项目类型",
+        "主表字段": "project_type"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "所属行业",
+        "子表字段": "industry",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "所属行业",
+        "主表字段": "target_company_industry"
+    },
+    {
+        "子表名": "bjhl_property_transfer",
+        "子表字段中文名": "所在地区",
+        "子表字段": "area",
+        "主表名": "equity_transfer",
+        "主表字段中文名": "所在地区",
+        "主表字段": "region"
+    }
+]

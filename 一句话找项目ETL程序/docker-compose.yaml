@@ -1,0 +1,112 @@
+# 北交所数据同步程序 - 简化版 Docker Compose 配置
+version: '3.8'
+
+services:
+  # 主服务：包含调度器、Kafka监听器和定时同步任务
+  bjs-etl:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: bjs-etl
+    hostname: bjs-etl
+    restart: unless-stopped
+    
+    # 环境变量
+    environment:
+      - TZ=Asia/Shanghai
+      - PYTHONPATH=/app
+      - LOG_LEVEL=INFO
+    
+    # 数据卷挂载
+    volumes:
+      # 日志文件外挂
+      - ./logs:/app/logs
+      # 导出文件外挂
+      - ./exports:/app/exports
+      # 时区配置
+      - /etc/localtime:/etc/localtime:ro
+    
+    # 端口映射（可选，用于监控）
+    ports:
+      - "8080:8080"
+    
+    # 健康检查
+    healthcheck:
+      test: ["/app/healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    
+    # 网络配置
+    networks:
+      - bjs-etl-network
+    
+    # 资源限制
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    
+    # 日志配置
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+
+  # 手动同步服务（用于立即执行同步）
+  bjs-etl-sync:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: bjs-etl-sync
+    hostname: bjs-etl-sync
+    restart: "no"  # 不自动重启，用于手动执行
+    
+    # 环境变量
+    environment:
+      - TZ=Asia/Shanghai
+      - PYTHONPATH=/app
+      - LOG_LEVEL=INFO
+    
+    # 数据卷挂载
+    volumes:
+      - ./logs:/app/logs
+      - ./exports:/app/exports
+      - /etc/localtime:/etc/localtime:ro
+    
+    # 覆盖默认启动命令，立即执行同步
+    command: python scripts/scheduler.py --sync-now
+    
+    # 网络配置
+    networks:
+      - bjs-etl-network
+    
+    # 配置文件模式（手动启动）
+    profiles:
+      - manual
+    
+    # 日志配置
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "2"
+
+# 网络配置
+networks:
+  bjs-etl-network:
+    driver: bridge
+    name: bjs-etl-network
+
+# 数据卷配置（如果需要命名卷）
+volumes:
+  bjs-etl-logs:
+    driver: local
+  bjs-etl-exports:
+    driver: local

@@ -1,0 +1,162 @@
+[
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "项目名称",
+      "子表字段": "project_name",
+      "主表名": "other_assets",
+      "主表字段中文名": "项目名称",
+      "主表字段": "project_name"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "项目编号",
+      "子表字段": "project_code",
+      "主表名": "other_assets",
+      "主表字段中文名": "项目编号",
+      "主表字段": "project_code"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "项目亮点",
+      "子表字段": "lightspot",
+      "主表名": "other_assets",
+      "主表字段中文名": "项目亮点",
+      "主表字段": "project_highlights"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "转让底价",
+      "子表字段": "transfer_floor_price",
+      "主表名": "other_assets",
+      "主表字段中文名": "转让底价",
+      "主表字段": "transfer_min_price"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "资产来源",
+      "子表字段": "statement_resources",
+      "主表名": "other_assets",
+      "主表字段中文名": "资产来源",
+      "主表字段": "asset_source"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "标的是否存在抵押物情况",
+      "子表字段": "is_pledge",
+      "主表名": "other_assets",
+      "主表字段中文名": "标的是否存在抵押物情况",
+      "主表字段": "has_collateral"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "权利人是否有意向行使优先购买权",
+      "子表字段": "priority",
+      "主表名": "other_assets",
+      "主表字段中文名": "权利人是否有意向行使优先购买权",
+      "主表字段": "has_preemptive_right_intent"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "机械设备名称",
+      "子表字段": "mecequname",
+      "主表名": "other_assets",
+      "主表字段中文名": "机械设备名称",
+      "主表字段": "equipment_name"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "机械设备所在地",
+      "子表字段": "mechanical_equipment_address",
+      "主表名": "other_assets",
+      "主表字段中文名": "机械设备所在地",
+      "主表字段": "equipment_location"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "存货名称",
+      "子表字段": "stockname",
+      "主表名": "other_assets",
+      "主表字段中文名": "存货名称",
+      "主表字段": "inventory_name"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "存货所在地",
+      "子表字段": "inventory_address",
+      "主表名": "other_assets",
+      "主表字段中文名": "存货所在地",
+      "主表字段": "inventory_location"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "交通运输工具型号",
+      "子表字段": "trafficmodel",
+      "主表名": "other_assets",
+      "主表字段中文名": "交通运输工具型号",
+      "主表字段": "vehicle_model"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "债权名称",
+      "子表字段": "CLAIM_name",
+      "主表名": "other_assets",
+      "主表字段中文名": "债权名称",
+      "主表字段": "claim_name"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "名称",
+      "子表字段": "othername",
+      "主表名": "other_assets",
+      "主表字段中文名": "名称",
+      "主表字段": "other_asset_name"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "项目状态",
+      "子表字段": "project_state",
+      "主表名": "other_assets",
+      "主表字段中文名": "项目状态",
+      "主表字段": "project_status"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "赛道标签",
+      "子表字段": "track_tags",
+      "主表名": "other_assets",
+      "主表字段中文名": "赛道标签",
+      "主表字段": "track_tags"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "热点标签",
+      "子表字段": "trending_tags",
+      "主表名": "other_assets",
+      "主表字段中文名": "热点标签",
+      "主表字段": "trending_tags"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "挂牌标签",
+      "子表字段": "listed_tags",
+      "主表名": "other_assets",
+      "主表字段中文名": "挂牌标签",
+      "主表字段": "listed_tags"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "价款支付方式",
+      "子表字段": "payment_method",
+      "主表名": "other_assets",
+      "主表字段中文名": "价款支付方式",
+      "主表字段": "payment_method"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "项目类型",
+      "子表字段": "project_type",
+      "主表名": "other_assets",
+      "主表字段中文名": "项目类型",
+      "主表字段": "project_type"
+    }
+  ]

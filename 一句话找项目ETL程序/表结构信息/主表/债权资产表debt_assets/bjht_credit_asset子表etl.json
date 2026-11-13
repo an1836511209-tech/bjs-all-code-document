@@ -1,0 +1,202 @@
+[
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "项目名称",
+      "子表字段": "project_name",
+      "主表名": "debt_assets",
+      "主表字段中文名": "项目名称",
+      "主表字段": "project_name"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "项目编号",
+      "子表字段": "project_code",
+      "主表名": "debt_assets",
+      "主表字段中文名": "项目编号",
+      "主表字段": "project_code"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "项目亮点",
+      "子表字段": "lightspot",
+      "主表名": "debt_assets",
+      "主表字段中文名": "项目亮点",
+      "主表字段": "project_highlights"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "标的名称",
+      "子表字段": "delegatio_nominis_name",
+      "主表名": "debt_assets",
+      "主表字段中文名": "标的名称",
+      "主表字段": "asset_name"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "债权账面价值",
+      "子表字段": "delegatio_nominis_value",
+      "主表名": "debt_assets",
+      "主表字段中文名": "债权账面价值",
+      "主表字段": "claim_book_value"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "债权转让价格",
+      "子表字段": "transfer_least_stock_type",
+      "主表名": "debt_assets",
+      "主表字段中文名": "债权转让价格",
+      "主表字段": "claim_transfer_price_type"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "债权转让价格（万元）-最小值",
+      "子表字段": "transfer_least_stock",
+      "主表名": "debt_assets",
+      "主表字段中文名": "债权转让价格（万元）-最小值",
+      "主表字段": "claim_transfer_price_min"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "债权转让价格（万元）-最大值",
+      "子表字段": "transfer_max_stock",
+      "主表名": "debt_assets",
+      "主表字段中文名": "债权转让价格（万元）-最大值",
+      "主表字段": "claim_transfer_price_max"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "债权转让价格（万元）-固定值",
+      "子表字段": "gudingzhi",
+      "主表名": "debt_assets",
+      "主表字段中文名": "债权转让价格（万元）-固定值",
+      "主表字段": "claim_transfer_price_fixed"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "债权资产现状描述",
+      "子表字段": "asset_description",
+      "主表名": "debt_assets",
+      "主表字段中文名": "债权资产现状描述",
+      "主表字段": "claim_asset_status_desc"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "债权类别",
+      "子表字段": "ZQLB",
+      "主表名": "debt_assets",
+      "主表字段中文名": "债权类别",
+      "主表字段": "claim_category"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "担保类别",
+      "子表字段": "DBLB",
+      "主表名": "debt_assets",
+      "主表字段中文名": "担保类别",
+      "主表字段": "guarantee_category"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "抵质押物类型",
+      "子表字段": "DZYWLX",
+      "主表名": "debt_assets",
+      "主表字段中文名": "抵质押物类型",
+      "主表字段": "collateral_type"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "所在地",
+      "子表字段": "SZD",
+      "主表名": "debt_assets",
+      "主表字段中文名": "所在地",
+      "主表字段": "location"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "其他需要披露的内容",
+      "子表字段": "other_disclosure",
+      "主表名": "debt_assets",
+      "主表字段中文名": "其他需要披露的内容",
+      "主表字段": "other_disclosure"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "转让方名称",
+      "子表字段": "transferor_name",
+      "主表名": "debt_assets",
+      "主表字段中文名": "转让方名称",
+      "主表字段": "transferor_name"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "债务人经济性质",
+      "子表字段": "debtor_economy",
+      "主表名": "debt_assets",
+      "主表字段中文名": "债务人经济性质",
+      "主表字段": "debtor_economic_type"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "债务人经营范围",
+      "子表字段": "debtor_business_scope",
+      "主表名": "debt_assets",
+      "主表字段中文名": "债务人经营范围",
+      "主表字段": "debtor_business_scope"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "转让方类型",
+      "子表字段": "ZRFLX",
+      "主表名": "debt_assets",
+      "主表字段中文名": "转让方类型",
+      "主表字段": "transferor_type"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "项目状态",
+      "子表字段": "project_status",
+      "主表名": "debt_assets",
+      "主表字段中文名": "项目状态",
+      "主表字段": "project_state"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "项目类型",
+      "子表字段": "project_type",
+      "主表名": "debt_assets",
+      "主表字段中文名": "项目类型",
+      "主表字段": "project_type"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "赛道标签",
+      "子表字段": "track_tags",
+      "主表名": "debt_assets",
+      "主表字段中文名": "赛道标签",
+      "主表字段": "track_tags"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "热点标签",
+      "子表字段": "trending_tags",
+      "主表名": "debt_assets",
+      "主表字段中文名": "热点标签",
+      "主表字段": "trending_tags"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "挂牌标签",
+      "子表字段": "listed_tags",
+      "主表名": "debt_assets",
+      "主表字段中文名": "挂牌标签",
+      "主表字段": "listed_tags"
+    },
+    {
+      "子表名": "bjht_credit_asset",
+      "子表字段中文名": "所属行业",
+      "子表字段": "debtor_industry",
+      "主表名": "debt_assets",
+      "主表字段中文名": "所属行业",
+      "主表字段": "industry_name"
+    }
+  ]

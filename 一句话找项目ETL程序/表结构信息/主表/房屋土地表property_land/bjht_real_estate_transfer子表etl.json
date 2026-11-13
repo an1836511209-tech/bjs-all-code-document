@@ -1,0 +1,170 @@
+[
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "项目名称",
+        "子表字段": "project_name",
+        "主表名": "property_land",
+        "主表字段中文名": "项目名称",
+        "主表字段": "project_name"
+    },
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "项目编号",
+        "子表字段": "project_code",
+        "主表名": "property_land",
+        "主表字段中文名": "项目编号",
+        "主表字段": "project_code"
+    },
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "项目亮点",
+        "子表字段": "lightspot",
+        "主表名": "property_land",
+        "主表字段中文名": "项目亮点",
+        "主表字段": "project_highlights"
+    },
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "项目类型",
+        "子表字段": "project_type",
+        "主表名": "property_land",
+        "主表字段中文名": "项目类型",
+        "主表字段": "project_type"
+    },
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "标的名称",
+        "子表字段": "object_name",
+        "主表名": "property_land",
+        "主表字段中文名": "标的名称",
+        "主表字段": "asset_name"
+    },
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "标的物业类型",
+        "子表字段": "object_type",
+        "主表名": "property_land",
+        "主表字段中文名": "标的物业类型",
+        "主表字段": "asset_property_type"
+    },
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "标的建筑面积",
+        "子表字段": "object_acreage",
+        "主表名": "property_land",
+        "主表字段中文名": "标的建筑面积",
+        "主表字段": "asset_building_area"
+    },
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "标的转让金额",
+        "子表字段": "transfer_least_stock_type",
+        "主表名": "property_land",
+        "主表字段中文名": "标的转让金额",
+        "主表字段": "asset_transfer_amount"
+    },
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "标的转让金额（万元）-最小值",
+        "子表字段": "object_min_amount",
+        "主表名": "property_land",
+        "主表字段中文名": "标的转让金额（万元）-最小值",
+        "主表字段": "asset_transfer_amount_min"
+    },
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "标的转让金额（万元）-最大值",
+        "子表字段": "object_max_amount",
+        "主表名": "property_land",
+        "主表字段中文名": "标的转让金额（万元）-最大值",
+        "主表字段": "asset_transfer_amount_max"
+    },
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "标的转让金额（万元）-固定值",
+        "子表字段": "gudinzhi",
+        "主表名": "property_land",
+        "主表字段中文名": "标的转让金额（万元）-固定值",
+        "主表字段": "asset_transfer_amount_fixed"
+    },
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "标的位置",
+        "子表字段": "object_location",
+        "主表名": "property_land",
+        "主表字段中文名": "标的位置",
+        "主表字段": "asset_location"
+    },
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "标的单价元/平米",
+        "子表字段": "object_unit_price",
+        "主表名": "property_land",
+        "主表字段中文名": "标的单价元/平米",
+        "主表字段": "asset_unit_price_per_sqm"
+    },
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "标的使用年限",
+        "子表字段": "object_durable_years",
+        "主表名": "property_land",
+        "主表字段中文名": "标的使用年限",
+        "主表字段": "asset_service_life_years"
+    },
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "标的现状描述",
+        "子表字段": "object_describe",
+        "主表名": "property_land",
+        "主表字段中文名": "标的现状描述",
+        "主表字段": "asset_current_status_desc"
+    },
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "分类",
+        "子表字段": "classify_name",
+        "主表名": "property_land",
+        "主表字段中文名": "分类",
+        "主表字段": "category_name"
+    },
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "披露内容",
+        "子表字段": "content",
+        "主表名": "property_land",
+        "主表字段中文名": "披露内容",
+        "主表字段": "disclosure_content"
+    },
+    {
+        "子表名": "bjht_real_estate_transfer",
+        "子表字段中文名": "项目状态",
+        "子表字段": "project_state",
+        "主表名": "property_land",
+        "主表字段中文名": "项目状态",
+        "主表字段": "project_status"
+    },
+    {
+      "子表名": "bjht_real_estate_transfer",
+      "子表字段中文名": "赛道标签",
+      "子表字段": "track_tags",
+      "主表名": "property_land",
+      "主表字段中文名": "赛道标签",
+      "主表字段": "track_tags"
+    },
+    {
+      "子表名": "bjht_real_estate_transfer",
+      "子表字段中文名": "热点标签",
+      "子表字段": "trending_tags",
+      "主表名": "property_land",
+      "主表字段中文名": "热点标签",
+      "主表字段": "trending_tags"
+    },
+    {
+      "子表名": "bjht_real_estate_transfer",
+      "子表字段中文名": "挂牌标签",
+      "子表字段": "listed_tags",
+      "主表名": "property_land",
+      "主表字段中文名": "挂牌标签",
+      "主表字段": "listed_tags"
+    }
+]

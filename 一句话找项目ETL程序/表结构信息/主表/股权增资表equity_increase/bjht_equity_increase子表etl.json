@@ -1,0 +1,218 @@
+[
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "项目名称",
+        "子表字段": "project_name",
+        "主表名": "equity_increase",
+        "主表字段中文名": "项目名称",
+        "主表字段": "project_name"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "项目状态",
+        "子表字段": "project_status",
+        "主表名": "equity_increase",
+        "主表字段中文名": "项目状态",
+        "主表字段": "project_status"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "项目编号",
+        "子表字段": "project_code",
+        "主表名": "equity_increase",
+        "主表字段中文名": "项目编号",
+        "主表字段": "project_code"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "项目亮点",
+        "子表字段": "lightspot",
+        "主表名": "equity_increase",
+        "主表字段中文名": "项目亮点",
+        "主表字段": "project_highlights"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "融资方名称",
+        "子表字段": "object_name",
+        "主表名": "equity_increase",
+        "主表字段中文名": "融资方名称",
+        "主表字段": "financing_party_name"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "股东名称",
+        "子表字段": "shareholderName",
+        "主表名": "equity_increase",
+        "主表字段中文名": "股东名称（前十位）",
+        "主表字段": "top10_shareholder_names"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "所占比例",
+        "子表字段": "proportion",
+        "主表名": "equity_increase",
+        "主表字段中文名": "持有比例",
+        "主表字段": "shareholding_percentage"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "融资方主营业务介绍",
+        "子表字段": "object_company_business_scope",
+        "主表名": "equity_increase",
+        "主表字段中文名": "融资方主营业务介绍",
+        "主表字段": "financing_main_business"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "拟融资金额",
+        "子表字段": "transfer_least_stock_type1",
+        "主表名": "equity_increase",
+        "主表字段中文名": "拟融资金额",
+        "主表字段": "intended_financing_amount"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "拟融资金额（万元）-最小值",
+        "子表字段": "transfer_least_price",
+        "主表名": "equity_increase",
+        "主表字段中文名": "拟融资金额（万元）-最小值",
+        "主表字段": "intended_financing_amount_min"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "拟融资金额（万元）-最大值",
+        "子表字段": "transfer_max_price",
+        "主表名": "equity_increase",
+        "主表字段中文名": "拟融资金额（万元）-最大值",
+        "主表字段": "intended_financing_amount_max"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "拟融资金额（万元）-固定值",
+        "子表字段": "gudinzhi1",
+        "主表名": "equity_increase",
+        "主表字段中文名": "拟融资金额（万元）-固定值",
+        "主表字段": "intended_financing_amount_fixed"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "拟释放股权比例",
+        "子表字段": "transfer_least_stock_type",
+        "主表名": "equity_increase",
+        "主表字段中文名": "拟释放股权比例",
+        "主表字段": "intended_equity_release_ratio"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "拟释放股权比例（%）-最小值",
+        "子表字段": "transfer_least_stock",
+        "主表名": "equity_increase",
+        "主表字段中文名": "拟释放股权比例（%）-最小值",
+        "主表字段": "intended_equity_release_ratio_min"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "拟释放股权比例（%）-最大值",
+        "子表字段": "transfer_max_stock",
+        "主表名": "equity_increase",
+        "主表字段中文名": "拟释放股权比例（%）-最大值",
+        "主表字段": "intended_equity_release_ratio_max"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "拟释放股权比例（%）-固定值",
+        "子表字段": "gudinzhi",
+        "主表名": "equity_increase",
+        "主表字段中文名": "拟释放股权比例（%）-固定值",
+        "主表字段": "intended_equity_release_ratio_fixed"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "拟征集投资人（个）-最小值",
+        "子表字段": "investors_number_min",
+        "主表名": "equity_increase",
+        "主表字段中文名": "拟征集投资人（个）-最小值",
+        "主表字段": "intended_investor_count_min"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "拟征集投资人（个）-最大值",
+        "子表字段": "investors_number_max",
+        "主表名": "equity_increase",
+        "主表字段中文名": "拟征集投资人（个）-最大值",
+        "主表字段": "intended_investor_count_max"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "拟征集投资人（个）-固定值",
+        "子表字段": "gudinzhi2",
+        "主表名": "equity_increase",
+        "主表字段中文名": "拟征集投资人（个）-固定值",
+        "主表字段": "intended_investor_count_fixed"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "原股东是否参与增资",
+        "子表字段": "shareholders_capital_increase",
+        "主表名": "equity_increase",
+        "主表字段中文名": "原股东是否参与增资",
+        "主表字段": "original_shareholder_participation"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "融资企业名称",
+        "子表字段": "company_name",
+        "主表名": "equity_increase",
+        "主表字段中文名": "融资企业名称",
+        "主表字段": "financing_company_name"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "融资企业注册地",
+        "子表字段": "company_registration_place",
+        "主表名": "equity_increase",
+        "主表字段中文名": "融资企业注册地",
+        "主表字段": "financing_company_registration_place"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "其他情况",
+        "子表字段": "company_rests",
+        "主表名": "equity_increase",
+        "主表字段中文名": "其他情况",
+        "主表字段": "other_conditions"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "赛道标签",
+        "子表字段": "track_tags",
+        "主表名": "equity_increase",
+        "主表字段中文名": "赛道标签",
+        "主表字段": "track_tags"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "热点标签",
+        "子表字段": "trending_tags",
+        "主表名": "equity_increase",
+        "主表字段中文名": "热点标签",
+        "主表字段": "trending_tags"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "挂牌标签",
+        "子表字段": "listed_tags",
+        "主表名": "equity_increase",
+        "主表字段中文名": "挂牌标签",
+        "主表字段": "listed_tags"
+    },
+    {
+        "子表名": "bjht_equity_increase",
+        "子表字段中文名": "项目类型",
+        "子表字段": "project_type",
+        "主表名": "equity_increase",
+        "主表字段中文名": "项目类型",
+        "主表字段": "project_type"
+    }
+]

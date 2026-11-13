@@ -1,0 +1,144 @@
+# 北交所数据同步程序 - Docker构建忽略文件
+
+# Git相关
+.git
+.gitignore
+.gitattributes
+
+# Python缓存和编译文件
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# 虚拟环境
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE和编辑器文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# 日志文件
+logs/
+*.log
+
+# 导出文件
+exports/
+*.xlsx
+*.csv
+*.json
+
+# 配置文件（实际配置不应打包到镜像中）
+# config/config.yaml
+# config/*.yaml
+!config/config.template.yaml
+
+# 测试文件
+test/
+tests/
+*_test.py
+test_*.py
+
+# 文档文件
+docs/
+*.md
+!README.md
+
+# 备份文件
+*.bak
+*.backup
+*.tmp
+*.temp
+
+# 旧版文件
+旧版文件/
+*.old
+
+# 表结构信息（主表处理器需要，不能排除）
+# 表结构信息/
+
+# 项目重构文档
+PROJECT_REFACTOR_SUMMARY.md
+
+# Docker相关文件
+Dockerfile
+docker-compose.yaml
+docker-compose.yml
+.dockerignore
+
+# 环境变量文件
+.env
+.env.*
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 压缩文件
+*.zip
+*.tar.gz
+*.rar
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 缓存目录
+.cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# 其他不需要的文件
+*.pid
+nohup.out
+
+# 本地脚本文件（如果有）
+local_*.sh
+dev_*.py
+
+# SSL证书（如果有）
+*.pem
+*.key
+*.crt
+
+# 临时文件
+tmp/
+temp/

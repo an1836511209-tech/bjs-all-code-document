@@ -1,0 +1,242 @@
+[
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "项目名称",
+        "子表字段": "project_name",
+        "主表名": "property_land",
+        "主表字段中文名": "项目名称",
+        "主表字段": "project_name"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "项目编号",
+        "子表字段": "project_code",
+        "主表名": "property_land",
+        "主表字段中文名": "项目编号",
+        "主表字段": "project_code"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "项目亮点",
+        "子表字段": "lightspot",
+        "主表名": "property_land",
+        "主表字段中文名": "项目亮点",
+        "主表字段": "project_highlights"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "分类",
+        "子表字段": "classify_name",
+        "主表名": "property_land",
+        "主表字段中文名": "分类",
+        "主表字段": "category_name"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "披露内容",
+        "子表字段": "content",
+        "主表名": "property_land",
+        "主表字段中文名": "披露内容",
+        "主表字段": "disclosure_content"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "转让底价",
+        "子表字段": "transfer_floor_price",
+        "主表名": "property_land",
+        "主表字段中文名": "转让底价",
+        "主表字段": "transfer_min_price"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "资产来源",
+        "子表字段": "statement_resources",
+        "主表名": "property_land",
+        "主表字段中文名": "资产来源",
+        "主表字段": "asset_source"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "标的是否存在抵押物情况",
+        "子表字段": "is_pledge",
+        "主表名": "property_land",
+        "主表字段中文名": "标的是否存在抵押物情况",
+        "主表字段": "has_mortgage"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "权利人是否有意向行使优先购买权",
+        "子表字段": "priority",
+        "主表名": "property_land",
+        "主表字段中文名": "权利人是否有意向行使优先购买权",
+        "主表字段": "has_preemptive_right_intent"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "房屋建筑物坐落位置",
+        "子表字段": "house_location",
+        "主表名": "property_land",
+        "主表字段中文名": "房屋建筑物坐落位置",
+        "主表字段": "house_location"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "房屋建筑物目前用途",
+        "子表字段": "houseuse",
+        "主表名": "property_land",
+        "主表字段中文名": "房屋建筑物目前用途",
+        "主表字段": "current_house_use"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "房屋建筑物附属设施",
+        "子表字段": "houseestablishment",
+        "主表名": "property_land",
+        "主表字段中文名": "房屋建筑物附属设施",
+        "主表字段": "house_facilities"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "建筑面积（平方米）",
+        "子表字段": "housearea",
+        "主表名": "property_land",
+        "主表字段中文名": "建筑面积（平方米）",
+        "主表字段": "house_building_area_sqm"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "房屋建筑物使用年限（年）",
+        "子表字段": "houseage",
+        "主表名": "property_land",
+        "主表字段中文名": "房屋建筑物使用年限（年）",
+        "主表字段": "house_service_life_years"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "房屋建筑物已用年限（年）",
+        "子表字段": "houseaged",
+        "主表名": "property_land",
+        "主表字段中文名": "房屋建筑物已用年限（年）",
+        "主表字段": "house_used_years"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "土地坐落位置",
+        "子表字段": "land_location",
+        "主表名": "property_land",
+        "主表字段中文名": "土地坐落位置",
+        "主表字段": "land_location"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "土地面积",
+        "子表字段": "landarea",
+        "主表名": "property_land",
+        "主表字段中文名": "土地面积",
+        "主表字段": "land_area_sqm"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "土地用途",
+        "子表字段": "landuse",
+        "主表名": "property_land",
+        "主表字段中文名": "土地用途",
+        "主表字段": "land_use"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "土地类型",
+        "子表字段": "landtype",
+        "主表名": "property_land",
+        "主表字段中文名": "土地类型",
+        "主表字段": "land_type"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "土地使用年限",
+        "子表字段": "landage",
+        "主表名": "property_land",
+        "主表字段中文名": "土地使用年限",
+        "主表字段": "land_service_life_years"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "土地已用年限",
+        "子表字段": "landaged",
+        "主表名": "property_land",
+        "主表字段中文名": "土地已用年限",
+        "主表字段": "land_used_years"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "土地是否有抵押",
+        "子表字段": "land_has_mortgage",
+        "主表名": "property_land",
+        "主表字段中文名": "土地是否有抵押",
+        "主表字段": "land_has_mortgage"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "转让方名称",
+        "子表字段": "transfer_name",
+        "主表名": "property_land",
+        "主表字段中文名": "转让方名称",
+        "主表字段": "seller_name"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "批准单位名称",
+        "子表字段": "authorize_unit",
+        "主表名": "property_land",
+        "主表字段中文名": "批准单位名称",
+        "主表字段": "approval_unit_name"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "价款支付方式",
+        "子表字段": "payment_method",
+        "主表名": "property_land",
+        "主表字段中文名": "价款支付方式",
+        "主表字段": "payment_method"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "项目状态",
+        "子表字段": "project_state",
+        "主表名": "property_land",
+        "主表字段中文名": "项目状态",
+        "主表字段": "project_status"
+    },
+    {
+        "子表名": "bjhl_bulk",
+        "子表字段中文名": "项目类型",
+        "子表字段": "project_type",
+        "主表名": "property_land",
+        "主表字段中文名": "项目类型",
+        "主表字段": "project_type"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "赛道标签",
+      "子表字段": "track_tags",
+      "主表名": "property_land",
+      "主表字段中文名": "赛道标签",
+      "主表字段": "track_tags"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "热点标签",
+      "子表字段": "trending_tags",
+      "主表名": "property_land",
+      "主表字段中文名": "热点标签",
+      "主表字段": "trending_tags"
+    },
+    {
+      "子表名": "bjhl_bulk",
+      "子表字段中文名": "挂牌标签",
+      "子表字段": "listed_tags",
+      "主表名": "property_land",
+      "主表字段中文名": "挂牌标签",
+      "主表字段": "listed_tags"
+    }
+]

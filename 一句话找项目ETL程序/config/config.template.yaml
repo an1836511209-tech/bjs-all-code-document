@@ -1,0 +1,191 @@
+# 北交所数据ETL系统配置模板
+# 请复制此文件为config.yaml并填入实际配置信息
+
+# API接口配置
+api:
+  base_url: "http://10.254.95.156/mservice/synProject/getProjectDetail/page"
+  headers:
+    token: "YOUR_API_TOKEN_HERE"  # 请替换为实际的API Token
+    Content-Type: "application/json"
+  request_params:
+    page: 1
+    limit: 999999999  # 增加分页大小以获取更多数据
+    is_full: 1  # 0为增量同步，1为全量同步（T+1全量模式）
+    projectCode: []  # 项目代码列表，空数组表示获取所有项目
+  timeout: 30  # 请求超时时间（秒）
+  retry_times: 3  # 重试次数
+  retry_delay: 5  # 重试间隔（秒）
+
+# 房源运营信息API配置
+operational_api:
+  base_url: "http://10.254.95.167:8088/bjdc/website/project/operational"
+  headers:
+    Content-Type: "application/json"
+  timeout: 30  # 请求超时时间（秒）
+  retry_times: 3  # 重试次数
+  retry_delay: 5  # 重试间隔（秒）
+  channel: "sszt"  # 默认渠道
+
+# Kafka配置
+kafka:
+  bootstrap_servers: "10.254.95.167:9092"
+  group_id: "volcengine_ai"
+  topic: "BJDC_FYXXYYTZ"
+  auto_offset_reset: "earliest"  # 从最早的消息开始消费
+  enable_auto_commit: true
+  auto_commit_interval_ms: 1000
+  session_timeout_ms: 30000
+  max_poll_records: 100
+
+# 数据库配置
+database:
+  host: "YOUR_DB_HOST"          # 请替换为实际的数据库主机地址
+  port: 8306                    # 数据库端口
+  user: "YOUR_DB_USER"          # 请替换为实际的数据库用户名
+  password: "YOUR_DB_PASSWORD"  # 请替换为实际的数据库密码
+  database: "YOUR_DB_NAME"      # 请替换为实际的数据库名称
+  charset: "utf8mb4"
+  pool_size: 10
+  pool_recycle: 3600
+
+# 业务系统与表的映射关系
+biz_sys_mapping:
+  "互联股权": "bjhl_property_transfer"
+  "汇投股权": "bjht_equity_transfer"
+  "互联信息披露": "bjhl_info_disclosure"
+  "互联企业增资": "bjhl_enterprise_increase"
+  "汇投增资": "bjht_equity_increase"
+  "汇投房产转让": "bjht_real_estate_transfer"
+  "互联大宗": "bjhl_bulk"
+  "汇投债权": "bjht_credit_asset"
+  "汇投房屋出租": "bjht_house_rent"
+  "互联房屋出租": "bjhl_house_rent"
+  # 可以在此添加更多业务系统映射
+
+# 字段映射配置
+field_mapping:
+  bjhl_property_transfer:
+    # 字段映射（数据库字段名 -> API字段路径）
+    fields:
+      project_state: "data.list[].projectState"
+      project_name: "data.list[].projectName"
+      project_code: "data.list[].projectCode"
+      dic_start: "data.list[].dicStart"
+      dic_end: "data.list[].dicEnd"
+      lightspot: "data.list[].lightspot"
+      project_label: "data.list[].detail.project_label"
+      project_type: "data.list[].projectType"
+      biz_sys: "data.list[].bizSys"
+      # ... 其他字段映射请参考原配置文件
+
+  bjht_equity_transfer:
+    # 字段映射（数据库字段名 -> API字段路径）
+    fields:
+      project_name: "data.list[].projectName"
+      project_state: "data.list[].projectState"
+      project_code: "data.list[].projectCode"
+      # ... 其他字段映射请参考原配置文件
+
+  bjhl_info_disclosure:
+    # 字段映射（数据库字段名 -> API字段路径）
+    fields:
+      projectId: "data.list[].projectId"
+      project_state: "data.list[].projectState"
+      project_name: "data.list[].projectName"
+      # ... 其他字段映射请参考原配置文件
+
+  bjhl_enterprise_increase:
+    # 字段映射（数据库字段名 -> API字段路径）
+    fields:
+      project_name: "data.list[].projectName"
+      project_state: "data.list[].projectState"
+      # ... 其他字段映射请参考原配置文件
+
+  bjht_equity_increase:
+    # 字段映射（数据库字段名 -> API字段路径）
+    fields:
+      project_name: "data.list[].projectName"
+      project_status: "data.list[].projectState"
+      # ... 其他字段映射请参考原配置文件
+
+  bjht_real_estate_transfer:
+    # 字段映射（数据库字段名 -> API字段路径）
+    fields:
+      projectId: "data.list[].projectId"
+      project_name: "data.list[].projectName"
+      # ... 其他字段映射请参考原配置文件
+
+  bjhl_bulk:
+    # 字段映射（数据库字段名 -> API字段路径）
+    fields:
+      projectId: "data.list[].projectId"
+      project_name: "data.list[].projectName"
+      # ... 其他字段映射请参考原配置文件
+
+  bjht_credit_asset:
+    # 字段映射（数据库字段名 -> API字段路径）
+    fields:
+      project_name: "data.list[].projectName"
+      project_code: "data.list[].projectCode"
+      # ... 其他字段映射请参考原配置文件
+
+  bjht_house_rent:
+    # 字段映射（数据库字段名 -> API字段路径）
+    fields:
+      projectId: "data.list[].projectId"
+      project_name: "data.list[].projectName"
+      # ... 其他字段映射请参考原配置文件
+
+  bjhl_house_rent:
+    # 字段映射（数据库字段名 -> API字段路径）
+    fields:
+      projectId: "data.list[].projectId"
+      project_name: "data.list[].projectName"
+      # ... 其他字段映射请参考原配置文件
+
+  bjdc_lease_house:
+    # 字段映射（数据库字段名 -> API字段路径）
+    fields:
+      projectId: "projectId"
+      assetCls: "targetList[].assetCls"
+      houseLabelCode: "targetList[].houseLabelList[].houseLabelCode"
+      community: "targetList[].community"
+      houseType: "targetList[].houseType"
+      floor: "targetList[].floor"
+      allFloor: "targetList[].allFloor"
+      houseTowardName: "targetList[].houseTowardList[].houseTowardName"
+      decoration: "targetList[].decoration"
+      isElevator: "targetList[].isElevator"
+      heatingMethod: "targetList[].heatingMethod"
+      houseFeatures: "targetList[].houseFeatures"
+      elevatorType: "targetList[].elevatorType"
+      waterSupplyType: "targetList[].waterSupplyType"
+      electricitySupply: "targetList[].electricitySupply"
+      parking: "targetList[].parking"
+      carSpaceType: "targetList[].carSpaceType"
+      chargingStation: "targetList[].chargingStation"
+      is_delete: "0"  # 默认值
+
+# 日志配置
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/sync.log"
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+
+# 同步配置
+sync:
+  batch_size: 100  # 批量插入大小
+  enable_upsert: false  # T+1全量模式：先清空再插入，不使用更新插入
+  clear_old_data: true  # T+1全量模式：每次同步前清空旧数据
+  unique_key: "id"  # 唯一键字段
+  date_format: "%Y-%m-%d %H:%M:%S"  # 日期格式
+  full_sync_mode: true  # 启用T+1全量同步模式
+  schedule_time: "02:00"  # 定时同步时间（每天凌晨2点）
+
+# 注意：
+# 1. 请将YOUR_*占位符替换为实际的配置值
+# 2. 数据库配置包含敏感信息，请勿提交到公共代码仓库
+# 3. API Token等敏感信息请妥善保管
+# 4. 完整的字段映射配置请参考原config.yaml文件

@@ -1,0 +1,1684 @@
+{
+  "debt_assets": {
+    "table_name": "debt_assets",
+    "table_desc": "债权资产表",
+    "fields": [
+      {
+        "name": "id",
+        "type": "int",
+        "desc": "主键ID"
+      },
+      {
+        "name": "project_name",
+        "type": "varchar",
+        "desc": "项目名称"
+      },
+      {
+        "name": "project_code",
+        "type": "varchar",
+        "desc": "项目编号"
+      },
+      {
+        "name": "project_highlights",
+        "type": "varchar",
+        "desc": "项目亮点"
+      },
+      {
+        "name": "project_type",
+        "type": "varchar",
+        "desc": "项目类型"
+      },
+      {
+        "name": "asset_name",
+        "type": "varchar",
+        "desc": "标的名称"
+      },
+      {
+        "name": "claim_book_value",
+        "type": "varchar",
+        "desc": "债权账面价值"
+      },
+      {
+        "name": "claim_transfer_price_type",
+        "type": "varchar",
+        "desc": "债权转让价格"
+      },
+      {
+        "name": "claim_transfer_price_min",
+        "type": "varchar",
+        "desc": "债权转让价格（万元）-最小值"
+      },
+      {
+        "name": "claim_transfer_price_max",
+        "type": "varchar",
+        "desc": "债权转让价格（万元）-最大值"
+      },
+      {
+        "name": "claim_transfer_price_fixed",
+        "type": "varchar",
+        "desc": "债权转让价格（万元）-固定值"
+      },
+      {
+        "name": "claim_asset_status_desc",
+        "type": "varchar",
+        "desc": "债权资产现状描述"
+      },
+      {
+        "name": "principal_amount",
+        "type": "varchar",
+        "desc": "本金 万元"
+      },
+      {
+        "name": "claim_category",
+        "type": "varchar",
+        "desc": "债权类别"
+      },
+      {
+        "name": "guarantee_category",
+        "type": "varchar",
+        "desc": "担保类别"
+      },
+      {
+        "name": "collateral_type",
+        "type": "varchar",
+        "desc": "抵质押物类型"
+      },
+      {
+        "name": "location",
+        "type": "varchar",
+        "desc": "所在地"
+      },
+      {
+        "name": "other_disclosure",
+        "type": "varchar",
+        "desc": "其他需要披露的内容"
+      },
+      {
+        "name": "transferor_name",
+        "type": "varchar",
+        "desc": "转让方名称"
+      },
+      {
+        "name": "debtor_economic_type",
+        "type": "varchar",
+        "desc": "债务人经济性质"
+      },
+      {
+        "name": "debtor_business_scope",
+        "type": "varchar",
+        "desc": "债务人经营范围"
+      },
+      {
+        "name": "transferor_type",
+        "type": "varchar",
+        "desc": "转让方类型"
+      },
+      {
+        "name": "transferor_or_financier",
+        "type": "varchar",
+        "desc": "转让方/融资方（招商主体）"
+      },
+      {
+        "name": "reference_price",
+        "type": "varchar",
+        "desc": "参考价格"
+      },
+      {
+        "name": "region_name",
+        "type": "varchar",
+        "desc": "所在地区"
+      },
+      {
+        "name": "project_basic_info",
+        "type": "varchar",
+        "desc": "项目基本信息"
+      },
+      {
+        "name": "audit_year",
+        "type": "varchar",
+        "desc": "年度"
+      },
+      {
+        "name": "audit_revenue",
+        "type": "varchar",
+        "desc": "年度审计报告营业收入（万元）"
+      },
+      {
+        "name": "audit_operating_profit",
+        "type": "varchar",
+        "desc": "年度审计报告营业利润（万元）"
+      },
+      {
+        "name": "audit_net_profit",
+        "type": "varchar",
+        "desc": "年度审计报告净利润（万元）"
+      },
+      {
+        "name": "audit_total_assets",
+        "type": "varchar",
+        "desc": "年度审计报告资产总计（万元）"
+      },
+      {
+        "name": "audit_total_liabilities",
+        "type": "varchar",
+        "desc": "年度审计报告负债总计（万元）"
+      },
+      {
+        "name": "audit_equity",
+        "type": "varchar",
+        "desc": "年度审计报告所有者权益"
+      },
+      {
+        "name": "audit_agency",
+        "type": "varchar",
+        "desc": "审计机构"
+      },
+      {
+        "name": "financial_stmt_date",
+        "type": "varchar",
+        "desc": "财务报表出具时间"
+      },
+      {
+        "name": "financial_stmt_revenue",
+        "type": "varchar",
+        "desc": "财务报表营业收入（万元）"
+      },
+      {
+        "name": "financial_stmt_operating_profit",
+        "type": "varchar",
+        "desc": "财务报表营业利润（万元）"
+      },
+      {
+        "name": "financial_stmt_net_profit",
+        "type": "varchar",
+        "desc": "财务报表净利润（万元）"
+      },
+      {
+        "name": "financial_stmt_total_assets",
+        "type": "varchar",
+        "desc": "财务报表资产总计（万元）"
+      },
+      {
+        "name": "financial_stmt_total_liabilities",
+        "type": "varchar",
+        "desc": "财务报表负债总计（万元）"
+      },
+      {
+        "name": "financial_stmt_equity",
+        "type": "varchar",
+        "desc": "财务报表所有者权益"
+      },
+      {
+        "name": "transfer_floor_price",
+        "type": "varchar",
+        "desc": "转让底价"
+      },
+      {
+        "name": "asset_source",
+        "type": "varchar",
+        "desc": "资产来源"
+      },
+      {
+        "name": "has_collateral",
+        "type": "varchar",
+        "desc": "标的是否存在抵押物情况"
+      },
+      {
+        "name": "book_value",
+        "type": "varchar",
+        "desc": "账面价值（万元）"
+      },
+      {
+        "name": "has_pledge",
+        "type": "varchar",
+        "desc": "是否有质押"
+      },
+      {
+        "name": "project_state",
+        "type": "varchar",
+        "desc": "项目状态"
+      }
+    ]
+  },
+  "other_assets": {
+    "table_name": "other_assets",
+    "table_desc": "其他资产表",
+    "fields": [
+      {
+        "name": "id",
+        "type": "int",
+        "desc": "主键ID"
+      },
+      {
+        "name": "project_name",
+        "type": "varchar",
+        "desc": "项目名称"
+      },
+      {
+        "name": "project_code",
+        "type": "varchar",
+        "desc": "项目编号"
+      },
+      {
+        "name": "project_highlights",
+        "type": "varchar",
+        "desc": "项目亮点"
+      },
+      {
+        "name": "project_type",
+        "type": "varchar",
+        "desc": "项目类型"
+      },
+      {
+        "name": "transfer_min_price",
+        "type": "varchar",
+        "desc": "转让底价"
+      },
+      {
+        "name": "asset_source",
+        "type": "varchar",
+        "desc": "资产来源"
+      },
+      {
+        "name": "has_collateral",
+        "type": "varchar",
+        "desc": "标的是否存在抵押物情况"
+      },
+      {
+        "name": "has_preemptive_right_intent",
+        "type": "varchar",
+        "desc": "权利人是否有意向行使优先购买权"
+      },
+      {
+        "name": "equipment_name",
+        "type": "varchar",
+        "desc": "机械设备名称"
+      },
+      {
+        "name": "equipment_location",
+        "type": "varchar",
+        "desc": "机械设备所在地"
+      },
+      {
+        "name": "inventory_name",
+        "type": "varchar",
+        "desc": "存货名称"
+      },
+      {
+        "name": "inventory_location",
+        "type": "varchar",
+        "desc": "存货所在地"
+      },
+      {
+        "name": "vehicle_model",
+        "type": "varchar",
+        "desc": "交通运输工具型号"
+      },
+      {
+        "name": "claim_name",
+        "type": "varchar",
+        "desc": "债权名称"
+      },
+      {
+        "name": "other_asset_name",
+        "type": "varchar",
+        "desc": "名称"
+      },
+      {
+        "name": "project_status",
+        "type": "varchar",
+        "desc": "项目状态"
+      },
+      {
+        "name": "transferor_or_financier",
+        "type": "varchar",
+        "desc": "转让方/融资方（招商主体）"
+      },
+      {
+        "name": "reference_price",
+        "type": "varchar",
+        "desc": "参考价格"
+      },
+      {
+        "name": "region_name",
+        "type": "varchar",
+        "desc": "所在地区"
+      },
+      {
+        "name": "project_basic_info",
+        "type": "varchar",
+        "desc": "项目基本信息"
+      },
+      {
+        "name": "audit_year",
+        "type": "varchar",
+        "desc": "年度"
+      },
+      {
+        "name": "audit_revenue",
+        "type": "varchar",
+        "desc": "年度审计报告营业收入（万元）"
+      },
+      {
+        "name": "audit_operating_profit",
+        "type": "varchar",
+        "desc": "年度审计报告营业利润（万元）"
+      },
+      {
+        "name": "audit_net_profit",
+        "type": "varchar",
+        "desc": "年度审计报告净利润（万元）"
+      },
+      {
+        "name": "audit_total_assets",
+        "type": "varchar",
+        "desc": "年度审计报告资产总计（万元）"
+      },
+      {
+        "name": "audit_total_liabilities",
+        "type": "varchar",
+        "desc": "年度审计报告负债总计（万元）"
+      },
+      {
+        "name": "audit_equity",
+        "type": "varchar",
+        "desc": "年度审计报告所有者权益"
+      },
+      {
+        "name": "audit_agency",
+        "type": "varchar",
+        "desc": "审计机构"
+      },
+      {
+        "name": "financial_stmt_date",
+        "type": "varchar",
+        "desc": "财务报表出具时间"
+      },
+      {
+        "name": "financial_stmt_revenue",
+        "type": "varchar",
+        "desc": "财务报表营业收入（万元）"
+      },
+      {
+        "name": "financial_stmt_operating_profit",
+        "type": "varchar",
+        "desc": "财务报表营业利润（万元）"
+      },
+      {
+        "name": "financial_stmt_net_profit",
+        "type": "varchar",
+        "desc": "财务报表净利润（万元）"
+      },
+      {
+        "name": "financial_stmt_total_assets",
+        "type": "varchar",
+        "desc": "财务报表资产总计（万元）"
+      },
+      {
+        "name": "financial_stmt_total_liabilities",
+        "type": "varchar",
+        "desc": "财务报表负债总计（万元）"
+      },
+      {
+        "name": "financial_stmt_equity",
+        "type": "varchar",
+        "desc": "财务报表所有者权益"
+      },
+      {
+        "name": "track_tags",
+        "type": "varchar",
+        "desc": "赛道标签"
+      },
+      {
+        "name": "trending_tags",
+        "type": "varchar",
+        "desc": "热点标签"
+      },
+      {
+        "name": "listed_tags",
+        "type": "varchar",
+        "desc": "挂牌标签"
+      }
+    ]
+  },
+  "property_rental": {
+    "table_name": "property_rental",
+    "table_desc": "房屋出租表",
+    "fields": [
+      {
+        "name": "id",
+        "type": "int",
+        "desc": "主键ID"
+      },
+      {
+        "name": "project_name",
+        "type": "varchar",
+        "desc": "项目名称"
+      },
+      {
+        "name": "project_code",
+        "type": "varchar",
+        "desc": "项目编号"
+      },
+      {
+        "name": "project_highlights",
+        "type": "varchar",
+        "desc": "项目亮点"
+      },
+      {
+        "name": "project_type",
+        "type": "varchar",
+        "desc": "项目类型"
+      },
+      {
+        "name": "asset_name",
+        "type": "varchar",
+        "desc": "标的名称"
+      },
+      {
+        "name": "asset_property_type",
+        "type": "varchar",
+        "desc": "标的物业类型"
+      },
+      {
+        "name": "asset_building_area_sqm",
+        "type": "varchar",
+        "desc": "标的建筑面积（平方米）"
+      },
+      {
+        "name": "listing_price_cny",
+        "type": "varchar",
+        "desc": "挂牌价格（元）"
+      },
+      {
+        "name": "listing_price_unit",
+        "type": "varchar",
+        "desc": "挂牌价格单位"
+      },
+      {
+        "name": "asset_location",
+        "type": "varchar",
+        "desc": "标的位置"
+      },
+      {
+        "name": "asset_service_life_years",
+        "type": "varchar",
+        "desc": "标的使用年限"
+      },
+      {
+        "name": "asset_current_status_desc",
+        "type": "varchar",
+        "desc": "标的现状描述"
+      },
+      {
+        "name": "lessor_name",
+        "type": "varchar",
+        "desc": "出租方名称"
+      },
+      {
+        "name": "rent_area_sqm",
+        "type": "varchar",
+        "desc": "出租面积"
+      },
+      {
+        "name": "house_location",
+        "type": "varchar",
+        "desc": "出租房屋基本情况_坐落位置"
+      },
+      {
+        "name": "house_current_status",
+        "type": "varchar",
+        "desc": "房屋使用现状"
+      },
+      {
+        "name": "building_area_sqm",
+        "type": "varchar",
+        "desc": "建筑面积（平方米）"
+      },
+      {
+        "name": "has_priority_lease_right",
+        "type": "varchar",
+        "desc": "是否存在优先承租权"
+      },
+      {
+        "name": "land_location",
+        "type": "varchar",
+        "desc": "出租土地基本情况_坐落位置"
+      },
+      {
+        "name": "land_certificate_number",
+        "type": "varchar",
+        "desc": "土地证号"
+      },
+      {
+        "name": "land_area_sqm",
+        "type": "varchar",
+        "desc": "土地面积（平方米）"
+      },
+      {
+        "name": "usage",
+        "type": "varchar",
+        "desc": "用途"
+      },
+      {
+        "name": "type",
+        "type": "varchar",
+        "desc": "类型"
+      },
+      {
+        "name": "service_life_years",
+        "type": "varchar",
+        "desc": "使用年限"
+      },
+      {
+        "name": "intended_rent_area_sqm",
+        "type": "varchar",
+        "desc": "拟出租面积（平方米）"
+      },
+      {
+        "name": "lease_term",
+        "type": "varchar",
+        "desc": "租赁期"
+      },
+      {
+        "name": "transfer_or_financing_party",
+        "type": "varchar",
+        "desc": "转让方/融资方（招商主体）"
+      },
+      {
+        "name": "reference_price",
+        "type": "varchar",
+        "desc": "参考价格"
+      },
+      {
+        "name": "location_name",
+        "type": "varchar",
+        "desc": "所在地区"
+      },
+      {
+        "name": "project_basic_info",
+        "type": "varchar",
+        "desc": "项目基本信息"
+      },
+      {
+        "name": "project_status",
+        "type": "varchar",
+        "desc": "项目状态"
+      },
+      {
+        "name": "asset_category_name",
+        "type": "varchar",
+        "desc": "资产分类名称"
+      },
+      {
+        "name": "house_label_code",
+        "type": "varchar",
+        "desc": "房源标签"
+      },
+      {
+        "name": "community_name",
+        "type": "varchar",
+        "desc": "所属小区"
+      },
+      {
+        "name": "house_layout",
+        "type": "varchar",
+        "desc": "房源户型"
+      },
+      {
+        "name": "floor_number",
+        "type": "varchar",
+        "desc": "所在楼层"
+      },
+      {
+        "name": "total_floors",
+        "type": "varchar",
+        "desc": "总楼层"
+      },
+      {
+        "name": "house_orientation",
+        "type": "varchar",
+        "desc": "房源朝向"
+      },
+      {
+        "name": "decoration_status",
+        "type": "varchar",
+        "desc": "装修情况"
+      },
+      {
+        "name": "has_elevator",
+        "type": "varchar",
+        "desc": "配备电梯"
+      },
+      {
+        "name": "heating_method",
+        "type": "varchar",
+        "desc": "供暖方式"
+      },
+      {
+        "name": "house_features",
+        "type": "varchar",
+        "desc": "房源特色"
+      },
+      {
+        "name": "elevator_type",
+        "type": "varchar",
+        "desc": "电梯类型"
+      },
+      {
+        "name": "has_parking",
+        "type": "varchar",
+        "desc": "停车场"
+      },
+      {
+        "name": "parking_space_type",
+        "type": "varchar",
+        "desc": "车位类型"
+      },
+      {
+        "name": "has_charging_station",
+        "type": "varchar",
+        "desc": "充电桩"
+      },
+      {
+        "name": "listed_tags",
+        "type": "varchar",
+        "desc": "挂牌标签"
+      }
+    ]
+  },
+  "property_land": {
+    "table_name": "property_land",
+    "table_desc": "房屋土地表",
+    "fields": [
+      {
+        "name": "id",
+        "type": "int",
+        "desc": "主键ID"
+      },
+      {
+        "name": "project_name",
+        "type": "varchar",
+        "desc": "项目名称"
+      },
+      {
+        "name": "project_code",
+        "type": "varchar",
+        "desc": "项目编号"
+      },
+      {
+        "name": "project_highlights",
+        "type": "varchar",
+        "desc": "项目亮点"
+      },
+      {
+        "name": "project_type",
+        "type": "varchar",
+        "desc": "项目类型"
+      },
+      {
+        "name": "asset_name",
+        "type": "varchar",
+        "desc": "标的名称"
+      },
+      {
+        "name": "asset_property_type",
+        "type": "varchar",
+        "desc": "标的物业类型"
+      },
+      {
+        "name": "asset_building_area",
+        "type": "varchar",
+        "desc": "标的建筑面积"
+      },
+      {
+        "name": "asset_transfer_amount",
+        "type": "varchar",
+        "desc": "标的转让金额"
+      },
+      {
+        "name": "asset_transfer_amount_min",
+        "type": "varchar",
+        "desc": "标的转让金额（万元）-最小值"
+      },
+      {
+        "name": "asset_transfer_amount_max",
+        "type": "varchar",
+        "desc": "标的转让金额（万元）-最大值"
+      },
+      {
+        "name": "asset_transfer_amount_fixed",
+        "type": "varchar",
+        "desc": "标的转让金额（万元）-固定值"
+      },
+      {
+        "name": "asset_location",
+        "type": "varchar",
+        "desc": "标的位置"
+      },
+      {
+        "name": "asset_unit_price_per_sqm",
+        "type": "varchar",
+        "desc": "标的单价元/平米"
+      },
+      {
+        "name": "asset_service_life_years",
+        "type": "varchar",
+        "desc": "标的使用年限"
+      },
+      {
+        "name": "asset_current_status_desc",
+        "type": "varchar",
+        "desc": "标的现状描述"
+      },
+      {
+        "name": "category_name",
+        "type": "varchar",
+        "desc": "分类"
+      },
+      {
+        "name": "disclosure_content",
+        "type": "varchar",
+        "desc": "披露内容"
+      },
+      {
+        "name": "transfer_min_price",
+        "type": "varchar",
+        "desc": "转让底价"
+      },
+      {
+        "name": "asset_source",
+        "type": "varchar",
+        "desc": "资产来源"
+      },
+      {
+        "name": "has_mortgage",
+        "type": "varchar",
+        "desc": "标的是否存在抵押物情况"
+      },
+      {
+        "name": "has_preemptive_right_intent",
+        "type": "varchar",
+        "desc": "权利人是否有意向行使优先购买权"
+      },
+      {
+        "name": "house_location",
+        "type": "varchar",
+        "desc": "房屋建筑物坐落位置"
+      },
+      {
+        "name": "current_house_use",
+        "type": "varchar",
+        "desc": "房屋建筑物目前用途"
+      },
+      {
+        "name": "house_facilities",
+        "type": "varchar",
+        "desc": "房屋建筑物附属设施"
+      },
+      {
+        "name": "house_building_area_sqm",
+        "type": "varchar",
+        "desc": "建筑面积（平方米）"
+      },
+      {
+        "name": "house_service_life_years",
+        "type": "varchar",
+        "desc": "房屋建筑物使用年限（年）"
+      },
+      {
+        "name": "house_used_years",
+        "type": "varchar",
+        "desc": "房屋建筑物已用年限（年）"
+      },
+      {
+        "name": "land_location",
+        "type": "varchar",
+        "desc": "土地坐落位置"
+      },
+      {
+        "name": "land_area_sqm",
+        "type": "varchar",
+        "desc": "土地面积"
+      },
+      {
+        "name": "land_use",
+        "type": "varchar",
+        "desc": "土地用途"
+      },
+      {
+        "name": "land_type",
+        "type": "varchar",
+        "desc": "土地类型"
+      },
+      {
+        "name": "land_service_life_years",
+        "type": "varchar",
+        "desc": "土地使用年限"
+      },
+      {
+        "name": "land_used_years",
+        "type": "varchar",
+        "desc": "土地已用年限"
+      },
+      {
+        "name": "land_has_mortgage",
+        "type": "varchar",
+        "desc": "土地是否有抵押"
+      },
+      {
+        "name": "seller_name",
+        "type": "varchar",
+        "desc": "转让方名称"
+      },
+      {
+        "name": "approval_unit_name",
+        "type": "varchar",
+        "desc": "批准单位名称"
+      },
+      {
+        "name": "payment_method",
+        "type": "varchar",
+        "desc": "价款支付方式"
+      },
+      {
+        "name": "project_status",
+        "type": "varchar",
+        "desc": "项目状态"
+      },
+      {
+        "name": "asset_category_name",
+        "type": "varchar",
+        "desc": "资产分类名称"
+      },
+      {
+        "name": "house_label_code",
+        "type": "varchar",
+        "desc": "房源标签"
+      },
+      {
+        "name": "community_name",
+        "type": "varchar",
+        "desc": "所属小区"
+      },
+      {
+        "name": "house_layout",
+        "type": "varchar",
+        "desc": "房源户型"
+      },
+      {
+        "name": "floor_number",
+        "type": "varchar",
+        "desc": "所在楼层"
+      },
+      {
+        "name": "total_floors",
+        "type": "varchar",
+        "desc": "总楼层"
+      },
+      {
+        "name": "house_orientation",
+        "type": "varchar",
+        "desc": "房源朝向"
+      },
+      {
+        "name": "decoration_status",
+        "type": "varchar",
+        "desc": "装修情况"
+      },
+      {
+        "name": "has_elevator",
+        "type": "varchar",
+        "desc": "配备电梯"
+      },
+      {
+        "name": "heating_method",
+        "type": "varchar",
+        "desc": "供暖方式"
+      },
+      {
+        "name": "house_features",
+        "type": "varchar",
+        "desc": "房源特色"
+      },
+      {
+        "name": "elevator_type",
+        "type": "varchar",
+        "desc": "电梯类型"
+      },
+      {
+        "name": "has_parking",
+        "type": "varchar",
+        "desc": "停车场"
+      },
+      {
+        "name": "parking_space_type",
+        "type": "varchar",
+        "desc": "车位类型"
+      },
+      {
+        "name": "has_charging_station",
+        "type": "varchar",
+        "desc": "充电桩"
+      }
+    ]
+  },
+  "culture_tourism_sports": {
+    "table_name": "culture_tourism_sports",
+    "table_desc": "文旅体育表",
+    "fields": [
+      {
+        "name": "id",
+        "type": "int",
+        "desc": "主键ID"
+      },
+      {
+        "name": "project_name",
+        "type": "varchar",
+        "desc": "项目名称"
+      },
+      {
+        "name": "project_code",
+        "type": "varchar",
+        "desc": "项目编号"
+      },
+      {
+        "name": "project_highlights",
+        "type": "varchar",
+        "desc": "项目亮点"
+      },
+      {
+        "name": "project_type",
+        "type": "varchar",
+        "desc": "项目类型"
+      },
+      {
+        "name": "transfer_or_financing_party",
+        "type": "varchar",
+        "desc": "转让方/融资方（招商主体）"
+      },
+      {
+        "name": "reference_price",
+        "type": "varchar",
+        "desc": "参考价格"
+      },
+      {
+        "name": "location_region",
+        "type": "varchar",
+        "desc": "所在地区"
+      },
+      {
+        "name": "project_basic_info",
+        "type": "varchar",
+        "desc": "项目基本信息"
+      },
+      {
+        "name": "audit_year",
+        "type": "varchar",
+        "desc": "年度"
+      },
+      {
+        "name": "audit_revenue_million",
+        "type": "varchar",
+        "desc": "年度审计报告营业收入（万元）"
+      },
+      {
+        "name": "audit_operating_profit_million",
+        "type": "varchar",
+        "desc": "年度审计报告营业利润（万元）"
+      },
+      {
+        "name": "audit_net_profit_million",
+        "type": "varchar",
+        "desc": "年度审计报告净利润（万元）"
+      },
+      {
+        "name": "audit_total_assets_million",
+        "type": "varchar",
+        "desc": "年度审计报告资产总计（万元）"
+      },
+      {
+        "name": "audit_total_liabilities_million",
+        "type": "varchar",
+        "desc": "年度审计报告负债总计（万元）"
+      },
+      {
+        "name": "audit_equity",
+        "type": "varchar",
+        "desc": "年度审计报告所有者权益"
+      },
+      {
+        "name": "audit_agency",
+        "type": "varchar",
+        "desc": "审计机构"
+      },
+      {
+        "name": "statement_date",
+        "type": "varchar",
+        "desc": "财务报表出具时间"
+      },
+      {
+        "name": "statement_revenue_million",
+        "type": "varchar",
+        "desc": "财务报表营业收入（万元）"
+      },
+      {
+        "name": "statement_operating_profit_million",
+        "type": "varchar",
+        "desc": "财务报表营业利润（万元）"
+      },
+      {
+        "name": "statement_net_profit_million",
+        "type": "varchar",
+        "desc": "财务报表净利润（万元）"
+      },
+      {
+        "name": "statement_total_assets_million",
+        "type": "varchar",
+        "desc": "财务报表资产总计（万元）"
+      },
+      {
+        "name": "statement_total_liabilities_million",
+        "type": "varchar",
+        "desc": "财务报表负债总计（万元）"
+      },
+      {
+        "name": "statement_equity",
+        "type": "varchar",
+        "desc": "财务报表所有者权益"
+      },
+      {
+        "name": "project_status",
+        "type": "varchar",
+        "desc": "项目状态"
+      },
+      {
+        "name": "track_tags",
+        "type": "varchar",
+        "desc": "赛道标签"
+      },
+      {
+        "name": "trending_tags",
+        "type": "varchar",
+        "desc": "热点标签"
+      },
+      {
+        "name": "listed_tags",
+        "type": "varchar",
+        "desc": "挂牌标签"
+      }
+    ]
+  },
+  "equity_increase": {
+    "table_name": "equity_increase",
+    "table_desc": "股权增资表",
+    "fields": [
+      {
+        "name": "id",
+        "type": "int",
+        "desc": "主键ID"
+      },
+      {
+        "name": "project_name",
+        "type": "varchar",
+        "desc": "项目名称"
+      },
+      {
+        "name": "project_status",
+        "type": "int",
+        "desc": "项目状态"
+      },
+      {
+        "name": "project_code",
+        "type": "varchar",
+        "desc": "项目编号"
+      },
+      {
+        "name": "project_highlights",
+        "type": "varchar",
+        "desc": "项目亮点"
+      },
+      {
+        "name": "project_type",
+        "type": "varchar",
+        "desc": "项目类型"
+      },
+      {
+        "name": "financing_region",
+        "type": "varchar",
+        "desc": "融资方所在地区"
+      },
+      {
+        "name": "intended_raise_amount",
+        "type": "varchar",
+        "desc": "拟募集资金金额"
+      },
+      {
+        "name": "intended_investor_count",
+        "type": "varchar",
+        "desc": "拟征集投资方数量"
+      },
+      {
+        "name": "intended_shareholding_ratio",
+        "type": "varchar",
+        "desc": "拟募集资金对应持股比例或股份数"
+      },
+      {
+        "name": "financing_party_name",
+        "type": "varchar",
+        "desc": "融资方名称"
+      },
+      {
+        "name": "paid_up_capital",
+        "type": "varchar",
+        "desc": "实收资本"
+      },
+      {
+        "name": "business_scope",
+        "type": "varchar",
+        "desc": "经营范围"
+      },
+      {
+        "name": "audit_year",
+        "type": "varchar",
+        "desc": "审计报告年度"
+      },
+      {
+        "name": "audit_total_assets",
+        "type": "varchar",
+        "desc": "年度审计报告资产总计（万元）"
+      },
+      {
+        "name": "audit_total_liabilities",
+        "type": "varchar",
+        "desc": "年度审计报告负债总计（万元）"
+      },
+      {
+        "name": "audit_total_equity",
+        "type": "varchar",
+        "desc": "年度审计报告所有者权益（万元）"
+      },
+      {
+        "name": "audit_net_profit",
+        "type": "varchar",
+        "desc": "年度审计报告净利润（万元）"
+      },
+      {
+        "name": "audit_revenue",
+        "type": "varchar",
+        "desc": "年度审计报告营业收入（万元）"
+      },
+      {
+        "name": "financial_statement_date",
+        "type": "varchar",
+        "desc": "财务数据日期"
+      },
+      {
+        "name": "financial_total_assets",
+        "type": "varchar",
+        "desc": "财务数据资产总计（万元）"
+      },
+      {
+        "name": "financial_total_liabilities",
+        "type": "varchar",
+        "desc": "财务数据负债总计（万元）"
+      },
+      {
+        "name": "financial_total_equity",
+        "type": "varchar",
+        "desc": "财务数据所有者权益（万元）"
+      },
+      {
+        "name": "financial_net_profit",
+        "type": "varchar",
+        "desc": "财务数据净利润（万元）"
+      },
+      {
+        "name": "financial_revenue",
+        "type": "varchar",
+        "desc": "营业收入（万元）"
+      },
+      {
+        "name": "state_invested_enterprise_or_department",
+        "type": "varchar",
+        "desc": "国家出资企业或主管部门名称"
+      },
+      {
+        "name": "other_disclosure_items",
+        "type": "varchar",
+        "desc": "其他披露事项"
+      },
+      {
+        "name": "investor_eligibility_criteria",
+        "type": "varchar",
+        "desc": "投资方资格条件"
+      },
+      {
+        "name": "capital_increase_conditions",
+        "type": "varchar",
+        "desc": "增资条件"
+      },
+      {
+        "name": "financing_main_business",
+        "type": "varchar",
+        "desc": "融资方主营业务介绍"
+      },
+      {
+        "name": "intended_financing_amount",
+        "type": "varchar",
+        "desc": "拟融资金额"
+      },
+      {
+        "name": "intended_financing_amount_min",
+        "type": "varchar",
+        "desc": "拟融资金额（万元）-最小值"
+      },
+      {
+        "name": "intended_financing_amount_max",
+        "type": "varchar",
+        "desc": "拟融资金额（万元）-最大值"
+      },
+      {
+        "name": "intended_financing_amount_fixed",
+        "type": "varchar",
+        "desc": "拟融资金额（万元）-固定值"
+      },
+      {
+        "name": "intended_equity_release_ratio",
+        "type": "varchar",
+        "desc": "拟释放股权比例"
+      },
+      {
+        "name": "intended_equity_release_ratio_min",
+        "type": "varchar",
+        "desc": "拟释放股权比例（%）-最小值"
+      },
+      {
+        "name": "intended_equity_release_ratio_max",
+        "type": "varchar",
+        "desc": "拟释放股权比例（%）-最大值"
+      },
+      {
+        "name": "intended_equity_release_ratio_fixed",
+        "type": "varchar",
+        "desc": "拟释放股权比例（%）-固定值"
+      },
+      {
+        "name": "intended_investor_count_min",
+        "type": "varchar",
+        "desc": "拟征集投资人（个）-最小值"
+      },
+      {
+        "name": "intended_investor_count_max",
+        "type": "varchar",
+        "desc": "拟征集投资人（个）-最大值"
+      },
+      {
+        "name": "intended_investor_count_fixed",
+        "type": "varchar",
+        "desc": "拟征集投资人（个）-固定值"
+      },
+      {
+        "name": "original_shareholder_participation",
+        "type": "varchar",
+        "desc": "原股东是否参与增资"
+      },
+      {
+        "name": "financing_company_name",
+        "type": "varchar",
+        "desc": "融资企业名称"
+      },
+      {
+        "name": "financing_company_registration_place",
+        "type": "varchar",
+        "desc": "融资企业注册地"
+      },
+      {
+        "name": "other_conditions",
+        "type": "varchar",
+        "desc": "其他情况"
+      },
+      {
+        "name": "transferor_or_financing_party",
+        "type": "varchar",
+        "desc": "转让方/融资方（招商主体）"
+      },
+      {
+        "name": "reference_price",
+        "type": "varchar",
+        "desc": "参考价格"
+      },
+      {
+        "name": "location",
+        "type": "varchar",
+        "desc": "所在地区"
+      },
+      {
+        "name": "project_basic_info",
+        "type": "varchar",
+        "desc": "项目基本信息"
+      },
+      {
+        "name": "audit_agency",
+        "type": "varchar",
+        "desc": "年度审计报告净利润（万元）"
+      },
+      {
+        "name": "track_tags",
+        "type": "varchar",
+        "desc": "赛道标签"
+      },
+      {
+        "name": "trending_tags",
+        "type": "varchar",
+        "desc": "热点标签"
+      },
+      {
+        "name": "listed_tags",
+        "type": "varchar",
+        "desc": "挂牌标签"
+      },
+      {
+        "name": "top10_shareholder_names",
+        "type": "varchar",
+        "desc": "股东名称（前十位）"
+      },
+      {
+        "name": "shareholding_percentage",
+        "type": "varchar",
+        "desc": "持有比例"
+      }
+    ]
+  },
+  "equity_transfer": {
+    "table_name": "equity_transfer",
+    "table_desc": "股权转让表",
+    "fields": [
+      {
+        "name": "id",
+        "type": "int",
+        "desc": "主键ID"
+      },
+      {
+        "name": "project_name",
+        "type": "varchar",
+        "desc": "项目名称"
+      },
+      {
+        "name": "project_status",
+        "type": "varchar",
+        "desc": "项目状态"
+      },
+      {
+        "name": "project_code",
+        "type": "varchar",
+        "desc": "项目编号"
+      },
+      {
+        "name": "project_highlights",
+        "type": "varchar",
+        "desc": "项目亮点"
+      },
+      {
+        "name": "project_type",
+        "type": "varchar",
+        "desc": "项目类型"
+      },
+      {
+        "name": "transfer_share_ratio",
+        "type": "varchar",
+        "desc": "转让股权比例"
+      },
+      {
+        "name": "transfer_share_ratio_min",
+        "type": "varchar",
+        "desc": "转让股权比例（%）—最小值"
+      },
+      {
+        "name": "transfer_share_ratio_max",
+        "type": "varchar",
+        "desc": "转让股权比例（%）—最大值"
+      },
+      {
+        "name": "transfer_share_ratio_fixed",
+        "type": "varchar",
+        "desc": "转让股权比例（%）-固定值"
+      },
+      {
+        "name": "transfer_price",
+        "type": "varchar",
+        "desc": "转让股权价格"
+      },
+      {
+        "name": "transfer_price_min",
+        "type": "varchar",
+        "desc": "转让股权价格（万元）—最小值"
+      },
+      {
+        "name": "transfer_price_max",
+        "type": "varchar",
+        "desc": "转让股权价格（万元）—最大值"
+      },
+      {
+        "name": "transfer_price_fixed",
+        "type": "varchar",
+        "desc": "转让股权价格（万元）-固定值"
+      },
+      {
+        "name": "target_company_industry",
+        "type": "varchar",
+        "desc": "标的企业所在行业"
+      },
+      {
+        "name": "target_company_business_scope",
+        "type": "varchar",
+        "desc": "标的企业经营范围"
+      },
+      {
+        "name": "target_company_name",
+        "type": "varchar",
+        "desc": "标的企业名称"
+      },
+      {
+        "name": "target_company_main_business",
+        "type": "varchar",
+        "desc": "标的企业主营业务介绍"
+      },
+      {
+        "name": "company_name",
+        "type": "varchar",
+        "desc": "企业名称"
+      },
+      {
+        "name": "company_registered_capital",
+        "type": "varchar",
+        "desc": "企业注册资本"
+      },
+      {
+        "name": "company_registered_location",
+        "type": "varchar",
+        "desc": "企业注册地"
+      },
+      {
+        "name": "other_company_info",
+        "type": "varchar",
+        "desc": "其他情况"
+      },
+      {
+        "name": "intended_transfer_ratio",
+        "type": "varchar",
+        "desc": "拟转让比例"
+      },
+      {
+        "name": "registered_location",
+        "type": "varchar",
+        "desc": "注册地（住所）"
+      },
+      {
+        "name": "registered_capital",
+        "type": "varchar",
+        "desc": "注册资本"
+      },
+      {
+        "name": "economic_type",
+        "type": "varchar",
+        "desc": "经济类型"
+      },
+      {
+        "name": "business_scope",
+        "type": "varchar",
+        "desc": "经营范围"
+      },
+      {
+        "name": "control_right_transfer",
+        "type": "varchar",
+        "desc": "导致标的企业的实际控制权发生转移"
+      },
+      {
+        "name": "audit_year",
+        "type": "varchar",
+        "desc": "年度审计报告年度"
+      },
+      {
+        "name": "audit_revenue",
+        "type": "varchar",
+        "desc": "年度审计报告营业收入"
+      },
+      {
+        "name": "audit_operating_profit",
+        "type": "varchar",
+        "desc": "年度审计报告营业利润"
+      },
+      {
+        "name": "audit_net_profit",
+        "type": "varchar",
+        "desc": "年度审计报告净利润"
+      },
+      {
+        "name": "audit_total_assets",
+        "type": "varchar",
+        "desc": "年度审计报告资产总计"
+      },
+      {
+        "name": "audit_total_liabilities",
+        "type": "varchar",
+        "desc": "年度审计报告负债总计"
+      },
+      {
+        "name": "audit_equity",
+        "type": "varchar",
+        "desc": "年度审计报告所有者权益"
+      },
+      {
+        "name": "audit_agency",
+        "type": "varchar",
+        "desc": "年度审计报告审计机构"
+      },
+      {
+        "name": "recent_fs_date",
+        "type": "varchar",
+        "desc": "近期财务报表报表日期"
+      },
+      {
+        "name": "recent_fs_revenue",
+        "type": "varchar",
+        "desc": "近期财务报表营业收入"
+      },
+      {
+        "name": "recent_fs_operating_profit",
+        "type": "varchar",
+        "desc": "近期财务报表营业利润"
+      },
+      {
+        "name": "recent_fs_net_profit",
+        "type": "varchar",
+        "desc": "近期财务报表净利润"
+      },
+      {
+        "name": "recent_fs_total_assets",
+        "type": "varchar",
+        "desc": "近期财务报表资产总计"
+      },
+      {
+        "name": "recent_fs_total_liabilities",
+        "type": "varchar",
+        "desc": "近期财务报表负债总计"
+      },
+      {
+        "name": "recent_fs_equity",
+        "type": "varchar",
+        "desc": "近期财务报表所有者权益"
+      },
+      {
+        "name": "ownership_ratio",
+        "type": "varchar",
+        "desc": "持有产（股）权比例"
+      },
+      {
+        "name": "intended_ownership_transfer_ratio",
+        "type": "varchar",
+        "desc": "拟转让产（股）权比例"
+      },
+      {
+        "name": "competent_department_name",
+        "type": "varchar",
+        "desc": "国家出资企业或主管部门名称"
+      },
+      {
+        "name": "transfer_base_price",
+        "type": "varchar",
+        "desc": "转让底价"
+      },
+      {
+        "name": "other_transfer_conditions",
+        "type": "varchar",
+        "desc": "与转让相关的其他条件"
+      },
+      {
+        "name": "transferee_qualification",
+        "type": "varchar",
+        "desc": "受让方资格条件"
+      },
+      {
+        "name": "reference_price",
+        "type": "varchar",
+        "desc": "参考价格"
+      },
+      {
+        "name": "transferor_or_financier",
+        "type": "varchar",
+        "desc": "转让方/融资方（招商主体）"
+      },
+      {
+        "name": "project_basic_info",
+        "type": "varchar",
+        "desc": "项目基本信息"
+      },
+      {
+        "name": "track_tags",
+        "type": "varchar",
+        "desc": "赛道标签"
+      },
+      {
+        "name": "trending_tags",
+        "type": "varchar",
+        "desc": "热点标签"
+      },
+      {
+        "name": "listed_tags",
+        "type": "varchar",
+        "desc": "挂牌标签"
+      },
+      {
+        "name": "region",
+        "type": "varchar",
+        "desc": "所在地区"
+      },
+      {
+        "name": "transferor_name",
+        "type": "varchar",
+        "desc": "所在地区"
+      }
+    ]
+  }
+}

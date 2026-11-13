@@ -1,0 +1,130 @@
+[
+    {
+        "子表名": "bjht_house_rent",
+        "子表字段中文名": "项目名称",
+        "子表字段": "project_name",
+        "主表名": "property_rental",
+        "主表字段中文名": "项目名称",
+        "主表字段": "project_name"
+    },
+    {
+        "子表名": "bjht_house_rent",
+        "子表字段中文名": "项目编号",
+        "子表字段": "project_code",
+        "主表名": "property_rental",
+        "主表字段中文名": "项目编号",
+        "主表字段": "project_code"
+    },
+    {
+        "子表名": "bjht_house_rent",
+        "子表字段中文名": "项目亮点",
+        "子表字段": "lightspot",
+        "主表名": "property_rental",
+        "主表字段中文名": "项目亮点",
+        "主表字段": "project_highlights"
+    },
+    {
+        "子表名": "bjht_house_rent",
+        "子表字段中文名": "标的名称",
+        "子表字段": "object_name",
+        "主表名": "property_rental",
+        "主表字段中文名": "标的名称",
+        "主表字段": "asset_name"
+    },
+    {
+        "子表名": "bjht_house_rent",
+        "子表字段中文名": "标的物业类型",
+        "子表字段": "object_type",
+        "主表名": "property_rental",
+        "主表字段中文名": "标的物业类型",
+        "主表字段": "asset_property_type"
+    },
+    {
+        "子表名": "bjht_house_rent",
+        "子表字段中文名": "标的建筑面积（平方米）",
+        "子表字段": "object_acreage",
+        "主表名": "property_rental",
+        "主表字段中文名": "标的建筑面积（平方米）",
+        "主表字段": "asset_building_area_sqm"
+    },
+    {
+        "子表名": "bjht_house_rent",
+        "子表字段中文名": "挂牌价格（元）",
+        "子表字段": "rent_valuation",
+        "主表名": "property_rental",
+        "主表字段中文名": "挂牌价格（元）",
+        "主表字段": "listing_price_cny"
+    },
+    {
+        "子表名": "bjht_house_rent",
+        "子表字段中文名": "挂牌价格单位",
+        "子表字段": "valuation_unit",
+        "主表名": "property_rental",
+        "主表字段中文名": "挂牌价格单位",
+        "主表字段": "listing_price_unit"
+    },
+    {
+        "子表名": "bjht_house_rent",
+        "子表字段中文名": "标的位置",
+        "子表字段": "object_location",
+        "主表名": "property_rental",
+        "主表字段中文名": "标的位置",
+        "主表字段": "asset_location"
+    },
+    {
+        "子表名": "bjht_house_rent",
+        "子表字段中文名": "标的使用年限",
+        "子表字段": "object_durable_years",
+        "主表名": "property_rental",
+        "主表字段中文名": "标的使用年限",
+        "主表字段": "asset_service_life_years"
+    },
+    {
+        "子表名": "bjht_house_rent",
+        "子表字段中文名": "标的现状描述",
+        "子表字段": "object_describe",
+        "主表名": "property_rental",
+        "主表字段中文名": "标的现状描述",
+        "主表字段": "asset_current_status_desc"
+    },
+    {
+        "子表名": "bjht_house_rent",
+        "子表字段中文名": "项目类型",
+        "子表字段": "project_type",
+        "主表名": "property_rental",
+        "主表字段中文名": "项目类型",
+        "主表字段": "project_type"
+    },
+    {
+        "子表名": "bjht_house_rent",
+        "子表字段中文名": "项目状态",
+        "子表字段": "project_status",
+        "主表名": "property_rental",
+        "主表字段中文名": "项目状态",
+        "主表字段": "project_status"
+    },
+    {
+      "子表名": "bjht_house_rent",
+      "子表字段中文名": "赛道标签",
+      "子表字段": "track_tags",
+      "主表名": "property_rental",
+      "主表字段中文名": "赛道标签",
+      "主表字段": "track_tags"
+    },
+    {
+      "子表名": "bjht_house_rent",
+      "子表字段中文名": "热点标签",
+      "子表字段": "trending_tags",
+      "主表名": "property_rental",
+      "主表字段中文名": "热点标签",
+      "主表字段": "trending_tags"
+    },
+    {
+      "子表名": "bjht_house_rent",
+      "子表字段中文名": "挂牌标签",
+      "子表字段": "listed_tags",
+      "主表名": "property_rental",
+      "主表字段中文名": "挂牌标签",
+      "主表字段": "listed_tags"
+    }
+]
